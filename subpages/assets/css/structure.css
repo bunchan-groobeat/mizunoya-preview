@@ -1,0 +1,433 @@
+/* =========================================================
+   水野谷自動車HP 新版 — 構造CSS（A/B共通・デザイン非依存）
+   2026-07-30 ルイージ作成（Lane A）
+   ---------------------------------------------------------
+   ★このファイルには「A/Bで割れる装飾（色・書体・影・角丸・具体的な余白の作り込み）」は書かない。
+     書いてよいのは：リセット／ボックスモデル／レイアウト骨格（grid/flex）／レスポンシブ／
+     アクセシビリティ（可視フォーカス等）／構造的な間隔スケールのみ。
+   ★色・書体は下の :root プレースホルダ（グレースケール仮）を参照する。
+     8/1の社長A/B選定後、design-tokens.css（別ファイル）で上書きして確定させる想定。
+========================================================= */
+
+/* ---- デザイントークン（プレースホルダ・グレースケール仮） ---- */
+/* ※本番の色/書体は A/B 選定後に design-tokens.css で上書きする。ここは骨格を成立させるための最小仮値。 */
+:root{
+  --color-text: #1a1a1a;          /* 仮 */
+  --color-bg: #ffffff;            /* 仮 */
+  --color-muted: #666666;         /* 仮 */
+  --color-line: #dddddd;          /* 仮 */
+  --color-brand: #555555;         /* 仮（A/Bで確定） */
+  --color-accent: #333333;        /* 仮（A/Bで確定） */
+  --font-base: system-ui, -apple-system, "Hiragino Sans", "Yu Gothic", sans-serif; /* 仮 */
+  --font-head: var(--font-base);  /* 仮（A/Bで見出し書体を確定） */
+
+  /* 構造トークン（デザイン非依存・確定でよい） */
+  --wrap-max: 1120px;
+  --gap: clamp(16px, 3vw, 32px);
+  --section-y: clamp(40px, 6vw, 72px);   /* カンプ密度に合わせ過剰余白を抑制 */
+  --header-h: 64px;
+}
+
+/* ---- リセット ---- */
+*,*::before,*::after{ box-sizing:border-box; }
+html{ -webkit-text-size-adjust:100%; scroll-behavior:smooth; }
+body{ margin:0; font-family:var(--font-base); color:var(--color-text); background:var(--color-bg); line-height:1.8; }
+img,svg,video{ max-width:100%; height:auto; display:block; }
+a{ color:inherit; }
+h1,h2,h3,h4,p,ul,ol,figure{ margin:0; }
+ul[class]{ list-style:none; padding:0; }
+button{ font:inherit; cursor:pointer; }
+
+/* ---- 可読性・アクセシビリティ ---- */
+:focus-visible{ outline:2px solid var(--color-accent); outline-offset:2px; }
+.visually-hidden{ position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; border:0; }
+.skip-link{ position:absolute; left:8px; top:-40px; background:var(--color-bg); padding:8px 12px; transition:top .2s; z-index:1000; }
+.skip-link:focus{ top:8px; }
+
+/* ---- レイアウト骨格 ---- */
+.wrap{ width:min(100% - 2*var(--gap), var(--wrap-max)); margin-inline:auto; }
+.section{ padding-block:var(--section-y); }
+.stack > * + *{ margin-top:1em; }
+.grid{ display:grid; gap:var(--gap); }
+.cols-2{ grid-template-columns:repeat(2, 1fr); }
+.cols-3{ grid-template-columns:repeat(3, 1fr); }
+.cols-4{ grid-template-columns:repeat(4, 1fr); }
+
+/* ---- ヘッダー/ナビ（骨格） ---- */
+.site-header{ position:sticky; top:0; z-index:100; background:var(--color-bg); border-bottom:1px solid var(--color-line); }
+.site-header .wrap{ display:flex; align-items:center; justify-content:space-between; min-height:var(--header-h); }
+.global-nav ul{ display:flex; gap:var(--gap); }
+.nav-toggle{ display:none; background:none; border:1px solid var(--color-line); padding:8px 12px; }
+
+/* ロゴ（カンプ準拠：赤カタカナロゴ＋社名＋KURU MAYAバッジ） */
+.site-header{ min-height:auto; }
+.site-header .wrap{ min-height:72px; gap:12px; }
+.site-logo{ display:flex; align-items:center; gap:10px; text-decoration:none; flex:0 0 auto; }
+.logo-mark{ height:44px; width:auto; display:block; }
+.logo-badge{ height:36px; width:auto; display:block; }
+.logo-text{ display:flex; flex-direction:column; line-height:1.12; }
+.logo-ja{ font-weight:800; font-size:1.02rem; white-space:nowrap; }
+.logo-en{ font-size:.6rem; letter-spacing:.08em; opacity:.8; white-space:nowrap; }
+
+/* 強み4つ帯 */
+.strength-list{ list-style:none; padding:0; }
+.st-head{ display:block; font-weight:700; margin-bottom:.3em; }
+
+@media (max-width:900px){ .logo-en{ display:none; } }
+@media (max-width:768px){ .logo-badge{ display:none; } .logo-ja{ font-size:.9rem; } .strength-list.cols-4{ grid-template-columns:1fr 1fr; } }
+
+/* ---- カード骨格（サービス一覧など） ---- */
+.card{ border:1px solid var(--color-line); padding:var(--gap); display:block; }
+
+/* ---- フッター骨格 ---- */
+.site-footer{ border-top:1px solid var(--color-line); padding-block:var(--section-y); }
+
+/* ---- パンくず骨格 ---- */
+.breadcrumb{ font-size:.85rem; color:var(--color-muted); padding-block:12px; }
+.breadcrumb ol{ display:flex; flex-wrap:wrap; gap:.4em; list-style:none; padding:0; margin:0; }
+
+/* ---- フォーム骨格 ---- */
+.form-field{ display:block; }
+.form-field label{ display:block; margin-bottom:.3em; }
+.form-field input,.form-field textarea,.form-field select{ width:100%; padding:.6em; border:1px solid var(--color-line); font:inherit; }
+.form-status{ margin-top:1em; }
+.form-status[hidden]{ display:none; }
+
+/* ---- フローティング電話（骨格・位置のみ） ---- */
+.floating-tel{ position:fixed; right:16px; bottom:16px; z-index:200; padding:12px 16px; border:1px solid var(--color-line); background:var(--color-bg); }
+.return-top{ position:fixed; right:16px; bottom:76px; z-index:200; }
+
+/* ---- レスポンシブ（骨格・スマホファースト） ---- */
+@media (max-width: 768px){
+  .cols-2,.cols-3,.cols-4{ grid-template-columns:1fr; }
+  .global-nav{ display:none; }
+  .global-nav.is-open{ display:block; position:absolute; left:0; right:0; top:var(--header-h); background:var(--color-bg); border-bottom:1px solid var(--color-line); }
+  .global-nav.is-open ul{ flex-direction:column; padding:var(--gap); }
+  .nav-toggle{ display:inline-block; }
+}
+@media (min-width: 769px) and (max-width: 1024px){
+  .cols-4{ grid-template-columns:repeat(2, 1fr); }
+}
+
+/* ---- A/B比較トグル（提示・比較用。最終版では削除） ---- */
+.theme-toggle{ position:fixed; left:50%; bottom:16px; transform:translateX(-50%); z-index:500;
+  display:flex; align-items:center; gap:2px; background:#111; color:#fff; padding:4px; border-radius:999px;
+  font-size:12px; box-shadow:0 6px 20px rgba(0,0,0,.3); }
+.theme-toggle .tt-label{ padding:0 8px; opacity:.7; }
+.theme-toggle a{ color:#fff; text-decoration:none; padding:6px 12px; border-radius:999px; white-space:nowrap; }
+.theme-toggle a[aria-current="true"]{ background:#fff; color:#111; font-weight:700; }
+@media (max-width:520px){ .theme-toggle{ font-size:11px; } .theme-toggle .tt-label{ display:none; } }
+
+/* ---- ワンページ：アンカーのスクロール位置（sticky header分オフセット） ---- */
+main > section[id]{ scroll-margin-top: calc(var(--header-h) + 8px); }
+
+/* ---- ヒーロー/メディアのレイアウト（骨格・テーマ共通） ---- */
+.hero{ padding-block: clamp(28px,5vw,64px); }
+.hero .wrap{ display:grid; gap:var(--gap); grid-template-columns:1.05fr .95fr; align-items:stretch; }
+.hero-text{ align-self:center; }
+.hero-media{ display:flex; }
+.hero-media img{ width:100%; height:100%; min-height:260px; max-height:460px; object-fit:cover; }
+.hero-copy{ word-break:normal; overflow-wrap:break-word; }
+
+/* ---- サービス（画像上・本文下のカード。旧下層の要点を集約） ---- */
+.svc-list{ list-style:none; padding:0; }
+.svc-item{ display:flex; flex-direction:column; overflow:hidden; }
+.svc-item .card-media{ width:100%; aspect-ratio:16/10; object-fit:cover; }
+.svc-body{ padding: var(--gap); }
+.svc-body .card-no,.svc-body .card-title{ display:block; }
+
+/* ---- 選ばれる理由 ---- */
+.reason-list{ list-style:none; padding:0; }
+.reason-head{ display:block; font-weight:700; margin-bottom:.3em; }
+
+/* ---- ギャラリー ---- */
+.gallery .grid img{ width:100%; aspect-ratio:4/3; object-fit:cover; }
+.media-band img{ width:100%; max-height:420px; object-fit:cover; }
+
+/* ---- 会社概要・アクセス ---- */
+.company-grid{ align-items:start; }
+.map-wrap{ line-height:0; }
+.map-wrap iframe{ display:block; width:100%; border:0; }
+
+@media (max-width:768px){
+  .hero .wrap{ grid-template-columns:1fr; }
+  .svc-list.cols-2{ grid-template-columns:1fr; }
+}
+
+/* ---- 下層ページ 共通コンポーネント（カンプ02〜07 準拠） ---- */
+.sub-label{ display:inline-block; font-weight:700; letter-spacing:.04em; }
+.en-label{ display:block; font-family:var(--font-en); letter-spacing:.12em; font-size:.72rem; font-weight:700; margin-bottom:.2em; }
+.sub-hero .hero-media{ position:relative; }
+.cert-badge{ position:absolute; right:14px; bottom:14px; padding:.45em .9em; text-align:center; line-height:1.15; font-weight:700; }
+.cert-badge strong{ display:block; font-size:1.35em; letter-spacing:.02em; }
+.parts-grid{ align-items:start; }
+.parts-table thead th,.parts-table thead td{ font-weight:700; }
+.media-cols .feature-block img{ width:100%; aspect-ratio:5/3; object-fit:cover; margin-top:.4em; }
+.brand-grid{ list-style:none; padding:0; margin:0; display:grid; grid-template-columns:repeat(5,1fr); gap:var(--gap); align-items:center; }
+.brand-grid img{ max-height:40px; width:auto; margin:0 auto; object-fit:contain; }
+.note-demo{ font-size:.8rem; }
+@media (max-width:768px){
+  .parts-grid.cols-2{ grid-template-columns:1fr; }
+  .media-cols .cols-2{ grid-template-columns:1fr; }
+  .brand-grid{ grid-template-columns:repeat(3,1fr); }
+}
+
+/* ---- 会社概要（カンプ06）／お問い合わせ（カンプ07） 骨格 ---- */
+.center{ text-align:center; }
+.page-title{ font-size:clamp(1.5rem,3.4vw,2.1rem); }
+
+/* 06 ヒーロー：右写真の上にKURU MAYAバッジ */
+.company-hero .hero-media{ position:relative; }
+/* ★.hero-media img{width:100%} を打ち消す（詳細度で勝たせる）。抜けると写真の半分を覆う巨大バッジになる。 */
+.company-hero .hero-media img.kuru-badge{ position:absolute; right:14px; top:14px; height:52px; width:auto; min-height:0; max-height:none; object-fit:contain; }
+
+/* 06 ヒーロー下段の小3枚 */
+.photo-row-sec{ padding-top:0; }
+.photo-row img{ width:100%; aspect-ratio:16/10; object-fit:cover; }
+
+/* 06 私たちについて（左テキスト＋右3アイコン） */
+.about-grid{ display:grid; grid-template-columns:minmax(280px,1.15fr) 2fr; gap:calc(var(--gap) * 1.5); align-items:center; }
+.about-grid > .stack p{ font-size:.9rem; }
+.about-icons{ list-style:none; padding:0; margin:0; }
+.about-icons li{ text-align:center; }
+.about-icons .ico{ display:block; margin:0 auto .6em; width:56px; height:56px; }
+.ico-head{ display:block; font-weight:700; font-size:1.05rem; margin-bottom:.4em; }
+.about-icons p{ font-size:.9rem; }
+
+/* 06 会社概要＋沿革 */
+.profile-grid{ align-items:start; }
+.history{ list-style:none; padding:0; margin:0; }
+.history-item{ display:grid; grid-template-columns:5.5em 1fr; gap:.8em; padding-bottom:1.6em; position:relative; }
+.history-item:not(:last-child)::before{ content:""; position:absolute; left:calc(5.5em - .8em); top:1.9em; bottom:.2em; border-left:2px solid var(--color-line); }
+.hy-year{ font-weight:700; font-size:1.35rem; line-height:1.4; }
+.hy-head{ display:block; font-weight:700; font-size:1.05rem; margin-bottom:.25em; }
+.hy-body p{ font-size:.9rem; }
+
+/* 06 アクセス */
+.access-grid{ align-items:start; }
+.access-grid img{ width:100%; aspect-ratio:16/10; object-fit:cover; }
+.route-list{ list-style:none; padding:0; margin:0; display:grid; gap:8px; }
+.route-list li{ display:flex; align-items:center; gap:.8em; padding:.7em 1em; }
+.ico-car{ flex:0 0 auto; }
+
+/* 06 CTA帯（枠囲み＋電話ボックス＋フォームボタン） */
+.cta-box{ display:grid; grid-template-columns:minmax(320px,1.5fr) auto auto; gap:var(--gap); align-items:center; padding:clamp(20px,3vw,32px); }
+.cta-lead h2{ margin-bottom:.2em; font-size:clamp(1.15rem,2.2vw,1.6rem); }
+.tel-box{ display:block; text-decoration:none; text-align:center; padding:.7em 1em; }
+.tel-cap{ display:block; font-size:.8rem; }
+.tel-no{ display:block; font-size:clamp(1.3rem,2.6vw,1.8rem); font-weight:700; letter-spacing:.02em; }
+.form-box{ text-align:center; }
+.fb-head{ display:block; font-size:.9rem; }
+.fb-sub{ display:block; font-weight:700; }
+
+/* 07 ヒーロー：丸スタンプ */
+.contact-hero .hero-media{ position:relative; }
+.stamp-circle{ position:absolute; right:16px; bottom:16px; width:112px; height:112px; border-radius:50%;
+  display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; line-height:1.3; font-size:.78rem; }
+.stamp-circle .st-line{ display:block; }
+.stamp-circle .st-since{ display:block; font-size:.68rem; letter-spacing:.06em; margin-top:.2em; }
+
+/* 07 連絡手段2枠 */
+.way-card{ display:flex; align-items:flex-start; gap:1em; padding:clamp(16px,2.4vw,26px); text-decoration:none; }
+.way-ico{ flex:0 0 auto; width:58px; height:58px; border-radius:50%; display:flex; align-items:center; justify-content:center; }
+.way-body{ display:block; }
+.way-head{ display:block; font-weight:700; font-size:.95rem; margin-bottom:.2em; }
+.way-no{ display:block; font-size:clamp(1.4rem,3vw,2rem); font-weight:700; letter-spacing:.02em; line-height:1.2; }
+.way-no-text{ font-size:clamp(1.2rem,2.4vw,1.6rem); }
+.way-time{ display:block; font-size:.8rem; margin-top:.2em; }
+.way-note{ display:block; font-size:.82rem; margin-top:.7em; padding-top:.7em; border-top:1px solid var(--color-line); }
+
+/* 07 フォーム（整備受付票） */
+.form-sheet{ padding:clamp(20px,3.2vw,40px); }
+.sheet-head{ display:flex; align-items:center; gap:1em; flex-wrap:wrap; padding-bottom:.8em; margin-bottom:1.4em; }
+.sheet-head h2{ margin-right:auto; }
+.sheet-en{ font-size:.78rem; letter-spacing:.14em; }
+.receipt-no{ display:inline-block; text-align:center; padding:.2em .8em; line-height:1.3; }
+.rn-cap{ display:block; font-size:.62rem; }
+.rn-no{ display:block; font-weight:700; letter-spacing:.04em; }
+.form-grid{ display:grid; grid-template-columns:1fr 1fr; gap:var(--gap); }
+.form-field{ margin:0; }
+.form-field + .form-field, .form-grid + .form-field{ margin-top:1.2em; }
+.form-grid .form-field + .form-field{ margin-top:0; }
+.form-field label{ display:block; margin-bottom:.35em; font-size:.9rem; font-weight:700; }
+.radio-field{ border:0; padding:0; margin:0; min-width:0; }
+.radio-field legend{ font-size:.9rem; font-weight:700; margin-bottom:.35em; padding:0; }
+.radio-list{ list-style:none; padding:0; margin:0; display:grid; gap:4px; }
+.radio-list label{ display:flex; align-items:center; gap:.6em; font-weight:400; margin:0; padding:.5em .8em; cursor:pointer; }
+.radio-list input{ width:auto; }
+.field-note{ display:block; font-size:.78rem; margin-top:.3em; text-align:right; }
+.agree-field{ margin-top:1.2em; }
+.agree-field label{ display:flex; align-items:center; gap:.5em; font-weight:400; }
+.agree-field input{ width:auto; }
+.form-submit{ margin-top:1.6em; text-align:center; }
+.form-submit button{ min-width:min(100%,320px); }
+.req{ display:inline-block; font-size:.7rem; padding:.1em .5em; vertical-align:middle; }
+
+/* 07 お急ぎ帯 */
+.urgent-band{ display:grid; grid-template-columns:auto 1fr auto; gap:var(--gap); align-items:center; padding:clamp(16px,2.4vw,28px); }
+.urgent-car{ flex:0 0 auto; }
+.urgent-head{ display:block; font-weight:700; font-size:1.05rem; margin-bottom:.2em; }
+.urgent-text p{ font-size:.85rem; }
+.urgent-band .tel-box{ text-align:right; }
+.urgent-band .tel-cap{ font-size:.75rem; }
+
+/* 07 アクセス導線帯 */
+.access-link-band{ display:flex; align-items:center; justify-content:space-between; gap:1em; flex-wrap:wrap; padding:1em clamp(16px,2.4vw,28px); text-decoration:none; }
+.alb-left{ display:flex; align-items:center; gap:.7em; font-weight:700; }
+.alb-right{ font-size:.9rem; }
+
+@media (max-width:900px){
+  .about-grid{ grid-template-columns:1fr; }
+  .cta-box{ grid-template-columns:1fr; text-align:center; }
+  .urgent-band{ grid-template-columns:auto 1fr; }
+  .urgent-band .tel-box{ grid-column:1 / -1; text-align:center; }
+}
+@media (max-width:768px){
+  .photo-row.cols-3{ grid-template-columns:1fr; }
+  .about-icons.cols-3{ grid-template-columns:1fr; }
+  .profile-grid.cols-2,.access-grid.cols-2,.contact-ways .cols-2{ grid-template-columns:1fr; }
+  .form-grid{ grid-template-columns:1fr; }
+  .form-grid .form-field + .form-field{ margin-top:1.2em; }
+  .history-item{ grid-template-columns:4.5em 1fr; }
+  .history-item:not(:last-child)::before{ left:calc(4.5em - .8em); }
+  .stamp-circle{ width:88px; height:88px; font-size:.68rem; }
+  .company-hero .kuru-badge{ height:44px; }
+}
+
+/* =========================================================
+   鈑金・塗装（カンプ03）骨格 — 2026-08-01 ルイージ
+   PC: 修復工程を3列カード（番号＋見出し／写真／説明）。SP: 番号｜写真｜本文の横並び1列（カンプSP準拠）。
+========================================================= */
+.flow-list{ list-style:none; padding:0; margin-top:var(--gap); counter-reset:none; }
+.flow-item{ display:flex; flex-direction:column; padding:clamp(12px,1.6vw,18px); }
+.flow-head{ display:flex; align-items:center; gap:.7em; margin-bottom:.7em; }
+.flow-no{ flex:0 0 auto; width:2.1em; height:2.1em; border-radius:50%; display:flex; align-items:center; justify-content:center;
+  font-weight:700; font-size:.92rem; letter-spacing:.02em; }
+.flow-title{ font-weight:700; font-size:1.02rem; line-height:1.4; }
+.flow-photo{ width:100%; aspect-ratio:4/3; object-fit:cover; }
+.flow-text{ margin-top:.7em; font-size:.86rem; line-height:1.75; }
+
+/* 素材が無い枠の明示（写真の代わりに置く。他工程の写真を流用しないための可視プレースホルダ） */
+.photo-todo{ display:flex; flex-direction:column; align-items:center; justify-content:center; gap:.3em;
+  width:100%; aspect-ratio:4/3; text-align:center; font-size:.86rem; font-weight:700; padding:.8em; }
+.photo-todo span{ display:block; font-size:.74rem; font-weight:400; }
+
+/* 修復事例 BEFORE / AFTER（カンプ03：3セット・SPも3列を維持） */
+.ba-list{ list-style:none; padding:0; margin-top:var(--gap); grid-template-columns:repeat(3,1fr); }
+/* 実績枠（事例2・3）を一時非表示にしている間の暫定レイアウト（2026-08-06）。
+   実績写真の受領後、repair.html の ul から is-single を外せばカンプ通りの3列に復帰する。 */
+.ba-list.is-single{ grid-template-columns:minmax(0,760px); justify-content:center; }
+.ba-item{ display:block; }
+.ba-pair{ display:grid; grid-template-columns:1fr auto 1fr; align-items:center; gap:.4em; }
+.ba-cell{ position:relative; margin:0; line-height:0; }
+.ba-cell img{ width:100%; aspect-ratio:4/3; object-fit:cover; }
+.ba-tag{ position:absolute; left:0; bottom:0; padding:.25em .8em; font-size:.68rem; font-weight:700; letter-spacing:.06em; line-height:1.4; }
+.ba-arrow{ font-size:.8rem; line-height:1; }
+.closing{ margin-top:calc(var(--gap) * 1.4); }
+.closing-lead{ font-size:clamp(1.05rem,2.2vw,1.45rem); font-weight:700; letter-spacing:.04em; }
+.closing-sub{ font-size:.88rem; }
+
+@media (max-width:768px){
+  /* カンプSP（③鈑金・9工程）：番号｜写真｜本文の横並びカード。
+     ★.cols-3 配下に限定する。⑤コーティングの施工の流れ（.proc-list=cols-4）はカンプSPでも4列横並びのため、
+       このルールが漏れると崩れる。 */
+  .flow-list.cols-3{ grid-template-columns:1fr; gap:10px; }
+  .flow-list.cols-3 .flow-item{ display:grid; grid-template-columns:2.6em 8.2em 1fr; grid-template-areas:"no photo title" "no photo text"; column-gap:.8em; row-gap:.2em; align-items:center; }
+  .flow-list.cols-3 .flow-head{ display:contents; }
+  .flow-list.cols-3 .flow-no{ grid-area:no; margin:0 auto; }
+  .flow-list.cols-3 .flow-title{ grid-area:title; align-self:end; font-size:.95rem; }
+  .flow-list.cols-3 .flow-photo{ grid-area:photo; aspect-ratio:4/3; }
+  .flow-list.cols-3 .photo-todo{ grid-area:photo; aspect-ratio:4/3; font-size:.66rem; padding:.4em; }
+  .flow-list.cols-3 .photo-todo span{ font-size:.58rem; }
+  .flow-list.cols-3 .flow-text{ grid-area:text; align-self:start; margin-top:0; font-size:.78rem; line-height:1.6; }
+  /* Before/After はカンプ通り3列を維持（タグは幅に合わせて縮める） */
+  .ba-list{ gap:8px; }
+  .ba-tag{ font-size:.52rem; padding:.2em .4em; }
+  .ba-arrow{ font-size:.6rem; }
+}
+
+/* =========================================================
+   ボディーコーティング（カンプ05）骨格 — 2026-08-01 ルイージ
+   ★カンプ05はSP版もPC版とほぼ同じ横並びレイアウト（特徴の左右交互・比較表4列・施工の流れ4列）。
+     ③のBEFORE/AFTER同様「カンプ忠実優先」の社長裁定に沿い、SPでも横並びを維持する。
+     ただし比較表だけは .table-scroll でコンテナ内スクロールにし、ページ全体の横スクロールは起こさない。
+========================================================= */
+.hero-sub{ display:block; margin-top:.35em; }
+/* カンプ05のヒーロー写真は右カラムを上下いっぱいに使う（既定の max-height:460px だと上下に余白が出る） */
+.coating-hero .hero-media img{ min-height:320px; max-height:none; }
+
+/* 製品紹介ボックス（左に製品名／右に説明＋4アイコン） */
+.product-box{ display:grid; grid-template-columns:minmax(300px,1.3fr) 1.8fr; gap:calc(var(--gap) * 1.2); align-items:center; padding:clamp(18px,2.8vw,32px); }
+/* 製品名「スーパーガラスコーティング」14文字がカンプ同様2行に収まる上限に抑える（溢れると1文字だけ折り返す） */
+.product-name h2{ font-size:clamp(1.1rem,2vw,1.45rem); }
+.feat-item .photo-todo{ aspect-ratio:16/10; }
+.tag{ display:inline-block; padding:.15em .8em; font-size:.72rem; font-weight:700; letter-spacing:.06em; margin-bottom:.5em; }
+.product-name h2{ line-height:1.45; }
+.product-detail p{ font-size:.9rem; }
+.spec-icons{ list-style:none; padding:0; margin:1.1em 0 0; gap:var(--gap); }
+.spec-icons li{ text-align:center; }
+.spec-icons .ico{ display:block; margin:0 auto .5em; }
+.spec-head{ display:block; font-weight:700; font-size:.92rem; }
+.spec-sub{ display:block; font-size:.72rem; }
+
+/* 特徴4件（画像とテキストを左右交互） */
+.feat-list{ list-style:none; padding:0; margin:var(--gap) 0 0; display:grid; gap:var(--gap); }
+.feat-item{ display:grid; grid-template-columns:1fr 1.12fr; gap:clamp(14px,2.4vw,28px); align-items:center; padding:clamp(12px,1.6vw,18px); }
+.feat-item.is-reverse .feat-body{ order:-1; }
+.feat-item img{ width:100%; aspect-ratio:16/10; object-fit:cover; }
+.feat-head{ display:flex; align-items:baseline; gap:.6em; }
+.feat-no{ font-size:clamp(1.5rem,3vw,2.1rem); font-weight:700; line-height:1; }
+.feat-title{ font-weight:700; font-size:clamp(1rem,1.8vw,1.25rem); }
+.feat-text{ font-size:.86rem; line-height:1.8; }
+
+/* 施工前後の比較（1セット・大きく） */
+.ba-wide{ margin-top:var(--gap); }
+.ba-wide .photo-todo{ aspect-ratio:16/9; }
+.coating-cases .note-demo{ margin-top:1em; }
+
+/* 他社製品との比較（SPは表だけ横スクロール＝ページ全体は横に伸ばさない） */
+.table-scroll{ overflow-x:auto; margin-top:var(--gap); }
+.comp-table{ min-width:620px; }
+.comp-table th,.comp-table td{ text-align:center; }
+.comp-table tbody th{ text-align:left; }
+
+/* 施工の流れ（4ステップ・SPも4列＝カンプ準拠） */
+.proc-list{ margin-top:var(--gap); }
+.proc-list .photo-todo{ aspect-ratio:4/3; }
+
+/* CTA帯（左に電話ブロック／右にリード＋ボタン） */
+.coating-cta .cta-box{ grid-template-columns:auto 1fr; }
+.tel-time{ display:block; font-size:.76rem; margin-top:.2em; }
+.coating-cta .cta-lead h2{ font-size:clamp(1rem,1.9vw,1.3rem); }
+
+@media (max-width:900px){
+  .product-box{ grid-template-columns:1fr; }
+  .coating-cta .cta-box{ grid-template-columns:1fr; text-align:center; }
+}
+@media (max-width:768px){
+  /* カンプSP準拠：特徴は左右交互のまま、アイコン4列・施工の流れ4列も維持 */
+  .spec-icons.cols-4{ grid-template-columns:repeat(4,1fr); gap:10px; }
+  .spec-icons .ico{ width:26px; height:26px; }
+  .spec-head{ font-size:.72rem; }
+  .spec-sub{ font-size:.58rem; line-height:1.4; }
+  .feat-item{ grid-template-columns:1fr 1.12fr; gap:10px; padding:10px; }
+  .feat-no{ font-size:1.35rem; }
+  .feat-title{ font-size:.92rem; }
+  .feat-text{ font-size:.72rem; line-height:1.65; }
+  .feat-item .photo-todo{ font-size:.62rem; }
+  .feat-item .photo-todo span{ font-size:.54rem; }
+  .proc-list.cols-4{ grid-template-columns:repeat(4,1fr); gap:8px; }
+  .proc-list .flow-item{ padding:8px; min-width:0; }
+  .proc-list .flow-head{ gap:.4em; margin-bottom:.5em; }
+  .proc-list .flow-no{ width:1.8em; height:1.8em; font-size:.62rem; }
+  .proc-list .flow-title{ font-size:.66rem; line-height:1.35; }
+  .proc-list .flow-text{ font-size:.6rem; line-height:1.55; }
+  .proc-list .photo-todo{ font-size:.54rem; padding:.3em; }
+  .proc-list .photo-todo span{ font-size:.5rem; }
+  .ba-wide .photo-todo{ font-size:.7rem; }
+}
+
+/* ---- 動きの配慮 ---- */
+@media (prefers-reduced-motion: reduce){
+  *{ animation:none !important; transition:none !important; scroll-behavior:auto !important; }
+}

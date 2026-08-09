@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="800" height="500" role="img" aria-label="写真を準備しています">
+  <!-- 水野谷HP 仮公開用プレースホルダ（16:10・特徴セクション用）／2026-08-06 ルイージ作成
+       ・自前生成のベクター図形のみ。写真素材・他社画像・実在車両を一切含まない（社長指示 2026-08-06）
+       ・実写受領後は <img src> を実写へ差し替えるだけでよい（このファイルは残置・他枠で再利用） -->
+  <rect width="800" height="500" fill="#ece9e4"/>
+  <g fill="none" stroke="#c3bdb3" stroke-width="10" stroke-linejoin="round" stroke-linecap="round">
+    <rect x="290" y="182" width="220" height="152" rx="18"/>
+    <path d="M338 182 L360 150 H440 L462 182"/>
+    <circle cx="400" cy="260" r="46"/>
+  </g>
+  <text x="400" y="406" text-anchor="middle" font-size="34" fill="#8c8378"
+        font-family="'Hiragino Sans','Noto Sans JP','Yu Gothic UI','Meiryo',sans-serif">写真を準備しています</text>
+</svg>

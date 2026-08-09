@@ -1,0 +1,259 @@
+/* =========================================================
+   水野谷HP 新版 — テーマA：ネオクラシック（マーシーA案準拠）
+   2026-07-30 ルイージ。カンプ 01_home_A_PC/mobile.png から抽出。
+   クリーム地 × 濃紺 × ブリック赤 / 英字セリフ / 切符・スタンプ風装飾。
+   structure.css の後に読み込む「スキン」。構造は触らず色/書体/装飾のみ。
+========================================================= */
+:root[data-theme="A"]{
+  --color-bg: #f1e9d9;          /* クリーム地 */
+  --color-surface: #f7f1e4;     /* カード地（やや明るいクリーム） */
+  --color-text: #22303c;        /* 濃い墨紺 */
+  --color-muted: #6f6656;       /* くすみブラウン */
+  --color-line: #d3c4a6;        /* 生成りの罫 */
+  --color-brand: #1a2b49;       /* 濃紺（KURU MAYA紺） */
+  --color-accent: #a4362a;      /* ブリック赤 */
+  --font-base: "Yu Gothic","Hiragino Sans","Noto Sans JP",sans-serif;
+  /* 書体はカンプA実物に従う＝見出しは太ゴシック（前回のセリフ解釈は破棄 2026-07-30）。英字ラベルのみ随所でスラブ寄せ。 */
+  --font-head: "Yu Gothic","Hiragino Sans","Noto Sans JP",sans-serif;
+  --font-en: "Roboto Slab","Georgia",serif;
+  --radius: 2px;
+}
+:root[data-theme="A"] body{ background:var(--color-bg); color:var(--color-text); }
+
+/* ヘッダー/フッター：濃紺ベタ */
+:root[data-theme="A"] .site-header{ background:var(--color-brand); border-bottom:3px solid var(--color-accent); }
+:root[data-theme="A"] .site-header a{ color:#f1e9d9; text-decoration:none; }
+:root[data-theme="A"] .site-logo a{ font-weight:700; letter-spacing:.02em; }
+:root[data-theme="A"] .global-nav a:hover{ color:#ffd7c9; }
+:root[data-theme="A"] .nav-toggle{ color:#f1e9d9; border-color:#3a4a68; background:transparent; }
+
+/* 見出し：セリフ、赤の英字ラベル感 */
+:root[data-theme="A"] h1,:root[data-theme="A"] h2,:root[data-theme="A"] h3{ font-family:var(--font-head); letter-spacing:.02em; }
+:root[data-theme="A"] main h2{ color:var(--color-accent); font-size:clamp(1.4rem,3vw,2rem); padding-bottom:.3em; border-bottom:2px solid var(--color-line); }
+:root[data-theme="A"] .page-head h1{ color:var(--color-brand); font-size:clamp(1.6rem,4vw,2.4rem); }
+
+/* ヒーロー：クリーム地＋SINCE 1978スタンプ（CSS装飾） */
+:root[data-theme="A"] .hero{ position:relative; background:linear-gradient(180deg,#f5efe1,#efe6d3); border-bottom:1px solid var(--color-line); }
+:root[data-theme="A"] .hero-copy{ font-family:var(--font-head); font-weight:800; font-size:clamp(2.1rem,6.2vw,3.6rem); line-height:1.22; letter-spacing:.01em; color:var(--color-brand); }
+:root[data-theme="A"] .hero-badge{ display:inline-block; color:var(--color-accent); font-weight:700; letter-spacing:.08em; border:1px solid var(--color-accent); padding:.2em .7em; }
+:root[data-theme="A"] .hero-media{ position:relative; border:1px solid var(--color-line); }
+:root[data-theme="A"] .hero-media::after{
+  content:"SINCE 1978"; position:absolute; right:12px; bottom:12px;
+  font-family:var(--font-head); font-weight:700; color:#a4362a; letter-spacing:.05em;
+  border:3px double #a4362a; padding:.15em .5em; transform:rotate(-8deg);
+  background:rgba(241,233,217,.55); font-size:clamp(.9rem,2.4vw,1.4rem);
+}
+
+/* ボタン：赤（主）/ 紺（副）、切符風の角 */
+:root[data-theme="A"] .btn{ display:inline-block; padding:.8em 1.4em; text-decoration:none; border-radius:var(--radius); font-weight:700; }
+:root[data-theme="A"] .btn-tel{ background:var(--color-accent); color:#fff; }
+:root[data-theme="A"] .btn-link{ background:var(--color-brand); color:#f1e9d9; }
+:root[data-theme="A"] .btn:hover{ opacity:.9; }
+
+/* サービスカード：切符風（点線罫＋番号赤） */
+:root[data-theme="A"] .services .card,:root[data-theme="A"] .card,
+:root[data-theme="A"] .svc-item,:root[data-theme="A"] .reason-item{
+  background:var(--color-surface); border:1px solid var(--color-line);
+}
+:root[data-theme="A"] .reason-item{ padding:var(--gap); }
+:root[data-theme="A"] .reason-head{ color:var(--color-accent); font-family:var(--font-head); font-size:1.1rem; }
+:root[data-theme="A"] .card-no{ display:block; font-family:var(--font-head); font-size:1.6rem; color:var(--color-accent); font-weight:700; }
+:root[data-theme="A"] .card-title{ display:block; font-weight:700; margin:.2em 0; }
+:root[data-theme="A"] .card-text{ display:block; color:var(--color-muted); font-size:.92rem; }
+:root[data-theme="A"] .card-media{ border:1px solid var(--color-line); margin-bottom:.6em; aspect-ratio:4/3; object-fit:cover; }
+
+/* セクション地の交互 */
+:root[data-theme="A"] .reason{ background:#efe6d3; }
+:root[data-theme="A"] .strengths{ background:var(--color-brand); color:#f1e9d9; padding-block:clamp(24px,4vw,40px); }
+:root[data-theme="A"] .strengths .st-head{ color:#fff; font-weight:800; }
+:root[data-theme="A"] .strength-item{ border-left:2px solid var(--color-accent); padding-left:14px; }
+:root[data-theme="A"] .logo-en{ font-family:var(--font-en); }
+:root[data-theme="A"] .cta{ background:var(--color-brand); color:#f1e9d9; }
+:root[data-theme="A"] .cta h2{ color:#fff; border-color:#3a4a68; }
+
+/* テーブル/フォーム */
+:root[data-theme="A"] .info-table{ width:100%; border-collapse:collapse; }
+:root[data-theme="A"] .info-table th,:root[data-theme="A"] .info-table td{ border:1px solid var(--color-line); padding:.7em 1em; text-align:left; vertical-align:top; }
+:root[data-theme="A"] .info-table th{ background:#e8ddc4; white-space:nowrap; width:8em; }
+:root[data-theme="A"] .map-slot{ border:1px dashed var(--color-line); padding:2em; text-align:center; color:var(--color-muted); }
+/* 下層ページ（カンプ準拠）配色 */
+:root[data-theme="A"] .sub-label{ color:var(--color-accent); font-family:var(--font-head); font-weight:800; }
+:root[data-theme="A"] .en-label{ color:var(--color-accent); }
+:root[data-theme="A"] .sub-hero .hero-media::after{ content:none; }
+:root[data-theme="A"] .cert-badge{ background:var(--color-accent); color:#fff; border:2px solid #fff; font-family:var(--font-head); }
+:root[data-theme="A"] .parts-table thead th,:root[data-theme="A"] .parts-table thead td{ background:var(--color-brand); color:#fff; }
+:root[data-theme="A"] .note-demo{ color:var(--color-muted); }
+:root[data-theme="A"] .feature-block h3{ color:var(--color-brand); font-family:var(--font-head); }
+:root[data-theme="A"] .brands{ background:#efe6d3; }
+:root[data-theme="A"] .contact-form input,:root[data-theme="A"] .contact-form textarea,:root[data-theme="A"] .contact-form select{ background:#fff; border:1px solid var(--color-line); }
+:root[data-theme="A"] .contact-form button{ background:var(--color-accent); color:#fff; border:0; padding:.8em 2em; font-weight:700; border-radius:var(--radius); }
+
+/* フッター */
+:root[data-theme="A"] .site-footer{ background:var(--color-brand); color:#e5dcc7; border-top:3px solid var(--color-accent); }
+:root[data-theme="A"] .site-footer a{ color:#e5dcc7; }
+:root[data-theme="A"] .floating-tel{ background:var(--color-accent); color:#fff; border:0; text-decoration:none; font-weight:700; border-radius:var(--radius); }
+:root[data-theme="A"] .return-top{ background:var(--color-brand); color:#f1e9d9; border:0; border-radius:var(--radius); padding:.4em .7em; text-decoration:none; }
+
+/* パンくず */
+:root[data-theme="A"] .breadcrumb{ color:var(--color-muted); }
+:root[data-theme="A"] .breadcrumb a{ color:var(--color-accent); }
+
+/* =========================================================
+   会社概要（カンプ06）／お問い合わせ（カンプ07）— A案スキン
+   ★カンプ06/07の見出しは「赤の英字ラベル＋濃紺の和文見出し（下線なし）」。
+     ②車検整備の既存意匠（赤h2＋罫）は触らず、本2ページのセクションにのみ上書きする。
+========================================================= */
+:root[data-theme="A"] .about h2,:root[data-theme="A"] .profile h2,
+:root[data-theme="A"] .access h2,:root[data-theme="A"] .cta-band h2,
+:root[data-theme="A"] .form-sheet h2{ color:var(--color-brand); border-bottom:0; padding-bottom:0; font-weight:800; }
+:root[data-theme="A"] .page-title{ color:var(--color-brand); font-weight:800; }
+:root[data-theme="A"] .company-hero .hero-copy,
+:root[data-theme="A"] .contact-hero .hero-copy{ font-size:clamp(1.6rem,3.6vw,2.3rem); line-height:1.35; }
+:root[data-theme="A"] .company-hero .hero-lead,
+:root[data-theme="A"] .contact-hero .hero-lead{ font-size:.92rem; color:var(--color-text); }
+:root[data-theme="A"] .photo-row img{ border:1px solid var(--color-line); }
+
+/* 私たちについて：クリームのカード枠 */
+:root[data-theme="A"] .about .wrap{ background:var(--color-surface); border:1px solid var(--color-line); padding:clamp(20px,3vw,36px); }
+:root[data-theme="A"] .about-icons .ico{ color:var(--color-brand); }
+:root[data-theme="A"] .about-icons .ico-head{ color:var(--color-text); }
+:root[data-theme="A"] .about-icons p{ color:var(--color-muted); }
+:root[data-theme="A"] .about-icons li + li{ border-left:1px solid var(--color-line); }
+
+/* 沿革 */
+:root[data-theme="A"] .hy-year{ color:var(--color-accent); font-family:var(--font-en); }
+:root[data-theme="A"] .hy-head{ color:var(--color-brand); }
+:root[data-theme="A"] .hy-body p{ color:var(--color-muted); }
+:root[data-theme="A"] .history-item:not(:last-child)::before{ border-color:var(--color-brand); }
+:root[data-theme="A"] .profile .wrap{ background:var(--color-surface); border:1px solid var(--color-line); padding:clamp(20px,3vw,36px); }
+
+/* アクセス */
+:root[data-theme="A"] .access-grid img{ border:1px solid var(--color-line); }
+:root[data-theme="A"] .route-list li{ background:var(--color-surface); border:1px solid var(--color-line); }
+:root[data-theme="A"] .ico-car{ color:var(--color-brand); }
+:root[data-theme="A"] .map-wrap{ border:1px solid var(--color-line); }
+
+/* CTA帯（二重枠・切符風） */
+:root[data-theme="A"] .cta-box{ background:var(--color-surface); border:2px solid var(--color-brand); outline:1px solid var(--color-brand); outline-offset:4px; }
+:root[data-theme="A"] .cta-box h2{ color:var(--color-brand); }
+:root[data-theme="A"] .cta-lead p{ color:var(--color-muted); font-size:.85rem; }
+:root[data-theme="A"] .tel-box{ background:#fff; border:1px solid var(--color-line); }
+:root[data-theme="A"] .tel-cap{ color:var(--color-accent); font-weight:700; }
+:root[data-theme="A"] .tel-no{ color:var(--color-accent); font-family:var(--font-en); }
+
+/* 07 ヒーローの丸スタンプ */
+:root[data-theme="A"] .stamp-circle{ background:rgba(247,241,228,.94); border:2px solid var(--color-brand); color:var(--color-brand); font-weight:700; box-shadow:0 0 0 3px rgba(247,241,228,.94); }
+:root[data-theme="A"] .stamp-circle .st-since{ color:var(--color-accent); font-family:var(--font-en); }
+
+/* 07 連絡手段2枠 */
+:root[data-theme="A"] .way-card{ background:var(--color-surface); border:1px solid var(--color-line); }
+:root[data-theme="A"] .way-ico{ background:var(--color-brand); color:#fff; }
+:root[data-theme="A"] .way-head{ color:var(--color-accent); }
+:root[data-theme="A"] .way-no{ color:var(--color-accent); font-family:var(--font-en); }
+:root[data-theme="A"] .way-no-text{ color:var(--color-brand); font-family:var(--font-head); }
+:root[data-theme="A"] .way-time,:root[data-theme="A"] .way-note{ color:var(--color-muted); }
+
+/* 07 整備受付票 */
+:root[data-theme="A"] .form-sheet{ background:var(--color-surface); border:2px solid var(--color-brand); }
+:root[data-theme="A"] .sheet-head{ border-bottom:2px solid var(--color-brand); }
+:root[data-theme="A"] .sheet-en{ color:var(--color-muted); font-family:var(--font-en); }
+:root[data-theme="A"] .receipt-no{ border:1px solid var(--color-accent); color:var(--color-accent); background:#fff; }
+:root[data-theme="A"] .rn-no{ font-family:var(--font-en); }
+:root[data-theme="A"] .radio-list label{ background:#fff; border:1px solid var(--color-line); }
+:root[data-theme="A"] .req{ background:var(--color-accent); color:#fff; font-weight:700; }
+:root[data-theme="A"] .field-note{ color:var(--color-muted); }
+:root[data-theme="A"] .agree-link{ color:var(--color-accent); text-decoration:underline; }
+:root[data-theme="A"] .form-submit button{ font-size:1.05rem; }
+:root[data-theme="A"] .form-status.is-error{ color:var(--color-accent); font-weight:700; }
+:root[data-theme="A"] .form-status.is-success{ color:var(--color-brand); font-weight:700; }
+
+/* 07 お急ぎ帯／アクセス導線 */
+:root[data-theme="A"] .urgent-band{ background:var(--color-surface); border:1px solid var(--color-line); }
+:root[data-theme="A"] .urgent-car{ color:var(--color-brand); }
+:root[data-theme="A"] .urgent-head{ color:var(--color-brand); }
+:root[data-theme="A"] .urgent-text p{ color:var(--color-muted); }
+:root[data-theme="A"] .urgent-band .tel-box{ background:transparent; border:0; }
+:root[data-theme="A"] .access-link-band{ background:var(--color-surface); border:1px solid var(--color-line); }
+:root[data-theme="A"] .alb-left{ color:var(--color-brand); }
+:root[data-theme="A"] .ico-pin{ color:var(--color-accent); }
+:root[data-theme="A"] .alb-right{ color:var(--color-muted); }
+
+/* =========================================================
+   鈑金・塗装（カンプ03）— A案スキン
+   ★カンプ03の見出しは「赤の英字ラベル＋濃紺の和文見出し（中央・下線なし）」。
+     ②車検整備の赤h2＋罫は触らず、本ページのセクションにのみ上書きする。
+========================================================= */
+:root[data-theme="A"] .flow h2,:root[data-theme="A"] .cases h2,
+:root[data-theme="A"] .features h2,:root[data-theme="A"] .comparison h2,
+:root[data-theme="A"] .product h2{ color:var(--color-brand); border-bottom:0; padding-bottom:0; font-weight:800; }
+:root[data-theme="A"] .repair-hero .hero-copy{ font-size:clamp(1.7rem,4vw,2.6rem); line-height:1.32; }
+:root[data-theme="A"] .repair-hero .hero-lead{ font-size:.92rem; color:var(--color-text); }
+:root[data-theme="A"] .repair-hero .hero-media::after{ content:none; }
+
+/* 工程カード：クリーム地＋生成り罫、番号は赤丸に白 */
+:root[data-theme="A"] .flow-item{ background:var(--color-surface); border:1px solid var(--color-line); }
+:root[data-theme="A"] .flow-no{ background:var(--color-accent); color:#fff; font-family:var(--font-en); }
+:root[data-theme="A"] .flow-title{ color:var(--color-brand); font-family:var(--font-head); }
+:root[data-theme="A"] .flow-text{ color:var(--color-muted); }
+:root[data-theme="A"] .flow-photo{ border:1px solid var(--color-line); }
+:root[data-theme="A"] .photo-todo{ background:#efe6d3; border:1px dashed var(--color-accent); color:var(--color-muted); }
+:root[data-theme="A"] .photo-todo span{ color:var(--color-accent); }
+
+/* 修復事例：BEFORE=濃紺タグ／AFTER=赤タグ */
+:root[data-theme="A"] .cases{ background:#efe6d3; }
+:root[data-theme="A"] .cases .photo-todo{ background:var(--color-surface); }
+:root[data-theme="A"] .ba-cell img{ border:1px solid var(--color-line); }
+:root[data-theme="A"] .ba-tag{ font-family:var(--font-en); color:#fff; }
+:root[data-theme="A"] .ba-before{ background:var(--color-brand); }
+:root[data-theme="A"] .ba-after{ background:var(--color-accent); }
+:root[data-theme="A"] .ba-arrow{ color:var(--color-brand); }
+:root[data-theme="A"] .closing-lead{ color:var(--color-brand); font-family:var(--font-head); }
+:root[data-theme="A"] .closing-sub{ color:var(--color-muted); }
+
+/* CTA帯の副ボタン視認性是正（2026-08-01 社長承認）
+   既定の .btn-link は濃紺で、紺ベタのCTA帯に同化して読めない。カンプもCTAはボタン2つとも赤。
+   ★意匠創作ではなく視認性の是正。.cta を使うのは②車検整備・③鈑金塗装（＋archive退避物）のみで、
+     トップ index.html は .cta 不使用のため無影響であることを実測確認済み。 */
+:root[data-theme="A"] .cta .btn-link{ background:var(--color-accent); color:#fff; border:1px solid rgba(241,233,217,.8); }
+
+/* =========================================================
+   ボディーコーティング（カンプ05）— A案スキン
+========================================================= */
+:root[data-theme="A"] .coating-hero .hero-copy{ font-size:clamp(2rem,4.6vw,3rem); line-height:1.28; }
+:root[data-theme="A"] .coating-hero .hero-sub{ font-size:clamp(1rem,1.9vw,1.35rem); font-weight:700; color:var(--color-brand); }
+:root[data-theme="A"] .coating-hero .hero-lead{ font-size:.9rem; color:var(--color-text); }
+:root[data-theme="A"] .coating-hero .hero-media::after{ content:none; }
+
+/* 製品紹介ボックス：切符風の二重枠 */
+:root[data-theme="A"] .product-box{ background:var(--color-surface); border:2px solid var(--color-brand); outline:1px solid var(--color-brand); outline-offset:4px; }
+:root[data-theme="A"] .tag{ background:var(--color-brand); color:#fff; font-family:var(--font-en); }
+:root[data-theme="A"] .product-detail p{ color:var(--color-muted); }
+:root[data-theme="A"] .spec-icons .ico{ color:var(--color-brand); }
+:root[data-theme="A"] .spec-head{ color:var(--color-text); }
+:root[data-theme="A"] .spec-sub{ color:var(--color-muted); }
+:root[data-theme="A"] .spec-icons li{ background:#fff; border:1px solid var(--color-line); padding:.9em .4em; }
+
+/* 特徴4件：クリーム地＋赤の細枠 */
+:root[data-theme="A"] .feat-item{ background:var(--color-surface); border:1px solid var(--color-accent); }
+:root[data-theme="A"] .feat-no{ color:var(--color-accent); font-family:var(--font-en); }
+:root[data-theme="A"] .feat-title{ color:var(--color-brand); font-family:var(--font-head); }
+:root[data-theme="A"] .feat-text{ color:var(--color-muted); }
+:root[data-theme="A"] .feat-item img{ border:1px solid var(--color-line); }
+
+/* 施工前後 */
+:root[data-theme="A"] .coating-cases{ background:#efe6d3; }
+:root[data-theme="A"] .coating-cases .photo-todo{ background:var(--color-surface); }
+
+/* 比較表：ヘッダ紺／自社列を赤で強調 */
+:root[data-theme="A"] .comp-table thead th{ background:var(--color-brand); color:#fff; text-align:center; white-space:normal; }
+:root[data-theme="A"] .comp-table thead th.col-ours{ background:var(--color-accent); }
+:root[data-theme="A"] .comp-table tbody th{ background:#e8ddc4; }
+:root[data-theme="A"] .comp-table td.col-ours{ color:var(--color-accent); font-weight:700; background:rgba(164,54,42,.06); }
+
+/* CTA帯：紺ベタの上に直接置く（company の .cta-box 枠スキンを打ち消す） */
+:root[data-theme="A"] .coating-cta .cta-box{ background:transparent; border:0; outline:0; padding:0; }
+:root[data-theme="A"] .coating-cta .tel-box{ background:transparent; border:0; }
+:root[data-theme="A"] .coating-cta .tel-cap{ color:#f1e9d9; }
+:root[data-theme="A"] .coating-cta .tel-no{ color:#fff; }
+:root[data-theme="A"] .coating-cta .tel-time{ color:#d8cdb4; }
+:root[data-theme="A"] .coating-cta .cta-lead h2{ color:#fff; border-bottom:0; padding-bottom:0; }
