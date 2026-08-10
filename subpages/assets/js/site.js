@@ -131,9 +131,10 @@
     el.appendChild(frag);
     el.classList.add('is-typing');
 
-    /* 1文字あたりの間隔。速すぎると「打っている」感が出ず、遅いと待たされる */
-    var STEP = 105;
-    var START_DELAY = 450; /* 写真が見えてから打ち始める */
+    /* 1文字あたりの間隔。★2026-08-10 社長指示でゆっくりに（105ms → 165ms）。
+       12文字なので 165ms × 12 ≒ 2.0秒。写真をしっかり見せてから文字が置かれていく速さ。 */
+    var STEP = 165;
+    var START_DELAY = 600; /* 写真が見えてから打ち始める（少し余裕をとる） */
 
     chars.forEach(function (s, i) {
       setTimeout(function () { s.classList.add('is-on'); }, START_DELAY + i * STEP);
