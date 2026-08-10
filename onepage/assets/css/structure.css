@@ -147,31 +147,34 @@ main > section[id]{ scroll-margin-top: calc(var(--header-h) + 8px); }
   position:relative;
   padding:0;                 /* .hero の上下padding を打ち消す（写真を端まで見せる） */
   display:grid;
-  align-items:end;           /* 文字を下寄せ。空や屋根が見えて、下に文字が乗る形 */
+  /* ★文字は縦の中央〜やや下。参考サイトが「写真を十分に見せてから文字が現れる」配置のため */
+  align-items:center;
   overflow:hidden;
-  /* スマホは縦に伸びすぎないよう svh（アドレスバーを除いた実高さ）を使う。
-     PCでは高さを固定しすぎず、写真の見え方を優先。 */
-  min-height:clamp(420px, 62svh, 620px);
+  /* スマホは縦に伸びすぎないよう svh（アドレスバーを除いた実高さ）を使う */
+  min-height:clamp(480px, 74svh, 760px);
   isolation:isolate;         /* 下の ::after が他の要素に影響しないよう層を閉じる */
+  background:#111;           /* 写真の読み込み前でも白飛びしない */
 }
 /* 写真は背景として全面に敷く。object-fit:cover で縦横比を保ったまま埋める */
 .hero--full .hero-bg{
   position:absolute; inset:0;
   width:100%; height:100%;
   object-fit:cover;
-  object-position:center 42%;  /* 看板・建物が中央に残るよう、やや上寄りで切る */
+  object-position:center center;
   z-index:0;
+  /* ★モノクロ化（参考サイトの質感）。
+     grayscale だけだと眠くなるので、コントラストを少し立てて締める。 */
+  filter:grayscale(1) contrast(1.08) brightness(.82);
 }
-/* ★暗幕。これが無いと明るい空や白い看板の上で文字が読めない。
-   下側を濃くして、文字が乗る部分だけしっかり暗くする（写真全体を暗くしない）。 */
+/* ★暗幕。参考サイトは写真自体が暗いので濃くしない。
+   文字が乗る左〜中央だけ軽く落とす（横方向のグラデーション）。
+   全面を濃く覆うと、せっかくの写真の質感が消える。 */
 .hero--full::after{
   content:'';
   position:absolute; inset:0;
-  background:linear-gradient(to top,
-    rgba(0,0,0,.72) 0%,
-    rgba(0,0,0,.55) 32%,
-    rgba(0,0,0,.18) 62%,
-    rgba(0,0,0,.05) 100%);
+  background:
+    linear-gradient(to right, rgba(0,0,0,.55) 0%, rgba(0,0,0,.3) 52%, rgba(0,0,0,.12) 100%),
+    linear-gradient(to top, rgba(0,0,0,.35) 0%, rgba(0,0,0,0) 45%);
   z-index:1;
 }
 .hero--full .hero-inner{ position:relative; z-index:2; width:100%; padding-block:clamp(28px,5vw,56px); }
@@ -180,14 +183,37 @@ main > section[id]{ scroll-margin-top: calc(var(--header-h) + 8px); }
 .hero--full .wrap{ grid-template-columns:1fr; }
 /* 写真の上なので、テーマA/Bに関わらず白系で固定する（可読性を優先） */
 .hero--full .hero-text{ color:#fff; max-width:min(680px, 100%); }
-.hero--full .hero-copy{ color:#fff; text-shadow:0 2px 12px rgba(0,0,0,.45); }
-.hero--full .hero-lead{ color:rgba(255,255,255,.94); text-shadow:0 1px 8px rgba(0,0,0,.5); }
+.hero--full .hero-copy{ color:#fff; text-shadow:0 2px 14px rgba(0,0,0,.5); }
+.hero--full .hero-lead{ color:rgba(255,255,255,.9); text-shadow:0 1px 10px rgba(0,0,0,.55); }
+/* ★前置きは枠を付けず、細い白文字で小さく置く（参考サイトの型。枠を付けると軽くなる） */
 .hero--full .hero-badge{
-  display:inline-block; color:#fff;
-  background:rgba(0,0,0,.42);
-  border:1px solid rgba(255,255,255,.5);
-  padding:.35em .8em; border-radius:2px;
-  backdrop-filter:blur(2px);
+  display:block;
+  color:rgba(255,255,255,.78);
+  background:none; border:none; padding:0;
+  letter-spacing:.14em;
+  font-weight:400;
+  margin-bottom:.6em;
+}
+/* ★ボタンは塗りをやめ、細い白枠＋右矢印にする（参考サイトの型）。
+   塗りボタンは元気で親しみやすいが、重厚さは出ない。
+   ★下部の常時表示の電話ボタン（.floating-tel）は塗りのまま残している
+     ＝実用（すぐ電話したい人）を犠牲にしないため。 */
+.hero--full .hero-actions{ display:flex; flex-wrap:wrap; gap:12px; margin-top:1.6em; }
+.hero--full .hero-actions .btn{
+  background:none;
+  color:#fff;
+  border:1px solid rgba(255,255,255,.62);
+  border-radius:0;
+  padding:.95em 1.6em;
+  letter-spacing:.04em;
+  display:inline-flex; align-items:center; gap:.8em;
+  transition:background-color .2s ease, border-color .2s ease;
+}
+.hero--full .hero-actions .btn::after{ content:'→'; font-size:1.05em; line-height:1; }
+.hero--full .hero-actions .btn:hover,
+.hero--full .hero-actions .btn:focus-visible{
+  background:rgba(255,255,255,.12);
+  border-color:#fff;
 }
 /* ★2026-08-10 社長指摘「ブラウザだと文字が小さい」の是正。
    原因：全面写真にしたことで周囲が広くなり、同じ文字サイズでも小さく見えるようになった
@@ -197,24 +223,39 @@ main > section[id]{ scroll-margin-top: calc(var(--header-h) + 8px); }
      `.hero--full .hero-copy`（クラス2つ）では :root[data-theme="A"] .hero-copy（3つ）に負けて効かない。
      A/B どちらのテーマでも効かせるため、属性値を指定しない [data-theme] にしている。 */
 :root[data-theme] .hero--full .hero-copy{
-  font-size:clamp(2.6rem, 7.4vw, 4.6rem);
-  line-height:1.18;
+  /* ★明朝を全面ヒーロー専用に指定。
+     テーマ側の --font-head は「A/Bで確定」の仮状態（実体はゴシック）なので触っていない。
+     参考サイトの重厚さは明朝と字間の広さから来ているため、ここだけ明朝にする。 */
+  font-family:"Yu Mincho","YuMincho","Hiragino Mincho ProN","Hiragino Mincho Pro","MS PMincho",serif;
+  font-weight:500;              /* 明朝は太らせると濁るので控える */
+  font-size:clamp(2.4rem, 6.8vw, 4.2rem);
+  line-height:1.42;             /* 明朝は行間を広くとる（詰めると重い） */
+  letter-spacing:.08em;         /* ★字間の広さが「老舗」の質感をつくる */
 }
 :root[data-theme] .hero--full .hero-lead{
-  font-size:clamp(.95rem, 1.5vw, 1.15rem);
-  line-height:1.85;
+  font-family:"Yu Mincho","YuMincho","Hiragino Mincho ProN","Hiragino Mincho Pro","MS PMincho",serif;
+  font-weight:400;
+  font-size:clamp(.9rem, 1.35vw, 1.05rem);
+  line-height:2.1;              /* リードは特に行間を広く（参考サイトの読み心地） */
+  letter-spacing:.06em;
+  margin-top:.2em;
 }
 :root[data-theme] .hero--full .hero-badge{
-  font-size:clamp(.78rem, 1.1vw, .92rem);
+  font-size:clamp(.72rem, 1vw, .84rem);
 }
 /* 文字が大きくなった分、写真の見える面積を確保するため高さも上げる */
 .hero--full{ min-height:clamp(480px, 68svh, 720px); }
 
 @media (max-width:768px){
-  /* スマホは画面が狭いので、見出しは収まる範囲に抑える（「クルマのこと、」7文字が1行に入る値） */
-  :root[data-theme] .hero--full .hero-copy{ font-size:clamp(2.3rem, 9vw, 3rem); }
-  :root[data-theme] .hero--full .hero-lead{ font-size:.95rem; }
-  .hero--full{ min-height:clamp(420px, 62svh, 560px); align-items:end; }
+  /* スマホは画面が狭いので、見出しは収まる範囲に抑える。
+     ★字間 .08em を足すと1文字ぶん余計に幅を食うので、文字サイズは控えめにする
+       （「クルマのこと、」7文字＋字間が1行に収まる値）。 */
+  :root[data-theme] .hero--full .hero-copy{ font-size:clamp(1.95rem, 7.6vw, 2.5rem); letter-spacing:.06em; }
+  :root[data-theme] .hero--full .hero-lead{ font-size:.88rem; line-height:2.0; }
+  .hero--full{ min-height:clamp(460px, 70svh, 620px); }
+  /* スマホはボタンを縦に積む（横並びだと1つが極端に細くなる） */
+  .hero--full .hero-actions{ flex-direction:column; align-items:flex-start; }
+  .hero--full .hero-actions .btn{ width:100%; justify-content:space-between; }
 }
 
 /* ---- サービス（画像上・本文下のカード。旧下層の要点を集約） ---- */
