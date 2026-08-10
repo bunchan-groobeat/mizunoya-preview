@@ -41,7 +41,10 @@ html{
            文字が取り残されて小さく見えていた。
      対策：基準を画面幅に連動させる。rem 指定の文字（本文・見出し・ラベル）がまとめて追従する。
      ★下限16pxは維持（小さい画面で読めなくならないように）。上限20pxで止める（際限なく大きくしない）。 */
-  font-size:clamp(16px, 1.02vw, 20px);
+  /* ★下限を17px・係数1.15vwに設定。
+     1.02vw だと 1568px の画面で下限16pxのまま＝何も変わらず、こちらで検証できなかった。
+     1.15vw なら 1400px 付近から効き始め、社長の環境（1900px超）では上限21pxに達する。 */
+  font-size:clamp(17px, 1.15vw, 21px);
 }
 body{ margin:0; font-family:var(--font-base); color:var(--color-text); background:var(--color-bg); line-height:1.8; }
 img,svg,video{ max-width:100%; height:auto; display:block; }
