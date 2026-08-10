@@ -59,7 +59,7 @@
 </head>
 <body id="top">
 <div style="position:sticky;top:0;z-index:99999;background:#8d2b20;color:#fff;padding:8px 12px;font-size:13px;line-height:1.6;text-align:center;font-family:system-ui,sans-serif">
-  <strong>制作中プレビュー</strong>（②下層構成版）／ 検収用・本公開ではありません
+  <strong>制作中プレビュー</strong>（②下層構成版／トップ上段＝左右分割型）／ 検収用・本公開ではありません
   <br><a href="../" style="color:#fff;text-decoration:underline">← 2案の比較トップへ</a>
 </div>
 <a class="skip-link" href="#main">本文へスキップ</a>
@@ -75,33 +75,24 @@
          （＝参考サイトと同じ挙動。ナビが使えなくなることはない）
        ・HTMLの順序を入れ替えている。読み上げ順も「写真の見出し → ナビ → 本文」になる
        ・下層6ページはヘッダーが上のまま（変更していない） -->
-  <section class="hero hero--full" aria-labelledby="hero-title">
-    <!-- ★写真は mv1（リフト上での下回り点検＝仕事の質感が出るクローズアップ）に変更。
-         参考サイトがエンジン部品のクローズアップをモノクロで使っており、
-         「店舗の外観」より「手を動かしている現場」の方がその型に近いため。
-         ★店舗外観（mv4.webp）に戻す場合は src を差し替えるだけ。 -->
-    <img class="hero-bg" src="assets/img/mv1.webp" alt="リフト上での下回り点検・整備" fetchpriority="high">
-    <div class="hero-inner">
-      <div class="wrap">
-        <div class="hero-text stack">
-          <!-- ★2026-08-10：社長提示の参考サイト（四日市モータース商会）の型に寄せた。
-               借りたのは「規則」だけ：
-                 ①全面写真をモノクロにして、その上に白文字を置く
-                 ②見出しは明朝・字間を広げる（重厚・老舗の質感）
-                 ③アクセント色を使わない（無彩色で通す）
-                 ④リードは細い明朝で行を分け、行間を広くとる
-                 ⑤ボタンは塗りをやめ、細い白枠＋右矢印にする
-               文章・画像・コードは一切転記していない（文言は既存のものをそのまま使用）。 -->
-          <p class="hero-badge">SINCE 1978 ／ 国指定認証工場 仙4-6522</p>
-          <h1 id="hero-title" class="hero-copy">クルマのこと、<br>まるごと。</h1>
-          <p class="hero-lead">車検・整備／鈑金塗装／中古車販売／コーティング。</p>
-          <p class="hero-lead">矢吹町のクルマのかかりつけ工場、水野谷自動車です。</p>
-          <p class="hero-actions">
-            <a class="btn btn-tel" href="tel:0248-43-2455">お電話でのご相談 0248-43-2455</a>
-            <a class="btn btn-link" href="contact.html">お問い合わせ</a>
-          </p>
-        </div>
+  <section class="hero hero--split" aria-labelledby="hero-title">
+    <!-- 左：文字ゾーン（無地）。参考サイトと同じく文字を右端に寄せる -->
+    <div class="hero-pane">
+      <div class="hero-text">
+        <p class="hero-badge">SINCE 1978 ／ 国指定認証工場 仙4-6522</p>
+        <h1 id="hero-title" class="hero-copy">クルマのこと、<br>まるごと。</h1>
+        <p class="hero-name">有限会社 水野谷自動車</p>
+        <p class="hero-tag">矢吹町のクルマのかかりつけ工場</p>
+        <p class="hero-lead">車検・整備／鈑金塗装／中古車販売／コーティング。</p>
+        <p class="hero-actions">
+          <a class="btn btn-tel" href="tel:0248-43-2455">お電話でのご相談 0248-43-2455</a>
+          <a class="btn btn-link" href="#contact">お問い合わせ</a>
+        </p>
       </div>
+    </div>
+    <!-- 右：写真ゾーン。文字が重ならないので暗幕を弱くでき、写真そのものを見せられる -->
+    <div class="hero-shot">
+      <img src="assets/img/mv1.webp" alt="リフト上での下回り点検・整備" fetchpriority="high">
     </div>
   </section>
 

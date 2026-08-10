@@ -91,7 +91,10 @@
          先に見えていると「打っている途中なのに続きがある」不自然さが出るため。
        ・動きを減らす設定の方には演出しない（即座に全部表示）。 */
   function initTypewriter() {
-    var el = document.querySelector('.hero--full .hero-copy');
+    /* ★2026-08-10 追記：左右分割型（.hero--split／比較用の index-split.html）も同じ演出の対象にする。
+       どちらのページも見出しは .hero-copy、その親は .hero-text なので、
+       セレクタを1つ足すだけで以降のロジックはそのまま使える。 */
+    var el = document.querySelector('.hero--full .hero-copy, .hero--split .hero-copy');
     if (!el) return;
 
     var hero = el.closest('.hero-text');
