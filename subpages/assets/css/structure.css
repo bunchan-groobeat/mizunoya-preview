@@ -336,6 +336,48 @@ main > section[id]{ scroll-margin-top: calc(var(--header-h) + 8px); }
 }
 
 /* =========================================================
+   トップの見出しを1文字ずつ打ち込む演出（★2026-08-10 社長指示）
+   ★大前提：JSが動かないときは「何もしない＝全文が普通に見える」状態にする。
+     そのため .is-typing（JSが付けるクラス）が付いたときだけ文字を隠す。
+     CSSを先に書いて隠してしまうと、JSが失敗した瞬間に見出しが消えて事故になる。
+   ========================================================= */
+.hero-copy.is-typing .tw-char{
+  opacity:0;
+  /* わずかに下から持ち上げる。打鍵の「置く」感じを出す（大きく動かすと軽くなる） */
+  transform:translateY(.12em);
+  transition:opacity .18s ease, transform .18s ease;
+}
+.hero-copy.is-typing .tw-char.is-on{
+  opacity:1;
+  transform:translateY(0);
+}
+/* 見出しを打ち終わるまで、リード文とボタンは出さない
+   （先に見えていると「打っている途中なのに続きがある」不自然さが出る）
+
+   ★★セレクタを .js-tw から始めているのが要点。★★
+   .js-tw は JS が「これから演出する」と決めたときだけ <html> に付けるクラス。
+   これを付けずに素で opacity:0 と書くと、JSが読み込めなかった・エラーで止まった瞬間に
+   リード文とボタンが永久に消える（社名も電話番号も見えないページになる）。
+   隠す判断はJSが動いている証拠があるときだけ行う。 */
+.js-tw .hero--full .hero-text .hero-lead,
+.js-tw .hero--full .hero-text .hero-actions{
+  opacity:0;
+  transform:translateY(.3em);
+  transition:opacity .5s ease, transform .5s ease;
+}
+.js-tw .hero--full .hero-text.is-typed .hero-lead,
+.js-tw .hero--full .hero-text.is-typed .hero-actions{
+  opacity:1;
+  transform:translateY(0);
+}
+/* ★動きを減らす設定の方には演出しない（JS側でも判定しているが、CSS側でも二重に保証する） */
+@media (prefers-reduced-motion: reduce){
+  .hero-copy.is-typing .tw-char{ opacity:1; transform:none; transition:none; }
+  .js-tw .hero--full .hero-text .hero-lead,
+  .js-tw .hero--full .hero-text .hero-actions{ opacity:1; transform:none; transition:none; }
+}
+
+/* =========================================================
    ギャラリー：横に自動で流れるスライド（★2026-08-10 社長指示）
    参考＝カネゴン整骨院の施術メニュー。借りた規則は
      ①横に自動で流れる ②画面端で見切れる ③途切れず繋がる の3点のみ。

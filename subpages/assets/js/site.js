@@ -79,6 +79,72 @@
     document.body.appendChild(box);
   }
 
+  /* ---- トップの見出しを1文字ずつ打ち込む演出（★2026-08-10 社長指示） ----
+     対象＝トップの「クルマのこと、まるごと。」（.hero--full .hero-copy）。
+
+     ★設計の考え方：
+       ・HTMLの文字は消さない。1文字ずつ <span> で包み、CSSで透明にしてから順に見せる。
+         → JSが動かない環境・検索エンジン・読み上げソフトには最初から全文が存在する
+           （文字を後から流し込む方式にすると、JSが失敗した瞬間に見出しが消える）。
+       ・<br> はそのまま残す（改行位置を壊さない）。
+       ・打ち終わってから、リード文とボタンを出す。
+         先に見えていると「打っている途中なのに続きがある」不自然さが出るため。
+       ・動きを減らす設定の方には演出しない（即座に全部表示）。 */
+  function initTypewriter() {
+    var el = document.querySelector('.hero--full .hero-copy');
+    if (!el) return;
+
+    var hero = el.closest('.hero-text');
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    /* 動きを減らす設定・古いブラウザでは、演出せずそのまま見せる */
+    if (reduce || !window.requestAnimationFrame) {
+      if (hero) hero.classList.add('is-typed');
+      return;
+    }
+
+    /* ★ここまで来た＝演出できると確定した時点で初めて <html> に js-tw を付ける。
+       CSS側はこのクラスが付いているときだけリード文・ボタンを隠す。
+       先に隠してからJSで出す作りにすると、JSが止まった瞬間に
+       電話番号もお問い合わせボタンも見えないページになる。 */
+    document.documentElement.classList.add('js-tw');
+
+    /* 文字を1つずつ span に包む。<br> は要素のまま維持する */
+    var frag = document.createDocumentFragment();
+    var chars = [];
+    Array.prototype.forEach.call(el.childNodes, function (node) {
+      if (node.nodeType === 3) {
+        /* テキストノード：1文字ずつ span 化 */
+        node.textContent.split('').forEach(function (ch) {
+          var s = document.createElement('span');
+          s.className = 'tw-char';
+          s.textContent = ch;
+          chars.push(s);
+          frag.appendChild(s);
+        });
+      } else {
+        /* <br> などはそのまま */
+        frag.appendChild(node.cloneNode(true));
+      }
+    });
+    el.textContent = '';
+    el.appendChild(frag);
+    el.classList.add('is-typing');
+
+    /* 1文字あたりの間隔。速すぎると「打っている」感が出ず、遅いと待たされる */
+    var STEP = 105;
+    var START_DELAY = 450; /* 写真が見えてから打ち始める */
+
+    chars.forEach(function (s, i) {
+      setTimeout(function () { s.classList.add('is-on'); }, START_DELAY + i * STEP);
+    });
+
+    /* 打ち終わったらリード文・ボタンを出す */
+    setTimeout(function () {
+      if (hero) hero.classList.add('is-typed');
+    }, START_DELAY + chars.length * STEP + 120);
+  }
+
   /* ---- ページ上部へ戻る ---- */
   function initReturnTop() {
     var btn = document.querySelector('.return-top');
@@ -91,5 +157,6 @@
     initContactForm();
     initReturnTop();
     initThemeToggle();
+    initTypewriter();
   });
 })();
