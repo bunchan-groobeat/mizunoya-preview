@@ -138,6 +138,63 @@ main > section[id]{ scroll-margin-top: calc(var(--header-h) + 8px); }
 /* リード文は balance より pretty が適切（最終行に1語だけ残るのを防ぐ用途） */
 .hero-lead, .page__desc{ text-wrap: pretty; }
 
+/* =========================================================
+   トップのヒーロー：全面写真＋文字を重ねる（★2026-08-10 社長指示）
+   ★既存の .hero（下層ページの2カラム）は一切変えていない。
+     .hero--full が付いたときだけ上書きする形にしている。
+   ========================================================= */
+.hero--full{
+  position:relative;
+  padding:0;                 /* .hero の上下padding を打ち消す（写真を端まで見せる） */
+  display:grid;
+  align-items:end;           /* 文字を下寄せ。空や屋根が見えて、下に文字が乗る形 */
+  overflow:hidden;
+  /* スマホは縦に伸びすぎないよう svh（アドレスバーを除いた実高さ）を使う。
+     PCでは高さを固定しすぎず、写真の見え方を優先。 */
+  min-height:clamp(420px, 62svh, 620px);
+  isolation:isolate;         /* 下の ::after が他の要素に影響しないよう層を閉じる */
+}
+/* 写真は背景として全面に敷く。object-fit:cover で縦横比を保ったまま埋める */
+.hero--full .hero-bg{
+  position:absolute; inset:0;
+  width:100%; height:100%;
+  object-fit:cover;
+  object-position:center 42%;  /* 看板・建物が中央に残るよう、やや上寄りで切る */
+  z-index:0;
+}
+/* ★暗幕。これが無いと明るい空や白い看板の上で文字が読めない。
+   下側を濃くして、文字が乗る部分だけしっかり暗くする（写真全体を暗くしない）。 */
+.hero--full::after{
+  content:'';
+  position:absolute; inset:0;
+  background:linear-gradient(to top,
+    rgba(0,0,0,.72) 0%,
+    rgba(0,0,0,.55) 32%,
+    rgba(0,0,0,.18) 62%,
+    rgba(0,0,0,.05) 100%);
+  z-index:1;
+}
+.hero--full .hero-inner{ position:relative; z-index:2; width:100%; padding-block:clamp(28px,5vw,56px); }
+/* ★.hero .wrap は2カラム（テキスト＋写真）指定なので、写真が背景に移った全面版では1カラムに戻す。
+   これを書かないと、文字が左半分の幅に押し込まれて右半分が空く。 */
+.hero--full .wrap{ grid-template-columns:1fr; }
+/* 写真の上なので、テーマA/Bに関わらず白系で固定する（可読性を優先） */
+.hero--full .hero-text{ color:#fff; max-width:min(680px, 100%); }
+.hero--full .hero-copy{ color:#fff; text-shadow:0 2px 12px rgba(0,0,0,.45); }
+.hero--full .hero-lead{ color:rgba(255,255,255,.94); text-shadow:0 1px 8px rgba(0,0,0,.5); }
+.hero--full .hero-badge{
+  display:inline-block; color:#fff;
+  background:rgba(0,0,0,.42);
+  border:1px solid rgba(255,255,255,.5);
+  padding:.35em .8em; border-radius:2px;
+  backdrop-filter:blur(2px);
+}
+@media (max-width:768px){
+  .hero--full{ min-height:clamp(380px, 58svh, 520px); align-items:end; }
+  /* スマホは横幅が狭く、リードの2行目まで入れると写真が隠れるので行間を詰める */
+  .hero--full .hero-lead{ font-size:.92rem; }
+}
+
 /* ---- サービス（画像上・本文下のカード。旧下層の要点を集約） ---- */
 .svc-list{ list-style:none; padding:0; }
 .svc-item{ display:flex; flex-direction:column; overflow:hidden; }

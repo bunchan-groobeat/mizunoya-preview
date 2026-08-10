@@ -84,19 +84,25 @@
 </header>
 
 <main id="main">
-  <!-- 1. ヒーロー（実店舗写真・画面幅を使う） -->
-  <section class="hero" aria-labelledby="hero-title">
-    <div class="wrap">
-      <div class="hero-text stack">
-        <p class="hero-badge">SINCE 1978 ／ 国指定認証工場 仙4-6522</p>
-        <h1 id="hero-title" class="hero-copy">クルマのこと、<br>まるごと。</h1>
-        <p class="hero-lead">車検・整備／鈑金塗装／中古車販売／コーティング。<br>矢吹町のクルマのかかりつけ工場、水野谷自動車です。</p>
-        <p class="hero-actions">
-          <a class="btn btn-tel" href="tel:0248-43-2455">お電話でのご相談 0248-43-2455</a>
-          <a class="btn btn-link" href="contact.html">お問い合わせ</a>
-        </p>
+  <!-- 1. ヒーロー（★2026-08-10 社長指示：上段を全面写真にし、その中にメッセージを重ねる）
+       旧：左にテキスト／右に写真の2カラム（.hero）
+       新：写真を画面幅いっぱいの背景にして、その上に文字を置く（.hero--full）
+       ★写真の上に文字を置くと読みにくくなるため、写真の上に暗いグラデーションを敷いている。
+         これが無いと、明るい空や看板の白地に白文字が重なって読めなくなる。 -->
+  <section class="hero hero--full" aria-labelledby="hero-title">
+    <img class="hero-bg" src="assets/img/mv4.webp" alt="有限会社 水野谷自動車 店舗外観と看板" fetchpriority="high">
+    <div class="hero-inner">
+      <div class="wrap">
+        <div class="hero-text stack">
+          <p class="hero-badge">SINCE 1978 ／ 国指定認証工場 仙4-6522</p>
+          <h1 id="hero-title" class="hero-copy">クルマのこと、<br>まるごと。</h1>
+          <p class="hero-lead">車検・整備／鈑金塗装／中古車販売／コーティング。<br>矢吹町のクルマのかかりつけ工場、水野谷自動車です。</p>
+          <p class="hero-actions">
+            <a class="btn btn-tel" href="tel:0248-43-2455">お電話でのご相談 0248-43-2455</a>
+            <a class="btn btn-link" href="contact.html">お問い合わせ</a>
+          </p>
+        </div>
       </div>
-      <figure class="hero-media"><img src="assets/img/mv4.webp" alt="有限会社 水野谷自動車 店舗外観と看板" width="1000" height="360" fetchpriority="high"></figure>
     </div>
   </section>
 
