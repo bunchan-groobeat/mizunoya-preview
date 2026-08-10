@@ -191,6 +191,9 @@ main > section[id]{ scroll-margin-top: calc(var(--header-h) + 8px); }
 :root[data-theme] .hero--full .hero-text{
   color:#fff;
   max-width:min(680px, 100%);
+  /* ★grid の子なので margin:auto だけでは中央に来ない（stretch で左詰めになる）。
+     justify-self:center が要る。ここを落としていて左寄りのままだった。 */
+  justify-self:center;
   margin-inline:auto;
   text-align:left;
 }
@@ -249,7 +252,8 @@ main > section[id]{ scroll-margin-top: calc(var(--header-h) + 8px); }
   /* ★2026-08-10 是正：参考サイトのPC表示を実測したら見出しは約47pxだった。
      一度 86px まで上げたが、それでは大きすぎて写真とぶつかり「見づらい」状態になっていた。
      ★大事なのは文字の絶対サイズではなく「写真がしっかり見えて、文字が邪魔しない」比率。 */
-  font-size:clamp(2rem, 3.4vw, 3.3rem);
+  /* 参考サイトのPC実測＝1文字あたり約47px（画面1568pxで約3.0vw）。その値に合わせる。 */
+  font-size:clamp(1.9rem, 3vw, 3rem);
   line-height:1.42;             /* 明朝は行間を広くとる（詰めると重い） */
   letter-spacing:.08em;         /* ★字間の広さが「老舗」の質感をつくる */
 }
@@ -264,8 +268,9 @@ main > section[id]{ scroll-margin-top: calc(var(--header-h) + 8px); }
 :root[data-theme] .hero--full .hero-badge{
   font-size:clamp(.72rem, 1vw, .84rem);
 }
-/* 文字が大きくなった分、写真の見える面積を確保するため高さも上げる */
-.hero--full{ min-height:clamp(480px, 68svh, 720px); }
+/* ★2026-08-10：ここにあった min-height の重複指定を削除した。
+   同じプロパティを3箇所（定義部・ここ・メディアクエリ）で指定していて、
+   どれが効いているのか追えない状態になっていた。高さは下のメディアクエリ2つに集約する。 */
 
 /* ★PCでは写真をしっかり見せる（参考サイトは画面の約9割を写真が占める） */
 @media (min-width:769px){
