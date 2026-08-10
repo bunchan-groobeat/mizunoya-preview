@@ -189,10 +189,32 @@ main > section[id]{ scroll-margin-top: calc(var(--header-h) + 8px); }
   padding:.35em .8em; border-radius:2px;
   backdrop-filter:blur(2px);
 }
+/* ★2026-08-10 社長指摘「ブラウザだと文字が小さい」の是正。
+   原因：全面写真にしたことで周囲が広くなり、同じ文字サイズでも小さく見えるようになった
+        （2カラム時はテキストが左半分に収まっていたので相対的に大きく見えていた）。
+   ★セレクタを `:root[data-theme]` から始めているのは詳細度の都合。
+     tokens-A/B.css は structure.css より後に読み込まれるため、
+     `.hero--full .hero-copy`（クラス2つ）では :root[data-theme="A"] .hero-copy（3つ）に負けて効かない。
+     A/B どちらのテーマでも効かせるため、属性値を指定しない [data-theme] にしている。 */
+:root[data-theme] .hero--full .hero-copy{
+  font-size:clamp(2.6rem, 7.4vw, 4.6rem);
+  line-height:1.18;
+}
+:root[data-theme] .hero--full .hero-lead{
+  font-size:clamp(.95rem, 1.5vw, 1.15rem);
+  line-height:1.85;
+}
+:root[data-theme] .hero--full .hero-badge{
+  font-size:clamp(.78rem, 1.1vw, .92rem);
+}
+/* 文字が大きくなった分、写真の見える面積を確保するため高さも上げる */
+.hero--full{ min-height:clamp(480px, 68svh, 720px); }
+
 @media (max-width:768px){
-  .hero--full{ min-height:clamp(380px, 58svh, 520px); align-items:end; }
-  /* スマホは横幅が狭く、リードの2行目まで入れると写真が隠れるので行間を詰める */
-  .hero--full .hero-lead{ font-size:.92rem; }
+  /* スマホは画面が狭いので、見出しは収まる範囲に抑える（「クルマのこと、」7文字が1行に入る値） */
+  :root[data-theme] .hero--full .hero-copy{ font-size:clamp(2.3rem, 9vw, 3rem); }
+  :root[data-theme] .hero--full .hero-lead{ font-size:.95rem; }
+  .hero--full{ min-height:clamp(420px, 62svh, 560px); align-items:end; }
 }
 
 /* ---- サービス（画像上・本文下のカード。旧下層の要点を集約） ---- */
