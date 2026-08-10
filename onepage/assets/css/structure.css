@@ -329,6 +329,22 @@ main > section[id]{ scroll-margin-top: calc(var(--header-h) + 8px); }
 .svc-body{ padding: var(--gap); }
 .svc-body .card-no,.svc-body .card-title{ display:block; }
 
+/* ★2026-08-10 社長指示：サービス案内を横1列4つに。
+   4カラムにするとカード1枚が細くなる（1160pxのコンテナで1枚あたり約266px）ため、
+   そのままだと文字が詰まって読みにくい。狭い幅向けに調整する。 */
+@media (min-width:1025px){
+  /* 4枚を1列に並べたとき、カード内の余白と文字を少し詰めて窮屈さを避ける */
+  .svc-list.cols-4 .svc-body{ padding:calc(var(--gap) * .7); }
+  .svc-list.cols-4 .card-title{ font-size:1.02rem; line-height:1.45; }
+  .svc-list.cols-4 .card-text{ font-size:.82rem; line-height:1.85; }
+  /* 写真は縦長寄りにして、細いカードでも被写体が分かるようにする */
+  .svc-list.cols-4 .card-media{ aspect-ratio:4/3; }
+}
+/* ★タブレット幅では4列だと細すぎるので2列にする（1列4つは1025px以上のみ） */
+@media (min-width:769px) and (max-width:1024px){
+  .svc-list.cols-4{ grid-template-columns:repeat(2, 1fr); }
+}
+
 /* ---- 選ばれる理由 ---- */
 .reason-list{ list-style:none; padding:0; }
 .reason-head{ display:block; font-weight:700; margin-bottom:.3em; }
@@ -344,7 +360,9 @@ main > section[id]{ scroll-margin-top: calc(var(--header-h) + 8px); }
 
 @media (max-width:768px){
   .hero .wrap{ grid-template-columns:1fr; }
-  .svc-list.cols-2{ grid-template-columns:1fr; }
+  /* ★2026-08-10：cols-2 → cols-4 に変えたので、こちらのセレクタも合わせる。
+     これを直さないと、スマホで4カラムのまま極端に細いカードが並ぶ。 */
+  .svc-list.cols-4{ grid-template-columns:1fr; }
 }
 
 /* ---- 下層ページ 共通コンポーネント（カンプ02〜07 準拠） ---- */
