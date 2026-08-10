@@ -48,7 +48,13 @@ html{
      ・係数を1.3vwに上げ、1568px付近で20px、1920pxで21pxに届かせる
      ★vw だけに頼ると「画面が広い＝文字も大きい」前提になるが、
        高DPI環境では画面が物理的に大きくても vw の値は小さい。下限側が効く設計にする。 */
-  font-size:clamp(18px, 1.3vw, 21px);
+  /* ★★2026-08-10 三度目の是正：上限21pxで止まっていたのが原因の可能性が高い。★★
+     社長の画面では「太郎の画面より小さい」＝社長の環境の方がCSS幅が広く、
+     vwの値が上限に達して頭打ちになっていたと考えられる（4K相当の可能性）。
+     ・上限を 21px → 28px へ引き上げ、広い画面でも伸びるようにする
+     ・係数は 1.3vw → 0.68vw に下げる（そうしないと中間の画面で急に大きくなる）
+     ★プレビュー入口に画面幅の診断表示を入れた。実測値が分かり次第、この数値を確定させる。 */
+  font-size:clamp(19px, 0.68vw, 28px);
 }
 body{ margin:0; font-family:var(--font-base); color:var(--color-text); background:var(--color-bg); line-height:1.8; }
 img,svg,video{ max-width:100%; height:auto; display:block; }
@@ -286,7 +292,12 @@ main > section[id]{ scroll-margin-top: calc(var(--header-h) + 8px); }
      rem にすると基準フォントが上がった分だけ上限も上がり、
      広い画面で 64〜67px まで伸びてしまう（前に86pxで「見づらい」と言われた方向へ戻る）。
      58px は、こちらの環境（1568px）で見て良好だった 57.6px とほぼ同値。 */
-  font-size:clamp(2.6rem, 4.4vw, 58px);
+  /* ★上限58pxで頭打ちになっていた。広い画面でも伸びるよう上限を90pxへ。
+     係数は 4.4vw → 2.2vw に下げる（中間の画面で急激に大きくならないように）。
+       1568px → 2.2vw=34px → 下限 2.6rem(19px基準=49.4px) が効いて 49.4px
+       2560px → 56.3px
+       3840px → 84.5px（上限90pxの手前） */
+  font-size:clamp(2.6rem, 2.2vw, 90px);
   line-height:1.42;             /* 明朝は行間を広くとる（詰めると重い） */
   letter-spacing:.08em;         /* ★字間の広さが「老舗」の質感をつくる */
 }
