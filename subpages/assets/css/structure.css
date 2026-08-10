@@ -166,15 +166,13 @@ main > section[id]{ scroll-margin-top: calc(var(--header-h) + 8px); }
      grayscale だけだと眠くなるので、コントラストを少し立てて締める。 */
   filter:grayscale(1) contrast(1.08) brightness(.82);
 }
-/* ★暗幕。参考サイトは写真自体が暗いので濃くしない。
-   文字が乗る左〜中央だけ軽く落とす（横方向のグラデーション）。
-   全面を濃く覆うと、せっかくの写真の質感が消える。 */
+/* ★暗幕。参考サイトはPC表示で暗幕をほぼ使っていない（写真自体が暗いため）。
+   ★2026-08-10 是正：左を濃く落としていたら「写真が見えず文字だけ目立つ」状態になり、
+   PCで見づらくなっていた（社長指摘）。全体をごく薄く均一に落とすだけにする。 */
 .hero--full::after{
   content:'';
   position:absolute; inset:0;
-  background:
-    linear-gradient(to right, rgba(0,0,0,.55) 0%, rgba(0,0,0,.3) 52%, rgba(0,0,0,.12) 100%),
-    linear-gradient(to top, rgba(0,0,0,.35) 0%, rgba(0,0,0,0) 45%);
+  background:linear-gradient(to bottom, rgba(0,0,0,.22) 0%, rgba(0,0,0,.14) 45%, rgba(0,0,0,.3) 100%);
   z-index:1;
 }
 .hero--full .hero-inner{ position:relative; z-index:2; width:100%; padding-block:clamp(28px,5vw,56px); }
@@ -187,9 +185,15 @@ main > section[id]{ scroll-margin-top: calc(var(--header-h) + 8px); }
    structure.css より後に読み込むため、`.hero--full .hero-copy`（クラス2つ）では負けて
    見出しが濃紺のまま＝暗い写真に沈んで読めなくなる（2026-08-10 実機で発生）。
    font-size だけ対処して color を忘れていたのが原因。色・枠・背景も同じ強さで書く。 */
-/* 見出しを 5.4rem まで上げたので、7文字＋字間が1行に収まる幅を確保する
-   （86.4px × 7文字 × 字間込み ≒ 653px。余白を見て760px） */
-:root[data-theme] .hero--full .hero-text{ color:#fff; max-width:min(760px, 100%); }
+/* ★2026-08-10 是正：PC では文字ブロックを中央に置く（参考サイトのPC表示に合わせる）。
+   左に寄せていたら、広い画面で文字が左端に孤立して見づらくなっていた（社長指摘）。
+   ブロックは中央、ブロックの中身は左揃え（参考サイトと同じ形）。 */
+:root[data-theme] .hero--full .hero-text{
+  color:#fff;
+  max-width:min(680px, 100%);
+  margin-inline:auto;
+  text-align:left;
+}
 :root[data-theme] .hero--full .hero-copy{ color:#fff; text-shadow:0 2px 14px rgba(0,0,0,.55); }
 :root[data-theme] .hero--full .hero-lead{ color:rgba(255,255,255,.92); text-shadow:0 1px 10px rgba(0,0,0,.6); }
 /* ★前置きは枠を付けず、細い白文字で小さく置く（参考サイトの型。枠を付けると軽くなる） */
@@ -242,9 +246,10 @@ main > section[id]{ scroll-margin-top: calc(var(--header-h) + 8px); }
      参考サイトの重厚さは明朝と字間の広さから来ているため、ここだけ明朝にする。 */
   font-family:"Yu Mincho","YuMincho","Hiragino Mincho ProN","Hiragino Mincho Pro","MS PMincho",serif;
   font-weight:500;              /* 明朝は太らせると濁るので控える */
-  /* ★2026-08-10 社長指摘「ブラウザだと小さい」を受けて上限を引き上げ（4.2rem→5.4rem）。
-     大きな画面ほど相対的に小さく見えるため、上限側を効かせる。 */
-  font-size:clamp(2.6rem, 7vw, 5.4rem);
+  /* ★2026-08-10 是正：参考サイトのPC表示を実測したら見出しは約47pxだった。
+     一度 86px まで上げたが、それでは大きすぎて写真とぶつかり「見づらい」状態になっていた。
+     ★大事なのは文字の絶対サイズではなく「写真がしっかり見えて、文字が邪魔しない」比率。 */
+  font-size:clamp(2rem, 3.4vw, 3.3rem);
   line-height:1.42;             /* 明朝は行間を広くとる（詰めると重い） */
   letter-spacing:.08em;         /* ★字間の広さが「老舗」の質感をつくる */
 }
@@ -262,16 +267,23 @@ main > section[id]{ scroll-margin-top: calc(var(--header-h) + 8px); }
 /* 文字が大きくなった分、写真の見える面積を確保するため高さも上げる */
 .hero--full{ min-height:clamp(480px, 68svh, 720px); }
 
+/* ★PCでは写真をしっかり見せる（参考サイトは画面の約9割を写真が占める） */
+@media (min-width:769px){
+  .hero--full{ min-height:min(86svh, 820px); }
+}
+
 @media (max-width:768px){
-  /* スマホは画面が狭いので、見出しは収まる範囲に抑える。
-     ★字間 .08em を足すと1文字ぶん余計に幅を食うので、文字サイズは控えめにする
-       （「クルマのこと、」7文字＋字間が1行に収まる値）。 */
+  /* ★スマホは参考サイトも「左上寄せ・やや大きめ」に変えている（PCとは別の型）。
+     ここだけは中央寄せを解除して左に戻す。 */
+  :root[data-theme] .hero--full .hero-text{ margin-inline:0; }
+  /* 字間 .08em を足すと1文字ぶん余計に幅を食うので、文字サイズは控えめにする
+     （「クルマのこと、」7文字＋字間が1行に収まる値） */
   :root[data-theme] .hero--full .hero-copy{ font-size:clamp(1.95rem, 7.6vw, 2.5rem); letter-spacing:.06em; }
   :root[data-theme] .hero--full .hero-lead{ font-size:.88rem; line-height:2.0; }
-  .hero--full{ min-height:clamp(460px, 70svh, 620px); }
+  .hero--full{ min-height:clamp(460px, 70svh, 620px); align-items:center; }
   /* スマホはボタンを縦に積む（横並びだと1つが極端に細くなる） */
-  .hero--full .hero-actions{ flex-direction:column; align-items:flex-start; }
-  .hero--full .hero-actions .btn{ width:100%; justify-content:space-between; }
+  :root[data-theme] .hero--full .hero-actions{ flex-direction:column; align-items:stretch; }
+  :root[data-theme] .hero--full .hero-actions .btn{ width:100%; justify-content:space-between; }
 }
 
 /* ---- サービス（画像上・本文下のカード。旧下層の要点を集約） ---- */
