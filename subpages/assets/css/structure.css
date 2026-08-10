@@ -205,7 +205,9 @@ main > section[id]{ scroll-margin-top: calc(var(--header-h) + 8px); }
    ブロックは中央、ブロックの中身は左揃え（参考サイトと同じ形）。 */
 :root[data-theme] .hero--full .hero-text{
   color:#fff;
-  max-width:min(680px, 100%);
+  /* ★2026-08-10：680px だとボタン2つ（電話番号込みで約530px＋お問い合わせ約200px）が
+     横に並びきらず、PCでも縦2段に折り返していた。基準フォントを上げた分だけ幅も要る。 */
+  max-width:min(820px, 100%);
   /* ★grid の子なので margin:auto だけでは中央に来ない（stretch で左詰めになる）。
      justify-self:center が要る。ここを落としていて左寄りのままだった。 */
   justify-self:center;
