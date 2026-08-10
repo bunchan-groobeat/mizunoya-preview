@@ -322,6 +322,59 @@ main > section[id]{ scroll-margin-top: calc(var(--header-h) + 8px); }
   :root[data-theme] .hero--full .hero-actions .btn{ width:100%; justify-content:space-between; }
 }
 
+/* =========================================================
+   ギャラリー：横に自動で流れるスライド（★2026-08-10 社長指示）
+   参考＝カネゴン整骨院の施術メニュー。借りた規則は
+     ①横に自動で流れる ②画面端で見切れる ③途切れず繋がる の3点のみ。
+   ★外部ライブラリを使わずCSSだけで実装している（CDN依存を増やさない方針）。
+   仕組み：写真6枚を2組（計12枚）並べ、1組ぶん（-50%）進んだ時点で先頭へ戻す。
+           2組目が1組目と同じ並びなので、戻った瞬間が見えない＝途切れず繋がる。
+   ========================================================= */
+.marquee{
+  overflow:hidden;        /* 画面端で見切れる形にする */
+  margin-top:1em;
+  /* 端に向かって少しフェードさせ、「まだ先がある」ことを示す */
+  mask-image:linear-gradient(to right, transparent 0, #000 4%, #000 96%, transparent 100%);
+}
+.marquee__track{
+  display:flex;
+  width:max-content;      /* 中身の幅ぶんだけ伸ばす（折り返させない） */
+  gap:var(--gap);
+  /* ★2組で1周。1組ぶん進んだら先頭に戻る。
+     速度は「ゆっくり流れて写真が見える」ことを優先（40秒で1周）。 */
+  animation:marquee-scroll 40s linear infinite;
+}
+.marquee__item{
+  flex:0 0 auto;
+  width:clamp(240px, 26vw, 380px);
+  margin:0;
+}
+.marquee__item img{
+  display:block;
+  width:100%;
+  aspect-ratio:3/2;
+  object-fit:cover;
+}
+@keyframes marquee-scroll{
+  from{ transform:translateX(0); }
+  /* gap のぶんだけ半分を超える必要があるため calc で補正する。
+     これを入れないと1周ごとに写真1枚ぶんの隙間が生まれてカクつく。 */
+  to{ transform:translateX(calc(-50% - var(--gap) / 2)); }
+}
+/* ★止める手段を必ず用意する（自動で動くものは止められないと読みづらい）。
+   カーソルを乗せたとき・キーボードで触れたときに停止する。 */
+.marquee:hover .marquee__track,
+.marquee:focus-within .marquee__track{ animation-play-state:paused; }
+
+.marquee__note{ font-size:.78rem; color:var(--color-muted); margin-top:.8em; }
+
+/* ★動きを減らす設定にしている方には流さない（既存の reduce 指定と同じ思想）。
+   止まった状態でも6枚が横スクロールで見られるようにする。 */
+@media (prefers-reduced-motion: reduce){
+  .marquee__track{ animation:none; }
+  .marquee{ overflow-x:auto; }
+}
+
 /* ---- サービス（画像上・本文下のカード。旧下層の要点を集約） ---- */
 .svc-list{ list-style:none; padding:0; }
 .svc-item{ display:flex; flex-direction:column; overflow:hidden; }

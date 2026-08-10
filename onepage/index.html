@@ -13,9 +13,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>有限会社 水野谷自動車 | 福島県矢吹町のクルマのかかりつけ工場 SINCE 1978</title>
 <meta name="description" content="福島県西白河郡矢吹町の有限会社 水野谷自動車。SINCE 1978、国指定認証工場（仙4-6522）。車検整備・鈑金塗装・中古車販売・ボディーコーティングまで、クルマのことをまるごとお任せください。">
-<link rel="stylesheet" href="assets/css/structure.css?v=283875006">
-<script>(function(){var p=new URLSearchParams(location.search);var s;try{s=localStorage.getItem('mizTheme')}catch(e){}var t=((p.get('theme')||s||'A')+'').toUpperCase();if(t!=='B')t='A';document.documentElement.setAttribute('data-theme',t);document.write('<link id="theme-css" rel="stylesheet" href="assets/css/tokens-'+t+'.css?v=283875006">');})();</script>
-<noscript><link rel="stylesheet" href="assets/css/tokens-A.css?v=283875006"></noscript>
+<link rel="stylesheet" href="assets/css/structure.css?v=284199024">
+<script>(function(){var p=new URLSearchParams(location.search);var s;try{s=localStorage.getItem('mizTheme')}catch(e){}var t=((p.get('theme')||s||'A')+'').toUpperCase();if(t!=='B')t='A';document.documentElement.setAttribute('data-theme',t);document.write('<link id="theme-css" rel="stylesheet" href="assets/css/tokens-'+t+'.css?v=284199024">');})();</script>
+<noscript><link rel="stylesheet" href="assets/css/tokens-A.css?v=284199024"></noscript>
 <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
 <link rel="canonical" href="https://bunchan-groobeat.github.io/mizunoya-hp/">
 <meta property="og:type" content="website">
@@ -171,19 +171,37 @@
     </div>
   </section>
 
-  <!-- 4. ギャラリー（実写真のみ） -->
+  <!-- 4. ギャラリー（実写真のみ）
+       ★2026-08-10 社長指示：横に自動で流れるスライドにする（参考＝カネゴン整骨院の施術メニュー）。
+       借りた規則：①横に自動で流れる ②画面端で写真が見切れて「先がある」と分かる ③途切れず繋がる
+       ★外部ライブラリは使わない（このサイトは静的HTML＋最小JSの方針。CDN依存を増やさない）。
+         CSSアニメーションで実装し、写真の並びを2組に複製して、
+         1組ぶん進んだ時点で先頭に戻すことで「途切れずに繋がる」ように見せる。
+       ★2組目は aria-hidden="true"（読み上げで同じ写真が2回読まれるのを防ぐ）。 -->
   <section class="section gallery" id="gallery" aria-labelledby="gallery-title">
     <div class="wrap stack">
       <h2 id="gallery-title">ギャラリー</h2>
-      <div class="grid cols-3">
-        <img src="assets/img/mv4.webp" alt="店舗外観・キャリアカー" loading="lazy" width="600" height="400">
-        <img src="assets/img/catch-maintenance.webp" alt="車検整備の作業" loading="lazy" width="600" height="400">
-        <img src="assets/img/mv3.webp" alt="復元クラシックカー" loading="lazy" width="600" height="400">
-        <img src="assets/img/catch-repair.webp" alt="鈑金・塗装" loading="lazy" width="600" height="400">
-        <img src="assets/img/maintenance-diagnostic.webp" alt="システム診断機" loading="lazy" width="600" height="400">
-        <img src="assets/img/catch-coating.webp" alt="ボディーコーティングの艶" loading="lazy" width="600" height="400">
+    </div>
+    <!-- ★wrap の外に出して画面幅いっぱいに流す（端で見切れる形にするため） -->
+    <div class="marquee" role="group" aria-label="施設と作業の写真">
+      <div class="marquee__track">
+        <!-- 1組目（読み上げ対象） -->
+        <figure class="marquee__item"><img src="assets/img/mv4.webp" alt="店舗外観・キャリアカー" loading="lazy" width="600" height="400"></figure>
+        <figure class="marquee__item"><img src="assets/img/catch-maintenance.webp" alt="車検整備の作業" loading="lazy" width="600" height="400"></figure>
+        <figure class="marquee__item"><img src="assets/img/mv3.webp" alt="復元クラシックカー" loading="lazy" width="600" height="400"></figure>
+        <figure class="marquee__item"><img src="assets/img/catch-repair.webp" alt="鈑金・塗装" loading="lazy" width="600" height="400"></figure>
+        <figure class="marquee__item"><img src="assets/img/maintenance-diagnostic.webp" alt="システム診断機" loading="lazy" width="600" height="400"></figure>
+        <figure class="marquee__item"><img src="assets/img/catch-coating.webp" alt="ボディーコーティングの艶" loading="lazy" width="600" height="400"></figure>
+        <!-- 2組目（繋ぎ目を消すための複製。読み上げ・検索の対象外） -->
+        <figure class="marquee__item" aria-hidden="true"><img src="assets/img/mv4.webp" alt="" loading="lazy" width="600" height="400"></figure>
+        <figure class="marquee__item" aria-hidden="true"><img src="assets/img/catch-maintenance.webp" alt="" loading="lazy" width="600" height="400"></figure>
+        <figure class="marquee__item" aria-hidden="true"><img src="assets/img/mv3.webp" alt="" loading="lazy" width="600" height="400"></figure>
+        <figure class="marquee__item" aria-hidden="true"><img src="assets/img/catch-repair.webp" alt="" loading="lazy" width="600" height="400"></figure>
+        <figure class="marquee__item" aria-hidden="true"><img src="assets/img/maintenance-diagnostic.webp" alt="" loading="lazy" width="600" height="400"></figure>
+        <figure class="marquee__item" aria-hidden="true"><img src="assets/img/catch-coating.webp" alt="" loading="lazy" width="600" height="400"></figure>
       </div>
     </div>
+    <p class="wrap marquee__note">写真にカーソルを合わせる（スマホは指で触れる）と、流れが止まります。</p>
   </section>
 
   <!-- 5. 会社概要・アクセス -->
@@ -251,6 +269,6 @@
 
 <a class="floating-tel" href="tel:0248-43-2455">お電話はこちら 0248-43-2455</a>
 <a class="return-top" href="#top" aria-label="ページ上部へ戻る">↑</a>
-<script src="assets/js/site.js?v=283875006"></script>
+<script src="assets/js/site.js?v=284199024"></script>
 </body>
 </html>
