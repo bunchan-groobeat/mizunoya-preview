@@ -181,38 +181,52 @@ main > section[id]{ scroll-margin-top: calc(var(--header-h) + 8px); }
 /* ★.hero .wrap は2カラム（テキスト＋写真）指定なので、写真が背景に移った全面版では1カラムに戻す。
    これを書かないと、文字が左半分の幅に押し込まれて右半分が空く。 */
 .hero--full .wrap{ grid-template-columns:1fr; }
-/* 写真の上なので、テーマA/Bに関わらず白系で固定する（可読性を優先） */
-.hero--full .hero-text{ color:#fff; max-width:min(680px, 100%); }
-.hero--full .hero-copy{ color:#fff; text-shadow:0 2px 14px rgba(0,0,0,.5); }
-.hero--full .hero-lead{ color:rgba(255,255,255,.9); text-shadow:0 1px 10px rgba(0,0,0,.55); }
+/* 写真の上なので、テーマA/Bに関わらず白系で固定する（可読性を優先）
+   ★★セレクタを `:root[data-theme]` から始めるのは必須。★★
+   tokens-A.css は `:root[data-theme="A"] .hero-copy{ color:var(--color-brand) }`（濃紺）を
+   structure.css より後に読み込むため、`.hero--full .hero-copy`（クラス2つ）では負けて
+   見出しが濃紺のまま＝暗い写真に沈んで読めなくなる（2026-08-10 実機で発生）。
+   font-size だけ対処して color を忘れていたのが原因。色・枠・背景も同じ強さで書く。 */
+/* 見出しを 5.4rem まで上げたので、7文字＋字間が1行に収まる幅を確保する
+   （86.4px × 7文字 × 字間込み ≒ 653px。余白を見て760px） */
+:root[data-theme] .hero--full .hero-text{ color:#fff; max-width:min(760px, 100%); }
+:root[data-theme] .hero--full .hero-copy{ color:#fff; text-shadow:0 2px 14px rgba(0,0,0,.55); }
+:root[data-theme] .hero--full .hero-lead{ color:rgba(255,255,255,.92); text-shadow:0 1px 10px rgba(0,0,0,.6); }
 /* ★前置きは枠を付けず、細い白文字で小さく置く（参考サイトの型。枠を付けると軽くなる） */
-.hero--full .hero-badge{
+:root[data-theme] .hero--full .hero-badge{
   display:block;
-  color:rgba(255,255,255,.78);
-  background:none; border:none; padding:0;
+  color:rgba(255,255,255,.8);
+  background:none; border:none; padding:0; border-radius:0;
   letter-spacing:.14em;
   font-weight:400;
-  margin-bottom:.6em;
+  margin-bottom:.8em;
+  text-shadow:0 1px 8px rgba(0,0,0,.6);
 }
 /* ★ボタンは塗りをやめ、細い白枠＋右矢印にする（参考サイトの型）。
    塗りボタンは元気で親しみやすいが、重厚さは出ない。
    ★下部の常時表示の電話ボタン（.floating-tel）は塗りのまま残している
      ＝実用（すぐ電話したい人）を犠牲にしないため。 */
-.hero--full .hero-actions{ display:flex; flex-wrap:wrap; gap:12px; margin-top:1.6em; }
-.hero--full .hero-actions .btn{
+:root[data-theme] .hero--full .hero-actions{ display:flex; flex-wrap:wrap; gap:12px; margin-top:1.8em; }
+/* ★ここも `:root[data-theme]` 必須。テーマ側が .btn-tel に赤の塗りを当てているため、
+   詳細度で勝たないと枠線ボタンにならない（実機で塗りのまま出ていた）。 */
+:root[data-theme] .hero--full .hero-actions .btn,
+:root[data-theme] .hero--full .hero-actions .btn-tel,
+:root[data-theme] .hero--full .hero-actions .btn-link{
   background:none;
+  background-color:transparent;
   color:#fff;
   border:1px solid rgba(255,255,255,.62);
   border-radius:0;
   padding:.95em 1.6em;
   letter-spacing:.04em;
+  font-weight:400;
   display:inline-flex; align-items:center; gap:.8em;
   transition:background-color .2s ease, border-color .2s ease;
 }
-.hero--full .hero-actions .btn::after{ content:'→'; font-size:1.05em; line-height:1; }
-.hero--full .hero-actions .btn:hover,
-.hero--full .hero-actions .btn:focus-visible{
-  background:rgba(255,255,255,.12);
+:root[data-theme] .hero--full .hero-actions .btn::after{ content:'→'; font-size:1.05em; line-height:1; }
+:root[data-theme] .hero--full .hero-actions .btn:hover,
+:root[data-theme] .hero--full .hero-actions .btn:focus-visible{
+  background-color:rgba(255,255,255,.14);
   border-color:#fff;
 }
 /* ★2026-08-10 社長指摘「ブラウザだと文字が小さい」の是正。
@@ -228,7 +242,9 @@ main > section[id]{ scroll-margin-top: calc(var(--header-h) + 8px); }
      参考サイトの重厚さは明朝と字間の広さから来ているため、ここだけ明朝にする。 */
   font-family:"Yu Mincho","YuMincho","Hiragino Mincho ProN","Hiragino Mincho Pro","MS PMincho",serif;
   font-weight:500;              /* 明朝は太らせると濁るので控える */
-  font-size:clamp(2.4rem, 6.8vw, 4.2rem);
+  /* ★2026-08-10 社長指摘「ブラウザだと小さい」を受けて上限を引き上げ（4.2rem→5.4rem）。
+     大きな画面ほど相対的に小さく見えるため、上限側を効かせる。 */
+  font-size:clamp(2.6rem, 7vw, 5.4rem);
   line-height:1.42;             /* 明朝は行間を広くとる（詰めると重い） */
   letter-spacing:.08em;         /* ★字間の広さが「老舗」の質感をつくる */
 }
