@@ -22,7 +22,10 @@
   --font-head: var(--font-base);  /* 仮（A/Bで見出し書体を確定） */
 
   /* 構造トークン（デザイン非依存・確定でよい） */
-  --wrap-max: 1120px;
+  /* ★2026-08-10：1120px 固定だと大きな画面でコンテンツが中央に細く残る（写真だけ全幅で広がる）。
+     画面幅に連動させて広げる。ただし上限1560pxで止める＝1行が長くなりすぎると読みにくいため
+     （日本語の可読行長は40〜50文字程度）。 */
+  --wrap-max: clamp(1120px, 74vw, 1560px);
   --gap: clamp(16px, 3vw, 32px);
   --section-y: clamp(40px, 6vw, 72px);   /* カンプ密度に合わせ過剰余白を抑制 */
   --header-h: 64px;
@@ -30,7 +33,16 @@
 
 /* ---- リセット ---- */
 *,*::before,*::after{ box-sizing:border-box; }
-html{ -webkit-text-size-adjust:100%; scroll-behavior:smooth; }
+html{
+  -webkit-text-size-adjust:100%; scroll-behavior:smooth;
+  /* ★2026-08-10 社長指摘「画像以外が小さい」の是正。
+     原因：基準フォントサイズを指定していなかったため、どんな大画面でもブラウザ既定の16pxのまま。
+           写真は width:100% で画面幅に追従するので、大きな画面では写真だけが大きくなり、
+           文字が取り残されて小さく見えていた。
+     対策：基準を画面幅に連動させる。rem 指定の文字（本文・見出し・ラベル）がまとめて追従する。
+     ★下限16pxは維持（小さい画面で読めなくならないように）。上限20pxで止める（際限なく大きくしない）。 */
+  font-size:clamp(16px, 1.02vw, 20px);
+}
 body{ margin:0; font-family:var(--font-base); color:var(--color-text); background:var(--color-bg); line-height:1.8; }
 img,svg,video{ max-width:100%; height:auto; display:block; }
 a{ color:inherit; }
