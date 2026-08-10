@@ -13,9 +13,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>有限会社 水野谷自動車 | 福島県矢吹町のクルマのかかりつけ工場 SINCE 1978</title>
 <meta name="description" content="福島県西白河郡矢吹町の有限会社 水野谷自動車。SINCE 1978、国指定認証工場（仙4-6522）。車検整備・鈑金塗装・中古車販売・ボディーコーティングまで、クルマのことをまるごとお任せください。">
-<link rel="stylesheet" href="assets/css/structure.css?v=-384939112">
-<script>(function(){var p=new URLSearchParams(location.search);var s;try{s=localStorage.getItem('mizTheme')}catch(e){}var t=((p.get('theme')||s||'A')+'').toUpperCase();if(t!=='B')t='A';document.documentElement.setAttribute('data-theme',t);document.write('<link id="theme-css" rel="stylesheet" href="assets/css/tokens-'+t+'.css?v=-384939112">');})();</script>
-<noscript><link rel="stylesheet" href="assets/css/tokens-A.css?v=-384939112"></noscript>
+<link rel="stylesheet" href="assets/css/structure.css?v=-383205206">
+<script>(function(){var p=new URLSearchParams(location.search);var s;try{s=localStorage.getItem('mizTheme')}catch(e){}var t=((p.get('theme')||s||'A')+'').toUpperCase();if(t!=='B')t='A';document.documentElement.setAttribute('data-theme',t);document.write('<link id="theme-css" rel="stylesheet" href="assets/css/tokens-'+t+'.css?v=-383205206">');})();</script>
+<noscript><link rel="stylesheet" href="assets/css/tokens-A.css?v=-383205206"></noscript>
 <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
 <link rel="canonical" href="https://bunchan-groobeat.github.io/mizunoya-hp/">
 <meta property="og:type" content="website">
@@ -61,34 +61,17 @@
 </div>
 <a class="skip-link" href="#main">本文へスキップ</a>
 
-<!-- ===== ヘッダー（ページ内アンカーナビ） ===== -->
-<header class="site-header">
-  <div class="wrap">
-    <a class="site-logo" href="#top">
-      <img class="logo-mark" src="assets/img/logo-temp.svg" alt="" width="40" height="48">
-      <span class="logo-text"><span class="logo-ja">有限会社 水野谷自動車</span><span class="logo-en">MIZUNOYA MOTORS ・ SINCE 1978</span></span>
-      <img class="logo-badge" src="assets/img/badge-temp.svg" alt="KURU MAYA" width="52" height="39">
-    </a>
-    <button class="nav-toggle" aria-expanded="false" aria-controls="global-nav">メニュー</button>
-    <nav class="global-nav" id="global-nav" aria-label="グローバルナビ">
-      <ul>
-        <li><a href="#top">HOME</a></li>
-        <li><a href="#service">サービス</a></li>
-        <li><a href="#reason">選ばれる理由</a></li>
-        <li><a href="#gallery">ギャラリー</a></li>
-        <li><a href="#company">会社概要・アクセス</a></li>
-        <li><a href="#contact">お問い合わせ</a></li>
-      </ul>
-    </nav>
-  </div>
-</header>
-
-<main id="main">
   <!-- 1. ヒーロー（★2026-08-10 社長指示：上段を全面写真にし、その中にメッセージを重ねる）
        旧：左にテキスト／右に写真の2カラム（.hero）
        新：写真を画面幅いっぱいの背景にして、その上に文字を置く（.hero--full）
-       ★写真の上に文字を置くと読みにくくなるため、写真の上に暗いグラデーションを敷いている。
-         これが無いと、明るい空や看板の白地に白文字が重なって読めなくなる。 -->
+
+       ★★2026-08-10 社長指示：ヘッダー（ロゴ＋ナビ）を写真の下へ移した。★★
+       参考サイト（四日市モータース商会）と同じ配置。
+       写真が画面の上端から始まることで、1枚の写真として成立する。
+       ・ヘッダーは position:sticky のままなので、スクロールすると上端に張り付く
+         （＝参考サイトと同じ挙動。ナビが使えなくなることはない）
+       ・HTMLの順序を入れ替えている。読み上げ順も「写真の見出し → ナビ → 本文」になる
+       ・下層6ページはヘッダーが上のまま（変更していない） -->
   <section class="hero hero--full" aria-labelledby="hero-title">
     <!-- ★写真は mv1（リフト上での下回り点検＝仕事の質感が出るクローズアップ）に変更。
          参考サイトがエンジン部品のクローズアップをモノクロで使っており、
@@ -119,6 +102,29 @@
     </div>
   </section>
 
+<!-- ===== ヘッダー（★写真の下。参考サイトと同じ配置） ===== -->
+<header class="site-header">
+  <div class="wrap">
+    <a class="site-logo" href="#top">
+      <img class="logo-mark" src="assets/img/logo-temp.svg" alt="" width="40" height="48">
+      <span class="logo-text"><span class="logo-ja">有限会社 水野谷自動車</span><span class="logo-en">MIZUNOYA MOTORS ・ SINCE 1978</span></span>
+      <img class="logo-badge" src="assets/img/badge-temp.svg" alt="KURU MAYA" width="52" height="39">
+    </a>
+    <button class="nav-toggle" aria-expanded="false" aria-controls="global-nav">メニュー</button>
+    <nav class="global-nav" id="global-nav" aria-label="グローバルナビ">
+      <ul>
+        <li><a href="#top">HOME</a></li>
+        <li><a href="#service">サービス</a></li>
+        <li><a href="#reason">選ばれる理由</a></li>
+        <li><a href="#gallery">ギャラリー</a></li>
+        <li><a href="#company">会社概要・アクセス</a></li>
+        <li><a href="#contact">お問い合わせ</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
   <!-- 1.5 強み4つ（カンプA準拠・ヒーロー直下の帯） -->
   <section class="section strengths" aria-label="水野谷自動車の強み">
     <div class="wrap">
@@ -244,6 +250,6 @@
 
 <a class="floating-tel" href="tel:0248-43-2455">お電話はこちら 0248-43-2455</a>
 <a class="return-top" href="#top" aria-label="ページ上部へ戻る">↑</a>
-<script src="assets/js/site.js?v=-384939112"></script>
+<script src="assets/js/site.js?v=-383205206"></script>
 </body>
 </html>
