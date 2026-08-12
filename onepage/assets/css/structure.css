@@ -216,6 +216,31 @@ main > section[id]{ scroll-margin-top: calc(var(--header-h) + 8px); }
   background:linear-gradient(to bottom, rgba(0,0,0,.22) 0%, rgba(0,0,0,.14) 45%, rgba(0,0,0,.3) 100%);
   z-index:1;
 }
+
+/* ---- 暗幕の濃さ：比較用の修飾クラス（★2026-08-13 社長指示「実物を見て決める」） ----
+   「薄め」は現行と同じ値をそのまま書いている＝基準点として動かさないため。
+   詳細度は .hero--full::after と同じ土俵なので、クラスを1つ足せば勝てる。
+   ★決まったら勝った方の値を .hero--full::after 本体へ書き戻し、この2クラスは削除する。 */
+.hero--full.ov-light::after{
+  background:linear-gradient(to bottom, rgba(0,0,0,.22) 0%, rgba(0,0,0,.14) 45%, rgba(0,0,0,.30) 100%);
+}
+.hero--full.ov-strong::after{
+  background:linear-gradient(to bottom, rgba(0,0,0,.50) 0%, rgba(0,0,0,.42) 45%, rgba(0,0,0,.60) 100%);
+}
+
+/* ---- ヘッダー色：紺／白（★2026-08-13 社長指示） ----
+   ★★セレクタを `:root[data-theme] .site-header.hdr--*` にする理由（.hero--split で踏んだ罠と同じ）★★
+   tokens-A.css の `:root[data-theme="A"] .site-header`（詳細度 0,3,0）が structure.css より後に読まれる。
+   ・素の `.site-header.hdr--navy`（0,2,0）→ 負ける
+   ・`:root[data-theme] .site-header.hdr--navy`（0,4,0）→ 勝つ ← これを使う
+   ★紺＝テーマAの既定色、白＝テーマBの既定色。よってこの2択は事実上 A/B案 と連動する。
+   ★決まったら勝った方だけを残し、負けた方のクラスは削除する。 */
+:root[data-theme] .site-header.hdr--navy{ background:#1a2b49; border-bottom:3px solid #a4362a; }
+:root[data-theme] .site-header.hdr--navy a{ color:#f1e9d9; }
+:root[data-theme] .site-header.hdr--navy .nav-toggle{ color:#f1e9d9; border-color:#3a4a68; background:transparent; }
+:root[data-theme] .site-header.hdr--white{ background:#fff; border-bottom:1px solid #d9d9d9; }
+:root[data-theme] .site-header.hdr--white a{ color:#1a1a1a; }
+:root[data-theme] .site-header.hdr--white .nav-toggle{ color:#1a1a1a; border-color:#d9d9d9; background:transparent; }
 .hero--full .hero-inner{ position:relative; z-index:2; width:100%; padding-block:clamp(28px,5vw,56px); }
 /* ★.hero .wrap は2カラム（テキスト＋写真）指定なので、写真が背景に移った全面版では1カラムに戻す。
    これを書かないと、文字が左半分の幅に押し込まれて右半分が空く。 */
