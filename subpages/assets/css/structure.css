@@ -388,26 +388,15 @@ main > section[id]{ scroll-margin-top: calc(var(--header-h) + 8px); }
    .js-tw は JS が「これから演出する」と決めたときだけ <html> に付けるクラス。
    これを付けずに素で opacity:0 と書くと、JSが読み込めなかった・エラーで止まった瞬間に
    リード文とボタンが永久に消える（社名も電話番号も見えないページになる）。
-   隠す判断はJSが動いている証拠があるときだけ行う。
-
-   ★2026-08-10 追記：左右分割型（.hero--split）も同じ扱いにする。
-   分割型は社名（.hero-name）と一言（.hero-tag）も見出しの後に出す。 */
+   隠す判断はJSが動いている証拠があるときだけ行う。 */
 .js-tw .hero--full .hero-text .hero-lead,
-.js-tw .hero--full .hero-text .hero-actions,
-.js-tw .hero--split .hero-text .hero-lead,
-.js-tw .hero--split .hero-text .hero-actions,
-.js-tw .hero--split .hero-text .hero-name,
-.js-tw .hero--split .hero-text .hero-tag{
+.js-tw .hero--full .hero-text .hero-actions{
   opacity:0;
   transform:translateY(.3em);
   transition:opacity .5s ease, transform .5s ease;
 }
 .js-tw .hero--full .hero-text.is-typed .hero-lead,
-.js-tw .hero--full .hero-text.is-typed .hero-actions,
-.js-tw .hero--split .hero-text.is-typed .hero-lead,
-.js-tw .hero--split .hero-text.is-typed .hero-actions,
-.js-tw .hero--split .hero-text.is-typed .hero-name,
-.js-tw .hero--split .hero-text.is-typed .hero-tag{
+.js-tw .hero--full .hero-text.is-typed .hero-actions{
   opacity:1;
   transform:translateY(0);
 }
@@ -415,11 +404,7 @@ main > section[id]{ scroll-margin-top: calc(var(--header-h) + 8px); }
 @media (prefers-reduced-motion: reduce){
   .hero-copy.is-typing .tw-char{ opacity:1; transform:none; transition:none; }
   .js-tw .hero--full .hero-text .hero-lead,
-  .js-tw .hero--full .hero-text .hero-actions,
-  .js-tw .hero--split .hero-text .hero-lead,
-  .js-tw .hero--split .hero-text .hero-actions,
-  .js-tw .hero--split .hero-text .hero-name,
-  .js-tw .hero--split .hero-text .hero-tag{ opacity:1; transform:none; transition:none; }
+  .js-tw .hero--full .hero-text .hero-actions{ opacity:1; transform:none; transition:none; }
 }
 
 /* =========================================================
@@ -789,163 +774,6 @@ main > section[id]{ scroll-margin-top: calc(var(--header-h) + 8px); }
   .proc-list .photo-todo{ font-size:.54rem; padding:.3em; }
   .proc-list .photo-todo span{ font-size:.5rem; }
   .ba-wide .photo-todo{ font-size:.7rem; }
-}
-
-/* =========================================================
-   ヒーロー：左右分割型（.hero--split）
-   ★2026-08-10 社長依頼「早川自動車のようなタイプも見たい、あくまで上段画像の部分のみ」
-   ---------------------------------------------------------
-   参考＝早川自動車整備工場。借りたのは「規則」だけで、文章・画像・コードは一切転記していない
-   （文言は水野谷の既存のものをそのまま使用。社長検収済みの文言を変えていない）：
-     ①左を文字ゾーン（ほぼ黒の無地）、右を写真ゾーンに分ける
-     ②見出しは明朝・字間を大きく開けて、短い行で積む
-     ③写真は色を抜いて暗く落とす
-     ④文字ゾーンに極薄のグリッド線を敷き「図面」の気配を出す
-   ★全面写真型（.hero--full）とは別クラスなので、既存ページには一切影響しない。
-   ★このパターンは index-split.html だけで使う。比較が終わったら負けた方を削除する。
-   ★参考サイトにあった「左下の測定器の写真」は水野谷に該当素材が無いため置いていない
-     （汎用素材で埋めない。素材が要るなら社長へ依頼する）。
-========================================================= */
-/* ★★セレクタが `:root[data-theme] .hero.hero--split` である理由（重要）★★
-   tokens-A.css に次の指定がある：
-     :root[data-theme="A"] .hero{ background:linear-gradient(180deg,#f5efe1,#efe6d3); border-bottom:1px }
-   これは詳細度 (0,3,0)。tokens-A.css は structure.css より後に読み込まれる。
-   ・素の `.hero--split`（0,1,0）→ 負ける。実際にベージュのグラデーションが見えた（2026-08-10）
-   ・`:root[data-theme] .hero--split`（0,3,0）→ 同点。同点は後に読まれた側が勝つので、やはり負ける
-   ・`:root[data-theme] .hero.hero--split`（0,4,0）→ 勝つ ← これを使う
-   ★`.hero` の padding-block と tokens 側の border-bottom も、ここで明示的に打ち消す。
-     打ち消しを忘れると上下に64pxのベージュ帯が出る（実際に出した）。 */
-:root[data-theme] .hero.hero--split{
-  display:grid;
-  /* 左＝文字ゾーンの幅。参考サイトは画面の約35%。
-     下限320pxは、字間を開けた見出しが折り返さずに収まる最小幅。 */
-  grid-template-columns:clamp(320px, 36%, 760px) 1fr;
-  /* 全面写真型と同じ高さの決め方（ヘッダー72px＋境界線1px を差し引いて画面ぴったり） */
-  min-height:calc(100svh - 73px);
-  padding:0;            /* ← .hero{ padding-block: clamp(28px,5vw,64px) } の打ち消し */
-  border-bottom:0;      /* ← tokens 側の border-bottom の打ち消し */
-  background:#161616;
-  overflow:hidden;
-}
-
-/* ---- 左：文字ゾーン ---- */
-.hero--split .hero-pane{
-  position:relative;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  /* 参考サイトは文字ブロックが右端に寄っている（写真との境界に文字を近づける型） */
-  align-items:flex-end;
-  gap:1.15em;
-  padding:clamp(32px, 3.4vw, 76px) clamp(24px, 2.6vw, 60px);
-  background:#161616;
-}
-/* 極薄のグリッド線。px固定ではなく em で刻むので、基準フォントに追従して
-   どの画面幅でも「同じ密度」に見える（4Kで線が細かくなりすぎない）。 */
-.hero--split .hero-pane::before{
-  content:"";
-  position:absolute; inset:0;
-  background-image:
-    repeating-linear-gradient(to right,  rgba(255,255,255,.05) 0 1px, transparent 1px 3.6em),
-    repeating-linear-gradient(to bottom, rgba(255,255,255,.05) 0 1px, transparent 1px 3.6em);
-  pointer-events:none;
-}
-.hero--split .hero-text{
-  position:relative;   /* グリッド線より前に出す */
-  z-index:1;
-  display:flex;
-  flex-direction:column;
-  align-items:flex-end;
-  gap:.85em;
-  text-align:right;
-}
-
-/* ---- 右：写真ゾーン ---- */
-.hero--split .hero-shot{ position:relative; overflow:hidden; min-height:340px; }
-.hero--split .hero-shot img{
-  width:100%; height:100%; display:block; object-fit:cover;
-  /* 全面写真型より暗くしていない：文字が写真に重ならないので、
-     可読性のための暗幕が不要。写真そのものを見せられる。 */
-  filter:grayscale(1) contrast(1.06) brightness(.86);
-}
-
-/* ---- 文字（★セレクタを :root[data-theme] から始めるのは必須） ----
-   tokens-A.css / tokens-B.css は structure.css より後に読み込まれるため、
-   `.hero--split .hero-copy`（クラス2つ）では負けて濃紺のまま＝黒地に沈む。
-   2026-08-10 に全面写真型で実際に起きた事故なので、同じ書き方で予防する。 */
-:root[data-theme] .hero--split .hero-copy{
-  font-family:"Yu Mincho","YuMincho","Hiragino Mincho ProN","Hiragino Mincho Pro","Noto Serif JP",serif;
-  font-weight:400;
-  /* 字間を .3em 開けるぶん1行の幅を食うので、全面写真型より一段小さくする */
-  font-size:clamp(2.1rem, 2.0vw, 80px);
-  /* ★この字間の広さが参考サイトの「静けさ」をつくっている中心 */
-  letter-spacing:.3em;
-  line-height:1.95;
-  color:#fff;
-  text-align:right;
-  /* 字間は最後の1文字の右にも入るため、右寄せが1文字ぶんずれて見える。その打ち消し。 */
-  margin-right:-.3em;
-  text-shadow:none;   /* 無地の上なので影は不要（付けると濁る） */
-}
-:root[data-theme] .hero--split .hero-badge{
-  background:none; border:0; padding:0;
-  color:rgba(255,255,255,.55);
-  font-size:.62rem; letter-spacing:.22em;
-}
-/* 社名と一言。参考サイトは見出しの下に小さく置いていた */
-:root[data-theme] .hero--split .hero-name{
-  font-family:"Yu Mincho","YuMincho","Hiragino Mincho ProN","Noto Serif JP",serif;
-  font-weight:400; color:#fff;
-  font-size:1.02rem; letter-spacing:.16em; margin:0;
-}
-:root[data-theme] .hero--split .hero-tag{
-  color:rgba(255,255,255,.5);
-  font-size:.66rem; letter-spacing:.1em; line-height:1.9; margin:0;
-}
-:root[data-theme] .hero--split .hero-lead{
-  color:rgba(255,255,255,.82);
-  font-size:.72rem; letter-spacing:.06em; line-height:2.0; margin:0;
-  text-shadow:none;
-}
-:root[data-theme] .hero--split .hero-actions{
-  display:flex; flex-wrap:wrap; gap:.6em; justify-content:flex-end; margin:.4em 0 0;
-}
-:root[data-theme] .hero--split .btn-tel,
-:root[data-theme] .hero--split .btn-link{
-  background:none;
-  border:1px solid rgba(255,255,255,.45);
-  color:#fff;
-  font-size:.7rem; letter-spacing:.08em;
-  padding:.85em 1.3em;
-}
-:root[data-theme] .hero--split .btn-tel:hover,
-:root[data-theme] .hero--split .btn-link:hover{
-  border-color:#fff; background:rgba(255,255,255,.08);
-}
-
-/* ---- スマホ：左右に割ると文字ゾーンが細くなりすぎるので縦に積む ----
-   写真を上・文字を下にする（参考サイトも縦では写真が先に来る型）。 */
-@media (max-width:768px){
-  /* ★ここも `.hero.hero--split` にする。メディアクエリは詳細度を上げないので、
-     素の `.hero--split` では tokens-A.css の `:root[data-theme="A"] .hero` に負ける。 */
-  :root[data-theme] .hero.hero--split{ grid-template-columns:1fr; min-height:0; }
-  .hero--split .hero-shot{ order:1; min-height:clamp(240px, 42svh, 380px); }
-  .hero--split .hero-pane{
-    order:2;
-    align-items:flex-start;
-    padding:clamp(26px, 7vw, 40px) 18px clamp(30px, 8vw, 44px);
-  }
-  .hero--split .hero-text{ align-items:flex-start; text-align:left; }
-  :root[data-theme] .hero--split .hero-copy{
-    font-size:clamp(1.55rem, 6.2vw, 2.05rem);
-    letter-spacing:.22em;
-    line-height:1.85;
-    text-align:left;
-    margin-right:0;
-  }
-  :root[data-theme] .hero--split .hero-actions{ justify-content:flex-start; }
-  /* ボタンは横並びだと1つが極端に細くなるので縦に積む（全面写真型と同じ扱い） */
-  :root[data-theme] .hero--split .hero-actions .btn{ width:100%; justify-content:center; }
 }
 
 /* ---- 動きの配慮 ---- */
