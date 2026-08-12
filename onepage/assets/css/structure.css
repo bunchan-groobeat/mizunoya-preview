@@ -228,6 +228,38 @@ main > section[id]{ scroll-margin-top: calc(var(--header-h) + 8px); }
   background:linear-gradient(to bottom, rgba(0,0,0,.50) 0%, rgba(0,0,0,.42) 45%, rgba(0,0,0,.60) 100%);
 }
 
+/* ---- 写真の「引き」：どこまで切らずに見せるか（★2026-08-13 社長指示「もっと画像ひけないか」） ----
+   前提の実測：catch-maintenance は 800×560（1.43:1）。ヒーロー枠は 1919×760（2.53:1）。
+   object-fit:cover は枠を埋める最小倍率まで拡大するので 2.40倍になり、
+   表示は 1919×1343 ＝ **上下あわせて583px（43%）が切り落とされている**。
+   ★元素材にこれ以上引いた写真は無い（受け渡しzipを全点確認済み）。よって表示側で引く。
+
+   ・hero--tall    … 枠を高くして切り落とし量を減らす（43% → 約25%）。写真は大きいまま
+   ・hero--contain … 切らずに全体を見せる。左右に余る分は同じ写真を強くぼかして埋める
+                     （単色で埋めると「余白」に見えるが、ぼかしなら1枚の写真として繋がって見える）
+   ★決まったら勝った方を .hero--full 本体へ書き戻し、残りは削除する。 */
+.hero--full.hero--tall{ min-height:clamp(560px, 92svh, 1080px); }
+
+.hero--full.hero--contain .hero-bg{ object-fit:contain; }
+/* ぼかしの下地。--hero-img は生成時にインラインstyleで渡す（写真ごとに変わるため）。
+   inset を負にしているのは、blur の縁が内側に淡く出るのを枠の外へ逃がすため。
+   ★.hero--full は overflow:hidden なので、はみ出しは見えない。 */
+.hero--full.hero--contain::before{
+  content:'';
+  position:absolute; inset:-5%;
+  z-index:0;
+  background-image:var(--hero-img);
+  background-size:cover;
+  background-position:center center;
+  filter:grayscale(1) blur(28px) brightness(.55);
+}
+/* スマホは縦長で、contain だと写真が細い帯になって何が写っているか分からなくなる。
+   縦画面では従来どおり cover（切って埋める）に戻す。 */
+@media (max-width:768px){
+  .hero--full.hero--contain .hero-bg{ object-fit:cover; }
+  .hero--full.hero--contain::before{ display:none; }
+}
+
 /* ---- ヘッダー色：紺／白（★2026-08-13 社長指示） ----
    ★★セレクタを `:root[data-theme] .site-header.hdr--*` にする理由（.hero--split で踏んだ罠と同じ）★★
    tokens-A.css の `:root[data-theme="A"] .site-header`（詳細度 0,3,0）が structure.css より後に読まれる。
