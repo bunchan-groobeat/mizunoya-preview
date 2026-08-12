@@ -238,7 +238,11 @@ main > section[id]{ scroll-margin-top: calc(var(--header-h) + 8px); }
    ・hero--contain … 切らずに全体を見せる。左右に余る分は同じ写真を強くぼかして埋める
                      （単色で埋めると「余白」に見えるが、ぼかしなら1枚の写真として繋がって見える）
    ★決まったら勝った方を .hero--full 本体へ書き戻し、残りは削除する。 */
-.hero--full.hero--tall{ min-height:clamp(560px, 92svh, 1080px); }
+.hero--full.hero--tall,
+/* ★contain にも同じ高さを与える。低い枠のまま全体表示すると写真が横に収まりきらず、
+   左右のぼかしが画面の43%を占めて「素材不足を誤魔化している」ように見えた（実測・2026-08-13）。
+   枠を高くすると写真が1420pxまで伸び、ぼかしは26%に下がる。 */
+.hero--full.hero--contain{ min-height:clamp(560px, 92svh, 1080px); }
 
 .hero--full.hero--contain .hero-bg{ object-fit:contain; }
 /* ぼかしの下地。--hero-img は生成時にインラインstyleで渡す（写真ごとに変わるため）。
