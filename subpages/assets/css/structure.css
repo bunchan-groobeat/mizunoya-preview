@@ -338,6 +338,44 @@ main > section[id]{ scroll-margin-top: calc(var(--header-h) + 8px); }
   transition:background-color .2s ease, border-color .2s ease;
 }
 :root[data-theme] .hero--full .hero-actions .btn::after{ content:'→'; font-size:1.05em; line-height:1; }
+
+/* ---- ボタンの主従（★2026-08-13 社長「電話番号、お問い合わせが微妙」） ----
+   直した3点：
+   ①🔴**電話番号が折り返しで割れていた**（`white-space` 未指定。幅が足りないと「0248-43-」/「2455」
+     の2行になる。実測で発生）→ nowrap で絶対に割らせない
+   ②電話と問い合わせが**同じ見た目で主従が無かった**（上の1本のセレクタで両方を同じ姿にしていた）
+     → 電話＝白ベタで最前面、問い合わせ＝細枠のまま。写真の上で白ベタが一番強い
+   ③電話にも「→」が付いていた → 矢印は「次に進む」の記号で発信の合図ではないので外す
+   ★★セレクタは `:root[data-theme]` から始めること。★★
+     上の既存ルールが (0,5,0) なので、`.hero--full.btn-v2 ...`（0,4,0）では負ける。
+   ★HTMLは一切変えていない（CSSだけで主従を作る）＝確定後に本体へ写しやすい。 */
+:root[data-theme] .hero--full.btn-v2 .hero-actions .btn-tel{
+  background:#fff;
+  background-color:#fff;
+  color:#111;
+  border-color:#fff;
+  font-weight:700;
+  white-space:nowrap;
+}
+:root[data-theme] .hero--full.btn-v2 .hero-actions .btn-tel::after{ content:none; }
+:root[data-theme] .hero--full.btn-v2 .hero-actions .btn-tel:hover,
+:root[data-theme] .hero--full.btn-v2 .hero-actions .btn-tel:focus-visible{
+  background-color:#f1e9d9;
+  border-color:#f1e9d9;
+}
+/* 電話を主役にした以上、問い合わせは一段引く（枠線を細く・文字を白のまま） */
+:root[data-theme] .hero--full.btn-v2 .hero-actions .btn-link{
+  border-color:rgba(255,255,255,.5);
+}
+/* スマホ：縦積み＋幅100%になるため、白ベタの電話ボタンは中央寄せにして
+   ラベルと番号が両端に離れないようにする（間延びして押しにくくなるのを防ぐ）。 */
+@media (max-width:768px){
+  :root[data-theme] .hero--full.btn-v2 .hero-actions .btn-tel{
+    justify-content:center;
+    font-size:.95rem;
+    letter-spacing:.02em;
+  }
+}
 :root[data-theme] .hero--full .hero-actions .btn:hover,
 :root[data-theme] .hero--full .hero-actions .btn:focus-visible{
   background-color:rgba(255,255,255,.14);
