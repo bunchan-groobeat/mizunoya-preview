@@ -164,11 +164,17 @@
 
     document.documentElement.classList.add('js-reveal');
 
+    /* ★「1回だけ」か「毎回」かを <html data-reveal-repeat> で切り替える。
+         既定（属性なし）＝1回だけ出したらそのまま。戻るたびに内容が消えて出直すのは煩わしいため。
+         属性あり＝画面から外れると元に戻し、再び入るともう一度動く。
+       ★unobserve は使わない。使うと「毎回」へ切り替えても、既に出た要素が二度と動かなくなる。
+         監視対象はセクション数個なので、監視を続けても負荷は問題にならない。
+       ★判定はコールバックの中で毎回読む＝実行中に切り替えても効く。 */
     var io = new IntersectionObserver(function (entries) {
+      var repeat = document.documentElement.hasAttribute('data-reveal-repeat');
       entries.forEach(function (e) {
-        if (!e.isIntersecting) return;
-        e.target.classList.add('is-revealed');
-        io.unobserve(e.target);
+        if (e.isIntersecting) e.target.classList.add('is-revealed');
+        else if (repeat) e.target.classList.remove('is-revealed');
       });
     }, {
       /* 画面の下から少し入った時点で出す。0にすると端に触れた瞬間に始まって唐突に見える。
