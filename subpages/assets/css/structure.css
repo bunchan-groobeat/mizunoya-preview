@@ -628,6 +628,39 @@ main > section[id]{ scroll-margin-top: calc(var(--header-h) + 8px); }
 .svc-body{ padding: var(--gap); }
 .svc-body .card-no,.svc-body .card-title{ display:block; }
 
+/* ---- カードごと下層ページへのリンクにする（★2026-08-13 社長指示） ----
+   ★カード全体が押せることが要点＝スマホで小さなテキストリンクを狙わせない。
+   ★`.svc-item` が縦並びのflexなので、リンクもflexにして高さいっぱいに広げる
+     （そうしないとカードの下部が押せない領域として残る）。 */
+.svc-link{
+  display:flex;
+  flex-direction:column;
+  height:100%;
+  text-decoration:none;
+  color:inherit;
+}
+:root[data-theme] .svc-link .svc-body{ display:flex; flex-direction:column; flex:1; }
+/* 「詳しく見る →」。★スマホには hover が無いので、押せることを文字で示す。
+   margin-top:auto でカードの高さが揃っても必ず最下部に来る。 */
+:root[data-theme] .card-more{
+  display:inline-flex;
+  align-items:center;
+  gap:.4em;
+  margin-top:auto;
+  padding-top:.8em;
+  color:var(--color-accent);
+  font-weight:700;
+  font-size:.82rem;
+}
+:root[data-theme] .card-more::after{ content:'→'; }
+/* 押せることが伝わる反応。transform は translateY のみ（横に動かすと端で横スクロールが出る） */
+.svc-link:hover .card-more,
+.svc-link:focus-visible .card-more{ text-decoration:underline; }
+:root[data-theme] .svc-link:hover .card-media{ opacity:.88; }
+.svc-link{ transition:transform .25s ease; }
+.svc-link:hover{ transform:translateY(-3px); }
+@media (prefers-reduced-motion: reduce){ .svc-link:hover{ transform:none; } }
+
 /* ★2026-08-10 社長指示：サービス案内を横1列4つに。
    4カラムにするとカード1枚が細くなる（1160pxのコンテナで1枚あたり約266px）ため、
    そのままだと文字が詰まって読みにくい。狭い幅向けに調整する。 */

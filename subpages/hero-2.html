@@ -16,9 +16,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>有限会社 水野谷自動車 | 福島県矢吹町のクルマのかかりつけ工場 SINCE 1978</title>
 <meta name="description" content="福島県西白河郡矢吹町の有限会社 水野谷自動車。SINCE 1978、国指定認証工場（仙4-6522）。車検整備・鈑金塗装・中古車販売・ボディーコーティングまで、クルマのことをまるごとお任せください。">
-<link rel="stylesheet" href="assets/css/structure.css?v=1820136226">
-<script>(function(){var p=new URLSearchParams(location.search);var s;try{s=localStorage.getItem('mizTheme')}catch(e){}var t=((p.get('theme')||s||'A')+'').toUpperCase();if(t!=='B')t='A';document.documentElement.setAttribute('data-theme',t);document.write('<link id="theme-css" rel="stylesheet" href="assets/css/tokens-'+t+'.css?v=1820136226">');})();</script>
-<noscript><link rel="stylesheet" href="assets/css/tokens-A.css?v=1820136226"></noscript>
+<link rel="stylesheet" href="assets/css/structure.css?v=1820543623">
+<script>(function(){var p=new URLSearchParams(location.search);var s;try{s=localStorage.getItem('mizTheme')}catch(e){}var t=((p.get('theme')||s||'A')+'').toUpperCase();if(t!=='B')t='A';document.documentElement.setAttribute('data-theme',t);document.write('<link id="theme-css" rel="stylesheet" href="assets/css/tokens-'+t+'.css?v=1820543623">');})();</script>
+<noscript><link rel="stylesheet" href="assets/css/tokens-A.css?v=1820543623"></noscript>
 <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
 <link rel="canonical" href="https://bunchan-groobeat.github.io/mizunoya-hp/">
 <meta property="og:type" content="website">
@@ -145,18 +145,31 @@
       <h2 id="service-title">サービス案内</h2>
       <!-- ★2026-08-10 社長指示：サービス案内を横1列に4つ並べる（旧: cols-2 で2×2） -->
       <ul class="grid cols-4 svc-list">
-        <li class="svc-item"><img class="card-media" src="assets/img/catch-maintenance.webp" alt="MIZUNOYA制服のスタッフによる車検整備" loading="lazy" width="600" height="400">
+        <!-- ★2026-08-13：カード全体を下層ページへのリンクにした（社長「車検のとこ押すと詳細ページにとぶのか？」）。
+             🔴それまでカードに <a> が1つも無く、**鈑金・塗装／中古車販売／コーティングの3ページは
+               トップから到達不能だった**（ナビにあるのは maintenance.html だけ）。
+             ★下層構成なのだから、サービスカードそのものが各ページの入口であるべき。
+             ★スマホには hover が無いので「詳しく見る →」を明示して押せると分かるようにしている。 -->
+        <li class="svc-item"><a class="svc-link" href="maintenance.html">
+          <img class="card-media" src="assets/img/catch-maintenance.webp" alt="MIZUNOYA制服のスタッフによる車検整備" loading="lazy" width="600" height="400">
           <div class="svc-body"><span class="card-no">01</span><span class="card-title">車検・整備</span>
-            <p class="card-text">国指定の認証工場（仙4-6522）。軽自動車から大型自動車まで法定車検・点検・故障診断。過剰整備をなくし、記録に基づく適切な整備をご提案します。</p></div></li>
-        <li class="svc-item"><img class="card-media" src="assets/img/catch-repair.webp" alt="リフト上での鈑金・塗装作業" loading="lazy" width="600" height="400">
+            <p class="card-text">国指定の認証工場（仙4-6522）。軽自動車から大型自動車まで法定車検・点検・故障診断。過剰整備をなくし、記録に基づく適切な整備をご提案します。</p>
+            <span class="card-more">詳しく見る</span></div></a></li>
+        <li class="svc-item"><a class="svc-link" href="repair.html">
+          <img class="card-media" src="assets/img/catch-repair.webp" alt="リフト上での鈑金・塗装作業" loading="lazy" width="600" height="400">
           <div class="svc-body"><span class="card-no">02</span><span class="card-title">鈑金・塗装・ガラスリペア</span>
-            <p class="card-text">小さなキズ・ヘコミから事故による大きなダメージまで、丁寧に修復・調整します。ガラスリペアも承ります。</p></div></li>
-        <li class="svc-item"><img class="card-media" src="assets/img/mv3.webp" alt="復元されたクラシックカー（中古車）" loading="lazy" width="600" height="400">
+            <p class="card-text">小さなキズ・ヘコミから事故による大きなダメージまで、丁寧に修復・調整します。ガラスリペアも承ります。</p>
+            <span class="card-more">詳しく見る</span></div></a></li>
+        <li class="svc-item"><a class="svc-link" href="usedcar-sales.html">
+          <img class="card-media" src="assets/img/mv3.webp" alt="復元されたクラシックカー（中古車）" loading="lazy" width="600" height="400">
           <div class="svc-body"><span class="card-no">03</span><span class="card-title">中古車販売</span>
-            <p class="card-text">在庫一覧は設けず、全国各地のオークション会場のIDを取得。ご希望の車種・ご予算をうかがってお探しする相談窓口型です。</p></div></li>
-        <li class="svc-item"><img class="card-media" src="assets/img/catch-coating.webp" alt="ボディーコーティングによる艶" loading="lazy" width="600" height="400">
+            <p class="card-text">在庫一覧は設けず、全国各地のオークション会場のIDを取得。ご希望の車種・ご予算をうかがってお探しする相談窓口型です。</p>
+            <span class="card-more">詳しく見る</span></div></a></li>
+        <li class="svc-item"><a class="svc-link" href="coating.html">
+          <img class="card-media" src="assets/img/catch-coating.webp" alt="ボディーコーティングによる艶" loading="lazy" width="600" height="400">
           <div class="svc-body"><span class="card-no">04</span><span class="card-title">ボディーコーティング</span>
-            <p class="card-text">VOCを含まない『スーパーガラスコーティング』で、洗練された輝きをいつまでも。防汚・簡単メンテナンスを実現します。</p></div></li>
+            <p class="card-text">VOCを含まない『スーパーガラスコーティング』で、洗練された輝きをいつまでも。防汚・簡単メンテナンスを実現します。</p>
+            <span class="card-more">詳しく見る</span></div></a></li>
       </ul>
     </div>
   </section>
@@ -318,7 +331,7 @@
 
 <a class="floating-tel" href="tel:0248-43-2455">お電話はこちら 0248-43-2455</a>
 <a class="return-top" href="#top" aria-label="ページ上部へ戻る">↑</a>
-<script src="assets/js/site.js?v=1820136226"></script>
+<script src="assets/js/site.js?v=1820543623"></script>
 <div id="vswitch" style="position:fixed;left:12px;bottom:12px;z-index:99999;background:rgba(17,17,17,.92);color:#fff;padding:8px 10px;border-radius:8px;font:13px/1.7 system-ui,sans-serif;box-shadow:0 6px 20px rgba(0,0,0,.35)">
   <div style="opacity:.75;font-size:11px;margin-bottom:4px">パターン2「店を見せる」／その場で切替</div>
   <div>写真 <button type="button" data-fit="">現状</button> <button type="button" data-fit="hero--tall">引き（大）</button> <button type="button" data-fit="hero--contain">全体を見せる</button></div>
