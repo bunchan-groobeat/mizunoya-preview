@@ -396,26 +396,34 @@ main > section[id]{ scroll-margin-top: calc(var(--header-h) + 8px); }
      どちらも白文字とのコントラストは4.5:1以上（AA相当）を満たす値。
    ★トレードオフ＝参考サイトから借りた「⑤アクセント色を使わない（無彩色で通す）」からは外れる。
      ただし本サイトはロゴ・ヘッダー下線・見出しに既に赤を使っており、ヒーローだけが無彩色だった。 */
-:root[data-theme] .hero--full.btn-v3 .hero-actions .btn-tel{
+/* ★2026-08-13 社長指示「上段のお問い合わせも赤ベタで。２つとも四角枠角丸」
+     ＝電話・問い合わせの**両方**を赤ベタにし、角を丸める。
+   ★元の指定は `border-radius:0`（角なし）だったのでここで上書きする。
+   ★2つが同じ色になるため、見分けは**矢印の有無**が担う＝
+     問い合わせ（ページ内を移動する）には「→」を残し、電話（発信する）には付けない。 */
+:root[data-theme] .hero--full.btn-v3 .hero-actions .btn-tel,
+:root[data-theme] .hero--full.btn-v3 .hero-actions .btn-link{
   background:var(--color-accent);
   background-color:var(--color-accent);
   color:#fff;
   border-color:var(--color-accent);
+  border-radius:10px;
   font-weight:700;
   white-space:nowrap;          /* ★電話番号を割らせない（v2と同じ） */
 }
 :root[data-theme] .hero--full.btn-v3 .hero-actions .btn-tel::after{ content:none; }
 :root[data-theme] .hero--full.btn-v3 .hero-actions .btn-tel:hover,
-:root[data-theme] .hero--full.btn-v3 .hero-actions .btn-tel:focus-visible{
+:root[data-theme] .hero--full.btn-v3 .hero-actions .btn-tel:focus-visible,
+:root[data-theme] .hero--full.btn-v3 .hero-actions .btn-link:hover,
+:root[data-theme] .hero--full.btn-v3 .hero-actions .btn-link:focus-visible{
   /* 暗くするのではなく少し明るくする＝写真の上では暗くすると沈んで「押せない」ように見えるため */
   filter:brightness(1.12);
   border-color:var(--color-accent);
-}
-:root[data-theme] .hero--full.btn-v3 .hero-actions .btn-link{
-  border-color:rgba(255,255,255,.5);
+  background-color:var(--color-accent);
 }
 @media (max-width:768px){
-  :root[data-theme] .hero--full.btn-v3 .hero-actions .btn-tel{
+  :root[data-theme] .hero--full.btn-v3 .hero-actions .btn-tel,
+  :root[data-theme] .hero--full.btn-v3 .hero-actions .btn-link{
     justify-content:center;
     font-size:.95rem;
     letter-spacing:.02em;
