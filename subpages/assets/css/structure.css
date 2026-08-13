@@ -611,7 +611,11 @@ main > section[id]{ scroll-margin-top: calc(var(--header-h) + 8px); }
   /* 4枚を1列に並べたとき、カード内の余白と文字を少し詰めて窮屈さを避ける */
   .svc-list.cols-4 .svc-body{ padding:calc(var(--gap) * .7); }
   .svc-list.cols-4 .card-title{ font-size:1.02rem; line-height:1.45; }
-  .svc-list.cols-4 .card-text{ font-size:.82rem; line-height:1.85; }
+  /* ★2026-08-13 是正：`.svc-list.cols-4 .card-text`（0,3,0）は
+     tokens-A/B.css の `:root[data-theme="A"] .card-text{ font-size:.92rem }`（0,3,0）と同点で、
+     tokens が後に読まれるため**この .82rem は効いていなかった**（このリポジトリ定番の詳細度の罠）。
+     `:root[data-theme]` を足して (0,5,0) にして勝たせる。 */
+  :root[data-theme] .svc-list.cols-4 .card-text{ font-size:.82rem; line-height:1.85; }
   /* 写真は縦長寄りにして、細いカードでも被写体が分かるようにする */
   .svc-list.cols-4 .card-media{ aspect-ratio:4/3; }
 }
@@ -637,7 +641,18 @@ main > section[id]{ scroll-margin-top: calc(var(--header-h) + 8px); }
   .hero .wrap{ grid-template-columns:1fr; }
   /* ★2026-08-10：cols-2 → cols-4 に変えたので、こちらのセレクタも合わせる。
      これを直さないと、スマホで4カラムのまま極端に細いカードが並ぶ。 */
-  .svc-list.cols-4{ grid-template-columns:1fr; }
+  /* ★★2026-08-13 社長指示：カネゴン整骨院の「並び」を真似る＝**スマホで2×2**。★★
+     借りたのは並べ方だけ（アイコン・カードの装飾・配色は真似ない＝社長指示「アイコンはいらない」）。
+     ★1列（縦にすべて積む）だと4つ見るのに4画面ぶんスクロールが要り、
+       「何ができる店か」が一目で入らない。2×2なら1画面に収まる。
+     ★カード1枚の幅が約半分になるため、下で余白と文字を詰める。 */
+  .svc-list.cols-4{ grid-template-columns:repeat(2, 1fr); gap:12px; }
+  .svc-list.cols-4 .svc-body{ padding:calc(var(--gap) * .55); }
+  .svc-list.cols-4 .card-media{ aspect-ratio:4/3; }
+  /* ★ここも `:root[data-theme]` から始めること。素のセレクタでは tokens 側に負ける（上と同じ罠）。 */
+  :root[data-theme] .svc-list.cols-4 .card-no{ font-size:1.05rem; }
+  :root[data-theme] .svc-list.cols-4 .card-title{ font-size:.92rem; line-height:1.45; }
+  :root[data-theme] .svc-list.cols-4 .card-text{ font-size:.76rem; line-height:1.8; }
 }
 
 /* ---- 下層ページ 共通コンポーネント（カンプ02〜07 準拠） ---- */
