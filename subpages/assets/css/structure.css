@@ -100,6 +100,38 @@ button{ font:inherit; cursor:pointer; }
 .global-nav ul{ display:flex; gap:var(--gap); }
 .nav-toggle{ display:none; background:none; border:1px solid var(--color-line); padding:8px 12px; }
 
+/* ---- ナビの下層メニュー（★2026-08-14 社長決定・案B） ----
+   ★JSを使わない。`:hover` に加えて `:focus-within` を入れているのでキーボード操作でも開く。
+     JSに頼ると、読み込み失敗時に4ページへ行けなくなる（このサイトの方針＝機能はCSSで閉じる）。
+   ★親項目もリンクのまま（#service）＝押せば必ずどこかへ行ける。
+     「押しても開くだけで進めない」親メニューにしない。 */
+.global-nav .has-sub{ position:relative; }
+/* 下層があることの合図。文字なので拡大しても崩れない */
+.global-nav .has-sub > a::after{ content:'▾'; margin-left:.35em; font-size:.85em; }
+.global-nav .sub-menu{
+  display:none;
+  position:absolute;
+  top:100%;
+  left:0;
+  z-index:120;
+  flex-direction:column;
+  gap:0;
+  min-width:15em;
+  padding:.4em 0;
+  box-shadow:0 8px 24px rgba(0,0,0,.18);
+}
+.global-nav .has-sub:hover > .sub-menu,
+.global-nav .has-sub:focus-within > .sub-menu{ display:flex; }
+.global-nav .sub-menu li{ display:block; }
+.global-nav .sub-menu a{ display:block; padding:.6em 1.1em; white-space:nowrap; font-size:.92rem; }
+/* 背景はヘッダーの色に合わせる（浮いた板が別の色だと繋がって見えない） */
+:root[data-theme="A"] .global-nav .sub-menu{ background:var(--color-brand); }
+:root[data-theme="B"] .global-nav .sub-menu{ background:#fff; border:1px solid var(--color-line); }
+:root[data-theme] .site-header.hdr--navy .global-nav .sub-menu{ background:#1a2b49; border:0; }
+:root[data-theme] .site-header.hdr--white .global-nav .sub-menu{ background:#fff; border:1px solid #d9d9d9; }
+:root[data-theme] .global-nav .sub-menu a:hover,
+:root[data-theme] .global-nav .sub-menu a:focus-visible{ background:rgba(127,127,127,.18); }
+
 /* ロゴ（カンプ準拠：赤カタカナロゴ＋社名＋KURU MAYAバッジ） */
 .site-header{ min-height:auto; }
 .site-header .wrap{ min-height:72px; gap:12px; }
@@ -145,6 +177,23 @@ button{ font:inherit; cursor:pointer; }
   .global-nav.is-open{ display:block; position:absolute; left:0; right:0; top:var(--header-h); background:var(--color-bg); border-bottom:1px solid var(--color-line); }
   .global-nav.is-open ul{ flex-direction:column; padding:var(--gap); }
   .nav-toggle{ display:inline-block; }
+  /* ★スマホ：下層メニューは浮かせず、その場で常に開いた状態にする（★2026-08-14）。
+     タップで開閉する仕掛けにすると「押しても進めない親項目」ができて迷わせる。
+     字下げと細い罫で、サービスの下にぶら下がっていることを示す。 */
+  .global-nav .sub-menu{
+    display:flex;
+    position:static;
+    min-width:0;
+    padding:.2em 0 .2em 1.1em;
+    margin-top:.2em;
+    background:none !important;
+    border:0 !important;
+    border-left:2px solid rgba(127,127,127,.35) !important;
+    box-shadow:none;
+  }
+  .global-nav .sub-menu a{ padding:.45em 0; font-size:.88rem; white-space:normal; }
+  /* 常に開いているので「▾」は不要 */
+  .global-nav .has-sub > a::after{ content:none; }
 }
 @media (min-width: 769px) and (max-width: 1024px){
   .cols-4{ grid-template-columns:repeat(2, 1fr); }
