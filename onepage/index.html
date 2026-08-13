@@ -128,17 +128,14 @@
 </header>
 
 <main id="main">
-  <!-- 1.5 強み4つ（カンプA準拠・ヒーロー直下の帯） -->
-  <section class="section strengths" aria-label="水野谷自動車の強み">
-    <div class="wrap">
-      <ul class="grid cols-4 strength-list">
-        <li class="strength-item"><span class="st-head">創業1978年の実績</span><p>地域に根ざして信頼を積み重ねてきました。</p></li>
-        <li class="strength-item"><span class="st-head">確かな技術と丁寧な仕事</span><p>経験豊富なスタッフが丁寧に対応します。</p></li>
-        <li class="strength-item"><span class="st-head">オールインワンで対応</span><p>クルマのことならすべてお任せください。</p></li>
-        <li class="strength-item"><span class="st-head">安心のアフターサポート</span><p>ご購入後も末永くサポートいたします。</p></li>
-      </ul>
-    </div>
-  </section>
+  <!-- ★2026-08-13 社長指示：「選ばれる理由」と文言が被っているため、
+       ここにあった「強み4つ（カンプA準拠・ヒーロー直下の帯）」を削除した。
+       被っていたのは4つ中3つ＝創業1978年／確かな技術と丁寧な仕事／オールインワン。
+       残す側を「選ばれる理由」にした理由＝①認証番号 仙4-6522 など裏付けのある事実が書いてある
+       （強み帯は「経験豊富なスタッフが丁寧に対応します」等、どの店でも書ける決まり文句だった）
+       ②ナビに載っているのは「選ばれる理由」で、強み帯は正式なセクションではなかった。
+       ★強み帯にしかなかった「安心のアフターサポート」は捨てず、選ばれる理由の4つ目へ移した。
+       ★復元が要る場合は commit 6ec3e6b 以前に全文が残っている。 -->
 
   <!-- 2. サービス（旧下層の要点を集約） -->
   <section class="section services" id="service" aria-labelledby="service-title">
@@ -166,10 +163,14 @@
   <section class="section reason" id="reason" aria-labelledby="reason-title">
     <div class="wrap stack">
       <h2 id="reason-title">選ばれる理由</h2>
-      <ul class="grid cols-3 reason-list">
+      <!-- ★2026-08-13：3つ→4つ。削除した強み帯にしかなかった「安心のアフターサポート」を
+           ここへ移したため（情報を捨てずに重複だけ消す）。あわせて cols-3 → cols-4 にして
+           サービス案内と同じ4つ並びに揃えた。 -->
+      <ul class="grid cols-4 reason-list">
         <li class="reason-item"><span class="reason-head">創業 1978年</span><p>昭和53年の創業以来、矢吹町で地域の皆さまのカーライフを支えてきた実績と信頼。</p></li>
         <li class="reason-item"><span class="reason-head">国指定 認証工場</span><p>仙台陸運局 認証番号 仙4-6522。確かな技術と丁寧な仕事で、安全・安心をお届けします。</p></li>
         <li class="reason-item"><span class="reason-head">オールインワン</span><p>車検・整備から鈑金塗装、中古車、コーティングまで一貫対応。クルマのことなら何でもご相談ください。</p></li>
+        <li class="reason-item"><span class="reason-head">安心のアフターサポート</span><p>ご購入後も末永くサポートいたします。車検・点検の時期もご案内します。</p></li>
       </ul>
     </div>
   </section>
