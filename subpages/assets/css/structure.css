@@ -367,6 +367,44 @@ main > section[id]{ scroll-margin-top: calc(var(--header-h) + 8px); }
 :root[data-theme] .hero--full.btn-v2 .hero-actions .btn-link{
   border-color:rgba(255,255,255,.5);
 }
+
+/* ---- 電話ボタンを差し色の赤にする（★2026-08-13 社長「メッセージとの差別化ができていない」） ----
+   ★白ベタでは足りない理由＝**ヒーローの文字がすべて白**なので、白いボタンは
+     見出し・リードと同じ色の面になり「メッセージの一部」に見える。色を変えて初めて層が分かれる。
+   ★赤は新しい色ではない。**元に戻すだけ**である：
+     ・`tokens-A.css` に `:root[data-theme="A"] .btn-tel{ background:var(--color-accent) }` が元からある
+       （全面写真化したとき、上のルールでわざわざ打ち消して白枠にしていた）
+     ・右下の常時表示ボタン `.floating-tel` も同じ `--color-accent`
+     → 赤にすると「電話＝赤」がサイト全体で一貫する
+   ★`var(--color-accent)` を使うのでテーマに追従する（A＝ブリック赤 #a4362a／B＝鮮赤 #e02718）。
+     どちらも白文字とのコントラストは4.5:1以上（AA相当）を満たす値。
+   ★トレードオフ＝参考サイトから借りた「⑤アクセント色を使わない（無彩色で通す）」からは外れる。
+     ただし本サイトはロゴ・ヘッダー下線・見出しに既に赤を使っており、ヒーローだけが無彩色だった。 */
+:root[data-theme] .hero--full.btn-v3 .hero-actions .btn-tel{
+  background:var(--color-accent);
+  background-color:var(--color-accent);
+  color:#fff;
+  border-color:var(--color-accent);
+  font-weight:700;
+  white-space:nowrap;          /* ★電話番号を割らせない（v2と同じ） */
+}
+:root[data-theme] .hero--full.btn-v3 .hero-actions .btn-tel::after{ content:none; }
+:root[data-theme] .hero--full.btn-v3 .hero-actions .btn-tel:hover,
+:root[data-theme] .hero--full.btn-v3 .hero-actions .btn-tel:focus-visible{
+  /* 暗くするのではなく少し明るくする＝写真の上では暗くすると沈んで「押せない」ように見えるため */
+  filter:brightness(1.12);
+  border-color:var(--color-accent);
+}
+:root[data-theme] .hero--full.btn-v3 .hero-actions .btn-link{
+  border-color:rgba(255,255,255,.5);
+}
+@media (max-width:768px){
+  :root[data-theme] .hero--full.btn-v3 .hero-actions .btn-tel{
+    justify-content:center;
+    font-size:.95rem;
+    letter-spacing:.02em;
+  }
+}
 /* スマホ：縦積み＋幅100%になるため、白ベタの電話ボタンは中央寄せにして
    ラベルと番号が両端に離れないようにする（間延びして押しにくくなるのを防ぐ）。 */
 @media (max-width:768px){
