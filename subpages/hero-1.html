@@ -16,9 +16,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>有限会社 水野谷自動車 | 福島県矢吹町のクルマのかかりつけ工場 SINCE 1978</title>
 <meta name="description" content="福島県西白河郡矢吹町の有限会社 水野谷自動車。SINCE 1978、国指定認証工場（仙4-6522）。車検整備・鈑金塗装・中古車販売・ボディーコーティングまで、クルマのことをまるごとお任せください。">
-<link rel="stylesheet" href="assets/css/structure.css?v=1721094112">
-<script>(function(){var p=new URLSearchParams(location.search);var s;try{s=localStorage.getItem('mizTheme')}catch(e){}var t=((p.get('theme')||s||'A')+'').toUpperCase();if(t!=='B')t='A';document.documentElement.setAttribute('data-theme',t);document.write('<link id="theme-css" rel="stylesheet" href="assets/css/tokens-'+t+'.css?v=1721094112">');})();</script>
-<noscript><link rel="stylesheet" href="assets/css/tokens-A.css?v=1721094112"></noscript>
+<link rel="stylesheet" href="assets/css/structure.css?v=1722721267">
+<script>(function(){var p=new URLSearchParams(location.search);var s;try{s=localStorage.getItem('mizTheme')}catch(e){}var t=((p.get('theme')||s||'A')+'').toUpperCase();if(t!=='B')t='A';document.documentElement.setAttribute('data-theme',t);document.write('<link id="theme-css" rel="stylesheet" href="assets/css/tokens-'+t+'.css?v=1722721267">');})();</script>
+<noscript><link rel="stylesheet" href="assets/css/tokens-A.css?v=1722721267"></noscript>
 <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
 <link rel="canonical" href="https://bunchan-groobeat.github.io/mizunoya-hp/">
 <meta property="og:type" content="website">
@@ -166,7 +166,7 @@
       <!-- ★2026-08-13：3つ→4つ。削除した強み帯にしかなかった「安心のアフターサポート」を
            ここへ移したため（情報を捨てずに重複だけ消す）。あわせて cols-3 → cols-4 にして
            サービス案内と同じ4つ並びに揃えた。 -->
-      <ul class="grid cols-4 reason-list">
+      <ul class="grid cols-4 reason-list reason-list--v2">
         <li class="reason-item"><span class="reason-head">創業 1978年</span><p>昭和53年の創業以来、矢吹町で地域の皆さまのカーライフを支えてきた実績と信頼。</p></li>
         <li class="reason-item"><span class="reason-head">国指定 認証工場</span><p>仙台陸運局 認証番号 仙4-6522。確かな技術と丁寧な仕事で、安全・安心をお届けします。</p></li>
         <li class="reason-item"><span class="reason-head">オールインワン</span><p>車検・整備から鈑金塗装、中古車、コーティングまで一貫対応。クルマのことなら何でもご相談ください。</p></li>
@@ -273,19 +273,21 @@
 
 <a class="floating-tel" href="tel:0248-43-2455">お電話はこちら 0248-43-2455</a>
 <a class="return-top" href="#top" aria-label="ページ上部へ戻る">↑</a>
-<script src="assets/js/site.js?v=1721094112"></script>
+<script src="assets/js/site.js?v=1722721267"></script>
 <div id="vswitch" style="position:fixed;left:12px;bottom:12px;z-index:99999;background:rgba(17,17,17,.92);color:#fff;padding:8px 10px;border-radius:8px;font:13px/1.7 system-ui,sans-serif;box-shadow:0 6px 20px rgba(0,0,0,.35)">
   <div style="opacity:.75;font-size:11px;margin-bottom:4px">パターン1「顔と社名」／その場で切替</div>
   <div>写真 <button type="button" data-fit="">現状</button> <button type="button" data-fit="hero--tall">引き（大）</button> <button type="button" data-fit="hero--contain">全体を見せる</button></div>
   <div style="margin-top:4px">ボタン <button type="button" data-btn="">現状</button> <button type="button" data-btn="btn-v2">白ベタ</button> <button type="button" data-btn="btn-v3">赤（差し色）</button></div>
   <div style="margin-top:4px">暗幕 <button type="button" data-ov="ov-strong">濃いめ</button> <button type="button" data-ov="ov-light">薄め</button></div>
   <div style="margin-top:4px">ヘッダー <button type="button" data-hdr="hdr--navy">紺</button> <button type="button" data-hdr="hdr--white">白</button></div>
+  <div style="margin-top:4px">選ばれる理由 <button type="button" data-rsn="">現状</button> <button type="button" data-rsn="reason-list--v2">改良</button></div>
 </div>
 <script>
 (function(){
   var box = document.getElementById('vswitch');
   var hero = document.querySelector('.hero--full');
   var head = document.querySelector('.site-header');
+  var rsn  = document.querySelector('.reason-list');
   if (!box || !hero || !head) return;
   var FITS = ['hero--tall','hero--contain'];
   var BTNS = ['btn-v2','btn-v3'];
@@ -299,6 +301,10 @@
       } else if (b.dataset.btn !== undefined) {
         on = b.dataset.btn ? hero.classList.contains(b.dataset.btn)
                            : BTNS.every(function(c){ return !hero.classList.contains(c); });
+      } else if (b.dataset.rsn !== undefined) {
+        on = rsn ? (b.dataset.rsn ? rsn.classList.contains(b.dataset.rsn)
+                                  : !rsn.classList.contains('reason-list--v2'))
+                 : false;
       } else {
         on = (b.dataset.ov && hero.classList.contains(b.dataset.ov)) ||
              (b.dataset.hdr && head.classList.contains(b.dataset.hdr));
@@ -313,6 +319,7 @@
     if (b.dataset.btn !== undefined) { hero.classList.remove.apply(hero.classList, BTNS); if (b.dataset.btn) hero.classList.add(b.dataset.btn); }
     if (b.dataset.ov)  { hero.classList.remove('ov-strong','ov-light'); hero.classList.add(b.dataset.ov); }
     if (b.dataset.hdr) { head.classList.remove('hdr--navy','hdr--white'); head.classList.add(b.dataset.hdr); }
+    if (b.dataset.rsn !== undefined && rsn) { rsn.classList.remove('reason-list--v2'); if (b.dataset.rsn) rsn.classList.add(b.dataset.rsn); }
     mark();
   });
   mark();

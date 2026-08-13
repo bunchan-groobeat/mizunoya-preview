@@ -628,6 +628,52 @@ main > section[id]{ scroll-margin-top: calc(var(--header-h) + 8px); }
 .reason-list{ list-style:none; padding:0; }
 .reason-head{ display:block; font-weight:700; margin-bottom:.3em; }
 
+/* ---- 選ばれる理由：見やすさの改良版（★2026-08-13 社長「もっとみやすくわかりやすくできないか」） ----
+   ★見にくかった原因は色のコントラスト。実測：
+     セクションの地 #efe6d3 ／ カードの地 #f7f1e4（--color-surface）／ 罫線 #d3c4a6 の1px。
+     クリームの上に少し明るいクリームを置いているだけで、**カードの輪郭が立っていなかった**。
+   直した4点：
+     ①カードを**白地**にして地から浮かせる（効果が最も大きい。輪郭がはっきり分かれる）
+     ②見出しを一段大きく（1.1rem → clamp で最大1.5rem）。4つの違いが一目で分かる
+     ③見出しの下に**赤い短い罫**を引き、見出しと本文を視覚的に切り離す
+       （アイコンは使わない＝社長指示。罫なら文字だけで区切りが作れる）
+     ④スマホを1列 → **2×2**（サービス案内と同じ並びに揃え、1画面に4つ収める）
+   ★★セレクタは `:root[data-theme]` から始めること。★★
+     tokens-A の `:root[data-theme="A"] .reason-item`（0,3,0）に素のクラスでは勝てない。
+   ★確定したら勝った方を本体へ書き戻し、負けた側を削除する。 */
+:root[data-theme] .reason-list--v2 .reason-item{
+  background:#fff;
+  border:0;
+  border-radius:14px;
+  padding:clamp(18px, 1.8vw, 30px);
+  box-shadow:0 4px 16px rgba(0,0,0,.07);
+}
+:root[data-theme] .reason-list--v2 .reason-head{
+  font-size:clamp(1.15rem, 1.25vw, 1.5rem);
+  line-height:1.4;
+  margin-bottom:.45em;
+}
+/* 見出しの下の赤い罫。em 指定なので見出しの大きさに追従する */
+:root[data-theme] .reason-list--v2 .reason-head::after{
+  content:'';
+  display:block;
+  width:2.2em;
+  height:3px;
+  margin-top:.45em;
+  background:var(--color-accent);
+}
+:root[data-theme] .reason-list--v2 .reason-item p{
+  font-size:.86rem;
+  line-height:2.0;
+}
+/* スマホ：2×2。1列だと4つ見るのに縦へ長く伸び、比較しづらい */
+@media (max-width:768px){
+  .reason-list--v2.cols-4{ grid-template-columns:repeat(2, 1fr); gap:12px; }
+  :root[data-theme] .reason-list--v2 .reason-item{ padding:16px 14px; border-radius:12px; }
+  :root[data-theme] .reason-list--v2 .reason-head{ font-size:1.0rem; }
+  :root[data-theme] .reason-list--v2 .reason-item p{ font-size:.78rem; line-height:1.85; }
+}
+
 /* ---- ギャラリー ---- */
 .gallery .grid img{ width:100%; aspect-ratio:4/3; object-fit:cover; }
 .media-band img{ width:100%; max-height:420px; object-fit:cover; }
