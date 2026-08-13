@@ -628,6 +628,26 @@ main > section[id]{ scroll-margin-top: calc(var(--header-h) + 8px); }
 .reason-list{ list-style:none; padding:0; }
 .reason-head{ display:block; font-weight:700; margin-bottom:.3em; }
 
+/* ---- 選ばれる理由：会社の外観写真（★2026-08-13 社長指示） ----
+   ★`aspect-ratio` を元画像と同じ 1500/417 にしているのが要点＝**切らない**。
+     cover で切ると、左の事務所の社名看板と右の黄色い看板が両方とも枠外に出る。
+     社名が読めることがこの写真の価値なので、全体を見せる方を選んだ。
+   ★角丸と影は改良版カード（.reason-list--v2）と揃えている。 */
+.reason-photo{ margin:0 0 clamp(18px, 2vw, 28px); }
+.reason-photo img{
+  width:100%;
+  aspect-ratio:1500 / 417;
+  object-fit:cover;      /* 比率が一致しているので実質は切らない。端数のズレだけ吸収する */
+  display:block;
+  border-radius:14px;
+  box-shadow:0 4px 16px rgba(0,0,0,.07);
+}
+@media (max-width:768px){
+  /* スマホでは元比率のままだと高さ約110pxの細い帯になる。
+     少しだけ縦を足して見やすくするが、切りすぎると看板が消えるので 2.6:1 で止める。 */
+  .reason-photo img{ aspect-ratio:2.6 / 1; border-radius:12px; }
+}
+
 /* ---- 選ばれる理由：見やすさの改良版（★2026-08-13 社長「もっとみやすくわかりやすくできないか」） ----
    ★見にくかった原因は色のコントラスト。実測：
      セクションの地 #efe6d3 ／ カードの地 #f7f1e4（--color-surface）／ 罫線 #d3c4a6 の1px。
