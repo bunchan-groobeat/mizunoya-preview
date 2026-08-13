@@ -217,6 +217,22 @@ main > section[id]{ scroll-margin-top: calc(var(--header-h) + 8px); }
   z-index:1;
 }
 
+/* ---- ヒーロー写真をカラーにする（★2026-08-13 社長指示「トップ画面、カラーで今の感じに」） ----
+   既定は `grayscale(1) contrast(1.08) brightness(.82)` のモノクロ
+   （参考サイト＝四日市モータース商会の型「全面写真をモノクロにして白文字を置く」に寄せたため）。
+   ★カラーにしても**暗さと締まりは保つ**のが「今の感じ」を壊さない条件。
+     grayscale を外すだけだと明るく散らかって見え、白文字が写真に負ける。
+     そこで brightness は下げたまま、彩度をわずかに上げて色を締める。
+   ★詳細度：既存は `.hero--full .hero-bg`（0,2,0）。クラスを1つ足して (0,3,0) で勝たせる。
+   ★決まったら勝った方の filter を本体へ書き戻し、このクラスは削除する。 */
+.hero--full.hero--color .hero-bg{
+  filter:contrast(1.06) saturate(1.06) brightness(.82);
+}
+/* 「全体を見せる」のぼかし下地も色を合わせる（ここだけモノクロだと額縁が浮く） */
+.hero--full.hero--color.hero--contain::before{
+  filter:blur(28px) brightness(.5) saturate(1.1);
+}
+
 /* ---- 暗幕の濃さ：比較用の修飾クラス（★2026-08-13 社長指示「実物を見て決める」） ----
    「薄め」は現行と同じ値をそのまま書いている＝基準点として動かさないため。
    詳細度は .hero--full::after と同じ土俵なので、クラスを1つ足せば勝てる。
