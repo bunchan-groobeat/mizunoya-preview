@@ -16,9 +16,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>有限会社 水野谷自動車 | 福島県矢吹町のクルマのかかりつけ工場 SINCE 1978</title>
 <meta name="description" content="福島県西白河郡矢吹町の有限会社 水野谷自動車。SINCE 1978、国指定認証工場（仙4-6522）。車検整備・鈑金塗装・中古車販売・ボディーコーティングまで、クルマのことをまるごとお任せください。">
-<link rel="stylesheet" href="assets/css/structure.css?v=1817312755">
-<script>(function(){var p=new URLSearchParams(location.search);var s;try{s=localStorage.getItem('mizTheme')}catch(e){}var t=((p.get('theme')||s||'A')+'').toUpperCase();if(t!=='B')t='A';document.documentElement.setAttribute('data-theme',t);document.write('<link id="theme-css" rel="stylesheet" href="assets/css/tokens-'+t+'.css?v=1817312755">');})();</script>
-<noscript><link rel="stylesheet" href="assets/css/tokens-A.css?v=1817312755"></noscript>
+<link rel="stylesheet" href="assets/css/structure.css?v=1818054178">
+<script>(function(){var p=new URLSearchParams(location.search);var s;try{s=localStorage.getItem('mizTheme')}catch(e){}var t=((p.get('theme')||s||'A')+'').toUpperCase();if(t!=='B')t='A';document.documentElement.setAttribute('data-theme',t);document.write('<link id="theme-css" rel="stylesheet" href="assets/css/tokens-'+t+'.css?v=1818054178">');})();</script>
+<noscript><link rel="stylesheet" href="assets/css/tokens-A.css?v=1818054178"></noscript>
 <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
 <link rel="canonical" href="https://bunchan-groobeat.github.io/mizunoya-hp/">
 <meta property="og:type" content="website">
@@ -318,7 +318,7 @@
 
 <a class="floating-tel" href="tel:0248-43-2455">お電話はこちら 0248-43-2455</a>
 <a class="return-top" href="#top" aria-label="ページ上部へ戻る">↑</a>
-<script src="assets/js/site.js?v=1817312755"></script>
+<script src="assets/js/site.js?v=1818054178"></script>
 <div id="vswitch" style="position:fixed;left:12px;bottom:12px;z-index:99999;background:rgba(17,17,17,.92);color:#fff;padding:8px 10px;border-radius:8px;font:13px/1.7 system-ui,sans-serif;box-shadow:0 6px 20px rgba(0,0,0,.35)">
   <div style="opacity:.75;font-size:11px;margin-bottom:4px">パターン3「仕事の質感」（現状に近い）／その場で切替</div>
   <div>写真 <button type="button" data-fit="">現状</button> <button type="button" data-fit="hero--tall">引き（大）</button> <button type="button" data-fit="hero--contain">全体を見せる</button></div>
@@ -352,8 +352,9 @@
         on = b.dataset.col ? hero.classList.contains(b.dataset.col)
                            : !hero.classList.contains('hero--color');
       } else if (b.dataset.rep !== undefined) {
-        var on2 = document.documentElement.hasAttribute('data-reveal-repeat');
-        on = b.dataset.rep ? on2 : !on2;
+        /* 既定が「毎回」なので、属性が付いているときだけ「1回だけ」 */
+        var isOnce = document.documentElement.hasAttribute('data-reveal-once');
+        on = b.dataset.rep ? !isOnce : isOnce;
       } else if (b.dataset.rsn !== undefined) {
         on = rsn ? (b.dataset.rsn ? rsn.classList.contains(b.dataset.rsn)
                                   : !rsn.classList.contains('reason-list--v2'))
@@ -375,14 +376,13 @@
     if (b.dataset.hdr) { head.classList.remove('hdr--navy','hdr--white'); head.classList.add(b.dataset.hdr); }
     if (b.dataset.rsn !== undefined && rsn) { rsn.classList.remove('reason-list--v2'); if (b.dataset.rsn) rsn.classList.add(b.dataset.rsn); }
     if (b.dataset.rep !== undefined) {
-      if (b.dataset.rep) document.documentElement.setAttribute('data-reveal-repeat', '');
-      else document.documentElement.removeAttribute('data-reveal-repeat');
+      if (b.dataset.rep) document.documentElement.removeAttribute('data-reveal-once');
+      else document.documentElement.setAttribute('data-reveal-once', '');
     }
     mark();
   });
-  /* ★プレビューでは「毎回」を初期値にする（社長が違いを確かめられるように）。
-     本番の既定は「1回だけ」＝site.js は属性が無いときそう動く。 */
-  document.documentElement.setAttribute('data-reveal-repeat', '');
+  /* ★「毎回」が本番の既定（社長決定 2026-08-13）＝属性を付けない状態がそれ。
+     ここでは何も設定しない。「1回だけ」を押したときだけ data-reveal-once が付く。 */
   mark();
 })();
 </script>
