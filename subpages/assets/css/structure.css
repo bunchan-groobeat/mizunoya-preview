@@ -643,9 +643,11 @@ main > section[id]{ scroll-margin-top: calc(var(--header-h) + 8px); }
   box-shadow:0 4px 16px rgba(0,0,0,.07);
 }
 @media (max-width:768px){
-  /* スマホでは元比率のままだと高さ約110pxの細い帯になる。
-     少しだけ縦を足して見やすくするが、切りすぎると看板が消えるので 2.6:1 で止める。 */
-  .reason-photo img{ aspect-ratio:2.6 / 1; border-radius:12px; }
+  /* ★2026-08-13 是正：ここで 2.6:1 に切っていたため、**左の事務所と右の看板が両端から削られていた**
+     （社長指摘「画像左部の事務所も映るようにしてくれ」）。
+     縦を稼ごうとして切るのをやめ、スマホでも元比率のまま全体を見せる。
+     高さは約110pxの細い帯になるが、店の全景が入ることを優先する。 */
+  .reason-photo img{ border-radius:12px; }
 }
 
 /* ---- 選ばれる理由：見やすさの改良版（★2026-08-13 社長「もっとみやすくわかりやすくできないか」） ----
@@ -1067,7 +1069,27 @@ main > section[id]{ scroll-margin-top: calc(var(--header-h) + 8px); }
   .ba-wide .photo-todo{ font-size:.7rem; }
 }
 
+/* ---- スクロールで各セクションをふわりと出す（★2026-08-13 社長指示） ----
+   ★`.js-reveal` は JS が動いたときだけ <html> に付く。素の状態では何も隠れない
+     ＝**JSが失敗してもページは普通に読める**（タイプライター演出と同じ設計思想）。
+     ここに素で opacity:0 を書くと、JSが読めなかった瞬間に本文が真っ白になる。
+   ★動かすのは translateY だけ。横に動かすと画面端で横スクロールが出る。
+   ★イージングは終わりをゆっくり止める形にして「ヌルッ」と着地させている。 */
+.js-reveal .reveal{
+  opacity:0;
+  transform:translateY(28px);
+}
+.js-reveal .reveal.is-revealed{
+  opacity:1;
+  transform:none;
+  transition:opacity .8s ease, transform .8s cubic-bezier(.22,.61,.36,1);
+}
+
 /* ---- 動きの配慮 ---- */
 @media (prefers-reduced-motion: reduce){
+  /* ★保険：JS側でも適用前に抜けているが、二重に保証する。
+     下の transition:none と組み合わさると「隠れたまま出てこない」事故になるため、
+     必ずここで opacity を戻しておくこと。 */
+  .js-reveal .reveal{ opacity:1 !important; transform:none !important; }
   *{ animation:none !important; transition:none !important; scroll-behavior:auto !important; }
 }

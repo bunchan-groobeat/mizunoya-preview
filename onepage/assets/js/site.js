@@ -146,6 +146,42 @@
     }, START_DELAY + chars.length * STEP + 120);
   }
 
+  /* ---- スクロールで各セクションをふわりと出す（★2026-08-13 社長指示） ----
+     ★大前提はタイプライター演出と同じ＝**JSが動かないときは何も隠さない**。
+       CSSに素で opacity:0 を書くと、JSが読み込めなかった瞬間にページが真っ白になる。
+       そのため <html> に .js-reveal を付けたときだけ隠れる書き方にしている。
+     ★動きを減らす設定の方には最初から適用しない（クラスを付けずに抜ける）。
+     ★IntersectionObserver が無い古いブラウザでも、同じ理由でそのまま全部見える。
+     ★一度出したら監視をやめる（戻ってきたときに再び消えるのは煩わしいため）。 */
+  function initReveal() {
+    if (!('IntersectionObserver' in window)) return;
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduce) return;
+
+    /* ヒーローは最初から見えている場所なので対象にしない（読み込み直後に消えるのを避ける） */
+    var targets = document.querySelectorAll('#main .section');
+    if (!targets.length) return;
+
+    document.documentElement.classList.add('js-reveal');
+
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        e.target.classList.add('is-revealed');
+        io.unobserve(e.target);
+      });
+    }, {
+      /* 画面の下から少し入った時点で出す。0にすると端に触れた瞬間に始まって唐突に見える */
+      rootMargin: '0px 0px -12% 0px',
+      threshold: 0.05,
+    });
+
+    Array.prototype.forEach.call(targets, function (el) {
+      el.classList.add('reveal');
+      io.observe(el);
+    });
+  }
+
   /* ---- ページ上部へ戻る ---- */
   function initReturnTop() {
     var btn = document.querySelector('.return-top');
@@ -157,6 +193,7 @@
     initNav();
     initContactForm();
     initReturnTop();
+    initReveal();
     initThemeToggle();
     initTypewriter();
   });
