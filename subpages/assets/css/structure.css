@@ -762,6 +762,19 @@ main > section[id]{ scroll-margin-top: calc(var(--header-h) + 8px); }
 .map-wrap{ line-height:0; }
 .map-wrap iframe{ display:block; width:100%; border:0; }
 
+/* 会社概要ページへの導線（★2026-08-14）。サービスカードの「詳しく見る」と同じ見た目に揃える */
+:root[data-theme] .company-link a{
+  display:inline-flex;
+  align-items:center;
+  gap:.4em;
+  color:var(--color-accent);
+  font-weight:700;
+  text-decoration:none;
+}
+:root[data-theme] .company-link a::after{ content:'→'; }
+.company-link a:hover,
+.company-link a:focus-visible{ text-decoration:underline; }
+
 /* ---- アクセス情報カード（★2026-08-13 社長指示：カネゴン整骨院の型） ----
    借りたのは骨格だけ＝①白い角丸カード ②〒は小さく・住所は大きく ③ラベル＋値の並び
    ④営業時間を曜日の表にして ● / — で示す ⑤注記は小さくグレー。

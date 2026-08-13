@@ -28,33 +28,6 @@
     ここから1ページずつ開いて、気になるところをお知らせください。
   </p>
 
-  <!-- ★2026-08-10：社長の画面と太郎の画面で文字の見え方が違う件を特定するための診断表示。
-       「画面が広いのに文字が小さい」は、CSSが認識する幅（下の数値）が原因で決まる。
-       推測で数値を上げ下げすると外すので、実測した値を教えてもらう。 -->
-  <div class="card" style="border:2px solid #8d2b20">
-    <h2 style="color:#8d2b20">この画面の情報（太郎への報告用）</h2>
-    <p class="note">下の数値を教えてください。文字サイズの計算はここで決まります。</p>
-    <div id="diag" style="font-family:monospace;font-size:14px;line-height:2;background:#f2efe9;padding:12px;border-radius:6px">
-      読み取り中…
-    </div>
-    <script>
-      (function(){
-        var d = document.getElementById('diag');
-        if (!d) return;
-        function line(k, v){ return '<div><strong>' + k + '</strong>: ' + v + '</div>'; }
-        var cssW = window.innerWidth;
-        var dpr  = window.devicePixelRatio || 1;
-        var physW = Math.round(cssW * dpr);
-        var rootPx = parseFloat(getComputedStyle(document.documentElement).fontSize);
-        d.innerHTML =
-          line('CSSの画面幅', cssW + ' px　← これが一番大事') +
-          line('画面の実解像度', physW + ' px（横）') +
-          line('拡大率(DPR)', dpr) +
-          line('文字の基準サイズ', rootPx.toFixed(1) + ' px');
-      })();
-    </script>
-  </div>
-
   <div class="card" style="border:2px solid #1f3a5f">
     <h2>トップの上段（メイン画像）の見せ方 — 3パターン</h2>
     <p class="note">
@@ -131,13 +104,6 @@
     </ul>
   </div>
 
-  <div class="card">
-    <h2>参考：ワンページ版（不採用）</h2>
-    <p class="note">
-      比較のために作った1枚版です。<strong>採用しない案</strong>ですが、記録として残しています。
-    </p>
-    <a class="btn" style="background:#6f6f6f" href="onepage/">ワンページ版（参考）</a>
-  </div>
 </div>
 </body>
 </html>
