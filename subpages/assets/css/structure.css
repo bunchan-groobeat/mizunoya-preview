@@ -683,6 +683,79 @@ main > section[id]{ scroll-margin-top: calc(var(--header-h) + 8px); }
 .map-wrap{ line-height:0; }
 .map-wrap iframe{ display:block; width:100%; border:0; }
 
+/* ---- アクセス情報カード（★2026-08-13 社長指示：カネゴン整骨院の型） ----
+   借りたのは骨格だけ＝①白い角丸カード ②〒は小さく・住所は大きく ③ラベル＋値の並び
+   ④営業時間を曜日の表にして ● / — で示す ⑤注記は小さくグレー。
+   配色・文言・データは水野谷のもの。
+   ★★セレクタを `:root[data-theme]` から始めるのは必須。★★
+     tokens-A/B が後に読まれるため、素のクラスでは table 系の指定に負ける箇所がある。 */
+:root[data-theme] .access-card{
+  background:#fff;
+  border:1px solid rgba(0,0,0,.08);
+  border-radius:16px;
+  padding:clamp(20px, 2.2vw, 34px);
+}
+:root[data-theme] .access-zip{
+  color:var(--color-muted);
+  font-size:.82rem;
+  letter-spacing:.04em;
+  margin:0 0 .2em;
+}
+:root[data-theme] .access-addr{
+  font-weight:700;
+  font-size:clamp(1.05rem, 1.15vw, 1.35rem);
+  line-height:1.55;
+  margin:0 0 .9em;
+}
+.access-list{ margin:0 0 1.2em; }
+/* ラベルと値を横並びに。ラベル幅を固定して値の頭を揃える＝視線が縦に落ちる */
+.access-row{ display:grid; grid-template-columns:5.5em 1fr; gap:.6em; align-items:start; padding:.35em 0; }
+:root[data-theme] .access-row dt{ font-weight:700; }
+:root[data-theme] .access-row dd{ margin:0; line-height:1.8; }
+
+/* 営業時間の表：見出し行を差し色でベタ塗り（参考サイトと同じ骨格） */
+.hours-table{ width:100%; border-collapse:collapse; table-layout:fixed; }
+:root[data-theme] .hours-table thead th{
+  background:var(--color-accent);
+  color:#fff;
+  font-weight:700;
+  font-size:.78rem;
+  padding:.7em .2em;
+  text-align:center;
+}
+/* 左端の「営業時間」列だけ広く取る（曜日は7列で均等） */
+:root[data-theme] .hours-table thead th:first-child,
+:root[data-theme] .hours-table tbody th{ width:32%; text-align:center; }
+:root[data-theme] .hours-table tbody th{
+  font-weight:700;
+  font-size:.82rem;
+  padding:.9em .4em;
+  background:rgba(0,0,0,.03);
+  border-bottom:1px solid rgba(0,0,0,.06);
+}
+:root[data-theme] .hours-table tbody td{
+  text-align:center;
+  padding:.9em .2em;
+  border-bottom:1px solid rgba(0,0,0,.06);
+  font-size:.95rem;
+}
+:root[data-theme] .hours-table .is-open{ color:var(--color-accent); }
+:root[data-theme] .hours-table .is-off{ color:var(--color-muted); }
+:root[data-theme] .access-note{
+  color:var(--color-muted);
+  font-size:.76rem;
+  line-height:1.8;
+  margin:.8em 0 0;
+}
+/* スマホ：曜日7列は詰まるので文字を小さくして収める（横スクロールは作らない） */
+@media (max-width:768px){
+  :root[data-theme] .access-card{ padding:18px 16px; }
+  .access-row{ grid-template-columns:4.6em 1fr; }
+  :root[data-theme] .hours-table thead th{ font-size:.66rem; padding:.6em .1em; }
+  :root[data-theme] .hours-table tbody th{ font-size:.72rem; padding:.8em .2em; }
+  :root[data-theme] .hours-table tbody td{ font-size:.85rem; padding:.8em .1em; }
+}
+
 @media (max-width:768px){
   .hero .wrap{ grid-template-columns:1fr; }
   /* ★2026-08-10：cols-2 → cols-4 に変えたので、こちらのセレクタも合わせる。

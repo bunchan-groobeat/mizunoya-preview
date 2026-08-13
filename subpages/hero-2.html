@@ -16,9 +16,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>有限会社 水野谷自動車 | 福島県矢吹町のクルマのかかりつけ工場 SINCE 1978</title>
 <meta name="description" content="福島県西白河郡矢吹町の有限会社 水野谷自動車。SINCE 1978、国指定認証工場（仙4-6522）。車検整備・鈑金塗装・中古車販売・ボディーコーティングまで、クルマのことをまるごとお任せください。">
-<link rel="stylesheet" href="assets/css/structure.css?v=1722721267">
-<script>(function(){var p=new URLSearchParams(location.search);var s;try{s=localStorage.getItem('mizTheme')}catch(e){}var t=((p.get('theme')||s||'A')+'').toUpperCase();if(t!=='B')t='A';document.documentElement.setAttribute('data-theme',t);document.write('<link id="theme-css" rel="stylesheet" href="assets/css/tokens-'+t+'.css?v=1722721267">');})();</script>
-<noscript><link rel="stylesheet" href="assets/css/tokens-A.css?v=1722721267"></noscript>
+<link rel="stylesheet" href="assets/css/structure.css?v=1723175837">
+<script>(function(){var p=new URLSearchParams(location.search);var s;try{s=localStorage.getItem('mizTheme')}catch(e){}var t=((p.get('theme')||s||'A')+'').toUpperCase();if(t!=='B')t='A';document.documentElement.setAttribute('data-theme',t);document.write('<link id="theme-css" rel="stylesheet" href="assets/css/tokens-'+t+'.css?v=1723175837">');})();</script>
+<noscript><link rel="stylesheet" href="assets/css/tokens-A.css?v=1723175837"></noscript>
 <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
 <link rel="canonical" href="https://bunchan-groobeat.github.io/mizunoya-hp/">
 <meta property="og:type" content="website">
@@ -212,23 +212,58 @@
   <section class="section company" id="company" aria-labelledby="company-title">
     <div class="wrap stack">
       <h2 id="company-title">会社概要・アクセス</h2>
+      <!-- ★2026-08-13 社長指示：アクセスをカネゴン整骨院の型にする。
+           借りたのは骨格だけ＝①白い角丸カード ②〒を小さく・住所を大きく ③ラベル＋値の並び
+           ④営業時間を曜日ごとの表にして ● と — で示す ⑤注記は小さくグレー。
+           ★表の中身は既存の記載からのみ作成＝「受付時間 9:00-18:00（日・祝日除く）」。
+             昼休み・土曜の短縮営業などは記載が無いので勝手に作らない（要確認事項として社長へ報告）。
+           ★● と — は目で見る記号なので、読み上げ用に .visually-hidden で「営業」「休業」を添えている。 -->
       <div class="company-grid grid cols-2">
-        <table class="info-table">
-          <tbody>
-            <tr><th scope="row">会社名</th><td>有限会社 水野谷自動車</td></tr>
-            <tr><th scope="row">代表取締役</th><td>水野谷 吉夫</td></tr>
-            <tr><th scope="row">創立</th><td>昭和53年（1978年）</td></tr>
-            <tr><th scope="row">所在地</th><td>〒969-0265 福島県西白河郡矢吹町中畑南93-2</td></tr>
-            <tr><th scope="row">TEL</th><td><a href="tel:0248-43-2455">0248-43-2455</a></td></tr>
-            <tr><th scope="row">受付時間</th><td>9:00 - 18:00（日・祝日除く）</td></tr>
-            <tr><th scope="row">認証番号</th><td>仙台陸運局 認証番号 仙4-6522</td></tr>
-          </tbody>
-        </table>
+        <div class="access-card">
+          <p class="access-zip">〒969-0265</p>
+          <p class="access-addr">福島県西白河郡矢吹町中畑南93-2</p>
+          <dl class="access-list">
+            <div class="access-row"><dt>TEL</dt><dd><a href="tel:0248-43-2455">0248-43-2455</a></dd></div>
+            <div class="access-row"><dt>アクセス</dt><dd>東北自動車道 矢吹ICより車で10分<br>あぶくま高原道路 矢吹中央ICより車で5分</dd></div>
+            <div class="access-row"><dt>認証番号</dt><dd>仙台陸運局 仙4-6522</dd></div>
+          </dl>
+          <table class="hours-table">
+            <thead>
+              <tr>
+                <th scope="col">営業時間</th>
+                <th scope="col">月</th><th scope="col">火</th><th scope="col">水</th>
+                <th scope="col">木</th><th scope="col">金</th><th scope="col">土</th>
+                <th scope="col">日・祝</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">9:00 - 18:00</th>
+                <td class="is-open">●<span class="visually-hidden">営業</span></td>
+                <td class="is-open">●<span class="visually-hidden">営業</span></td>
+                <td class="is-open">●<span class="visually-hidden">営業</span></td>
+                <td class="is-open">●<span class="visually-hidden">営業</span></td>
+                <td class="is-open">●<span class="visually-hidden">営業</span></td>
+                <td class="is-open">●<span class="visually-hidden">営業</span></td>
+                <td class="is-off">—<span class="visually-hidden">休業</span></td>
+              </tr>
+            </tbody>
+          </table>
+          <p class="access-note">※ 休業日：日曜・祝日</p>
+        </div>
         <div class="stack">
-          <p>東北自動車道 矢吹ICより車で10分／あぶくま高原道路 矢吹中央ICより車で5分</p>
           <div class="map-wrap"><iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d21385.23692636348!2d140.31753046354038!3d37.17802781918279!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x602047feeac67baf%3A0xe16a76586732069e!2z44CSOTY5LTAyNjUg56aP5bO255yM6KW_55m95rKz6YOh55-i5ZC555S65Lit55WR5Y2X77yZ77yT4oiS77yS!5e0!3m2!1sja!2sjp!4v1603087754512!5m2!1sja!2sjp" width="100%" height="300" style="border:0" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="有限会社 水野谷自動車 地図"></iframe></div>
         </div>
       </div>
+      <!-- ★アクセスをカード化したことで表から抜けた「会社概要」の項目はここに残す。
+           所在地・TEL・受付時間・認証番号は上のカードにあるため重複させない。 -->
+      <table class="info-table">
+        <tbody>
+          <tr><th scope="row">会社名</th><td>有限会社 水野谷自動車</td></tr>
+          <tr><th scope="row">代表取締役</th><td>水野谷 吉夫</td></tr>
+          <tr><th scope="row">創立</th><td>昭和53年（1978年）</td></tr>
+        </tbody>
+      </table>
     </div>
   </section>
 
@@ -273,7 +308,7 @@
 
 <a class="floating-tel" href="tel:0248-43-2455">お電話はこちら 0248-43-2455</a>
 <a class="return-top" href="#top" aria-label="ページ上部へ戻る">↑</a>
-<script src="assets/js/site.js?v=1722721267"></script>
+<script src="assets/js/site.js?v=1723175837"></script>
 <div id="vswitch" style="position:fixed;left:12px;bottom:12px;z-index:99999;background:rgba(17,17,17,.92);color:#fff;padding:8px 10px;border-radius:8px;font:13px/1.7 system-ui,sans-serif;box-shadow:0 6px 20px rgba(0,0,0,.35)">
   <div style="opacity:.75;font-size:11px;margin-bottom:4px">パターン2「店を見せる」／その場で切替</div>
   <div>写真 <button type="button" data-fit="">現状</button> <button type="button" data-fit="hero--tall">引き（大）</button> <button type="button" data-fit="hero--contain">全体を見せる</button></div>
