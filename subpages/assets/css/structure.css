@@ -1276,6 +1276,52 @@ main > section[id]{ scroll-margin-top: calc(var(--header-h) + 8px); }
 /* ★`.table-scroll`（横スクロールの器）は既に1348行付近で定義済み。
    coating.html の比較表も元から包まれていた。ここでは重複定義しない。 */
 
+/* ---- よくある質問（★2026-08-15 社長指示「トップ下段によくある質問、入れてSEOのばしたい」） ----
+   ★`<details>` を使うのでJSは不要＝JSが動かない環境でも中身が読める（このサイトの方針）。
+   ★カードは**白地**。クリーム地のサイトで --color-surface にすると沈む（今回で4例目）。
+   ★開閉の三角は既定のものを消し、右端に「＋／−」を出す（日本語のサイトで馴染む形）。 */
+.faq-list{ display:grid; gap:10px; margin-top:var(--gap); }
+:root[data-theme] .faq-item{
+  background:#fff;
+  border-radius:12px;
+  box-shadow:0 4px 16px rgba(0,0,0,.06);
+  overflow:hidden;
+}
+:root[data-theme] .faq-item > summary{
+  display:flex;
+  align-items:center;
+  gap:.8em;
+  padding:1em 1.1em;
+  font-weight:700;
+  font-size:.98rem;
+  line-height:1.6;
+  cursor:pointer;
+  list-style:none;                 /* 既定の三角を消す */
+}
+.faq-item > summary::-webkit-details-marker{ display:none; }
+/* 右端の開閉マーク。開いているときは「−」に変わる */
+:root[data-theme] .faq-item > summary::after{
+  content:'＋';
+  margin-left:auto;
+  flex:0 0 auto;
+  color:var(--color-accent);
+  font-weight:700;
+}
+:root[data-theme] .faq-item[open] > summary::after{ content:'−'; }
+:root[data-theme] .faq-item[open] > summary{ border-bottom:1px solid var(--color-line); }
+:root[data-theme] .faq-a{
+  padding:.9em 1.1em 1.1em;
+  font-size:.9rem;
+  line-height:1.95;
+  color:var(--color-muted);
+}
+:root[data-theme] .faq-item > summary:hover,
+:root[data-theme] .faq-item > summary:focus-visible{ background:rgba(164,54,42,.05); }
+@media (max-width:768px){
+  :root[data-theme] .faq-item > summary{ font-size:.92rem; padding:.9em 1em; }
+  :root[data-theme] .faq-a{ font-size:.86rem; padding:.8em 1em 1em; }
+}
+
 /* ---- 電話／メールのアイコン（★2026-08-15 社長指示） ----
    「電話でのお問い合わせに電話のアイコン、下のお問い合わせにメールのアイコン」。
    ★画像ファイルを増やさず、SVGを data URI で埋め込む（このサイトは外部依存を増やさない方針）。
