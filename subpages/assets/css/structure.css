@@ -177,6 +177,24 @@ button{ font:inherit; cursor:pointer; }
   .global-nav.is-open{ display:block; position:absolute; left:0; right:0; top:var(--header-h); background:var(--color-bg); border-bottom:1px solid var(--color-line); }
   .global-nav.is-open ul{ flex-direction:column; padding:var(--gap); }
   .nav-toggle{ display:inline-block; }
+
+  /* 🔴★2026-08-14 是正：スマホでメニューを開いても中身が見えなかった（社長報告）。
+     真因＝**文字と地が同じ色**。
+       ・開いたパネルの地 …… `background:var(--color-bg)` ＝ テーマAでは #f1e9d9（クリーム）
+       ・ナビの文字 ………… tokens-A の `.site-header a{ color:#f1e9d9 }` ＝ 同じクリーム
+     ヘッダー本体は濃紺なので文字をクリームにしてあるが、開いたパネルだけ地がクリームに
+     変わるため、クリーム文字がクリーム地に乗って消えていた。
+     ★テーマB（白地×黒文字）では起きないため、ネオクラシックだけの症状だった。
+     → 開いたパネルの地を**ヘッダーと同じ色**にする（文字色を変えるのではなく地を合わせる。
+        文字色を変えると、ヘッダーとメニューで文字の色が変わってちぐはぐになる）。 */
+  :root[data-theme="A"] .global-nav.is-open{
+    background:var(--color-brand);
+    border-bottom:1px solid rgba(255,255,255,.25);
+  }
+  :root[data-theme="B"] .global-nav.is-open{ background:#fff; }
+  /* ヘッダー色を切り替えているページ（比較用の hdr--navy / hdr--white）にも追随させる */
+  :root[data-theme] .site-header.hdr--navy .global-nav.is-open{ background:#1a2b49; }
+  :root[data-theme] .site-header.hdr--white .global-nav.is-open{ background:#fff; }
   /* ★スマホ：下層メニューは浮かせず、その場で常に開いた状態にする（★2026-08-14）。
      タップで開閉する仕掛けにすると「押しても進めない親項目」ができて迷わせる。
      字下げと細い罫で、サービスの下にぶら下がっていることを示す。 */
