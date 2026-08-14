@@ -1221,6 +1221,58 @@ main > section[id]{ scroll-margin-top: calc(var(--header-h) + 8px); }
 /* ★`.table-scroll`（横スクロールの器）は既に1348行付近で定義済み。
    coating.html の比較表も元から包まれていた。ここでは重複定義しない。 */
 
+/* ---- 特徴カード（★2026-08-14 社長指示「特徴、画像なしでまとめてください」） ----
+   ★それまでは画像＋文章を左右交互に並べる形だったが、4枚とも「写真は準備中です」の
+     プレースホルダで、実質**空の箱が4つ縦に並ぶ**状態だった。画像を外して文章だけにまとめる。
+   ★カードは**白地**にする。このサイトはクリーム地がベースなので、
+     `--color-surface`（クリーム）で作ると地に沈む（選ばれる理由・会社概要の表・比較表で
+     同じ失敗を3回している）。
+   ★番号は控えめに。主役は特徴の名前と説明なので、番号を大きくすると視線を奪う。 */
+.feat-cards{ list-style:none; padding:0; margin-top:var(--gap); }
+:root[data-theme] .feat-card{
+  background:#fff;
+  border:0;
+  border-radius:14px;
+  padding:clamp(18px,1.8vw,26px);
+  box-shadow:0 4px 16px rgba(0,0,0,.07);
+}
+:root[data-theme] .feat-card .feat-no{
+  display:inline-block;
+  font-size:.72rem;
+  font-weight:700;
+  letter-spacing:.1em;
+  color:var(--color-accent);
+  margin-bottom:.3em;
+}
+:root[data-theme] .feat-card .feat-title{
+  display:block;
+  font-size:clamp(1rem,1.1vw,1.2rem);
+  font-weight:700;
+  line-height:1.5;
+  margin:0 0 .45em;
+}
+/* 見出しと本文の間に短い罫を入れて切り離す（選ばれる理由と同じ扱いに揃える） */
+:root[data-theme] .feat-card .feat-title::after{
+  content:'';
+  display:block;
+  width:2.2em;
+  height:3px;
+  margin-top:.45em;
+  background:var(--color-accent);
+}
+:root[data-theme] .feat-card .feat-text{
+  font-size:.88rem;
+  line-height:1.9;
+  color:var(--color-muted);
+  margin:0;
+}
+@media (max-width:768px){
+  /* 説明文が2〜3行あるので、スマホは1列。2列にすると1行あたりが短くなり読みにくい */
+  .feat-cards.cols-2{ grid-template-columns:1fr; gap:12px; }
+  :root[data-theme] .feat-card{ padding:16px 16px; border-radius:12px; }
+  :root[data-theme] .feat-card .feat-text{ font-size:.84rem; line-height:1.85; }
+}
+
 /* ---- 製品写真（★2026-08-14 社長指示：コーティングの製品画像を入れる） ----
    ★元画像は 200×230 と小さい。**引き伸ばさない**のが要点＝
      `max-width:200px` で原寸を上限にする。大きく見せようとすると粗が出る。
