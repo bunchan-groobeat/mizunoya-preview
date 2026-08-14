@@ -908,7 +908,26 @@ main > section[id]{ scroll-margin-top: calc(var(--header-h) + 8px); }
   font-size:.95rem;
 }
 :root[data-theme] .hours-table .is-open{ color:var(--color-accent); }
-:root[data-theme] .hours-table .is-off{ color:var(--color-muted); }
+
+/* ---- 日・祝の列（★2026-08-15 社長「日曜日、祝日の表示がおかしい」の是正） ----
+   ★原因は2つあった：
+     ① `table-layout:fixed` で7列を均等（1列 9.71%）にしていたため、
+        「日・祝」だけラベルが3文字ぶんあり、**スマホで列に入りきらず折り返していた**
+        （実測：スマホでの1列は約35px、必要なのは約37px）
+     ② 休みの日なのに灰色の「—」で、**休業だと分かりにくかった**。
+        カレンダーは日曜・祝日を赤で示すのが慣習だが、それに沿っていなかった。
+   → 日・祝の列だけ幅を広げ、休業を赤字＋薄い赤地で示す。表示も「—」→「休」に変えた。 */
+:root[data-theme] .hours-table thead th:last-child,
+:root[data-theme] .hours-table tbody td:last-child{ width:17%; }
+:root[data-theme] .hours-table thead th:first-child,
+:root[data-theme] .hours-table tbody th{ width:29%; }
+:root[data-theme] .hours-table thead th:last-child{ white-space:nowrap; }
+:root[data-theme] .hours-table .is-off{
+  color:var(--color-accent);
+  font-weight:700;
+  background:rgba(164,54,42,.07);
+}
+
 :root[data-theme] .access-note{
   color:var(--color-muted);
   font-size:.76rem;
