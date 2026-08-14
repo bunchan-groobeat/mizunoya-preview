@@ -1057,6 +1057,54 @@ main > section[id]{ scroll-margin-top: calc(var(--header-h) + 8px); }
   :root[data-theme] table.info-table--kv td{ padding:0; font-size:.92rem; }
 }
 
+/* ---- データ表のスマホ対応（★2026-08-14 社長「見づらい」・実機報告） ----
+   ★実測した中身：
+     ・parts-table（部品交換の目安）＝**2列**。テーマAでは表が画面からはみ出して
+       「交換の目安」列が右で切れ、テーマBでは値の列が1行3文字まで潰れていた。
+     ・comp-table（コーティング比較）＝**4列**。スマホの幅に入るはずがない。
+   ★対処を分けるのが要点＝**列数で解が変わる**。
+     2列 … 縦積みにできる（部品名 → 目安）
+     4列 … 縦積みにすると項目の対応が分からなくなるので、横スクロールにする
+   ★★セレクタは `:root[data-theme] table.xxx` で (0,3,2)。
+     `table.parts-table th`（0,1,2）では tokens の `:root[data-theme="A"] .info-table th`（0,3,0）に負ける。 */
+@media (max-width:768px){
+  /* ---- 2列：縦積み ---- */
+  /* 見出し行は画面から隠す（縦積みでは各行にラベルが付かないため、見出しだけ浮いて見える）。
+     ★読み上げソフトには残す＝表としての意味は壊さない。 */
+  :root[data-theme] table.parts-table thead{
+    position:absolute; width:1px; height:1px; margin:-1px;
+    overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap;
+  }
+  :root[data-theme] table.parts-table tr{
+    display:block;
+    border-bottom:1px solid var(--color-line);
+    padding:.75em 0;
+  }
+  :root[data-theme] table.parts-table th,
+  :root[data-theme] table.parts-table td{
+    display:block; width:auto; border:0; background:none; padding:0; white-space:normal;
+  }
+  /* 部品名は主役。前回は薄いグレーの小さな文字になっていて読めなかった */
+  :root[data-theme] table.parts-table th{
+    font-weight:700;
+    font-size:.95rem;
+    color:var(--color-text);
+    margin-bottom:.2em;
+  }
+  :root[data-theme] table.parts-table td{
+    font-size:.86rem;
+    line-height:1.8;
+    color:var(--color-muted);
+  }
+
+  /* ---- 4列：横スクロール ---- */
+  /* ★縦積みにしない理由＝「自社／一般的なガラス系／ポリマー系」の**どれの話か**が
+     行ごとに分からなくなり、比較表として成立しなくなるため。 */
+  :root[data-theme] table.comp-table{ min-width:620px; }
+}
+/* ★`.table-scroll`（横スクロールの器）は既に1348行付近で定義済み。
+   coating.html の比較表も元から包まれていた。ここでは重複定義しない。 */
+
 /* ---- 下層ページ 共通コンポーネント（カンプ02〜07 準拠） ---- */
 .sub-label{ display:inline-block; font-weight:700; letter-spacing:.04em; }
 .en-label{ display:block; font-family:var(--font-en); letter-spacing:.12em; font-size:.72rem; font-weight:700; margin-bottom:.2em; }
