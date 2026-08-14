@@ -1230,6 +1230,23 @@ main > section[id]{ scroll-margin-top: calc(var(--header-h) + 8px); }
 /* ★`.table-scroll`（横スクロールの器）は既に1348行付近で定義済み。
    coating.html の比較表も元から包まれていた。ここでは重複定義しない。 */
 
+/* ---- トップの「私たちについて」（★2026-08-15 社長指示で会社概要ページから移設） ----
+   ★会社概要ページでは `hero-copy`／`hero-lead` として上段に置かれていたが、
+     トップではヒーローの直下に来るため、そのままの大きさだとヒーローの見出しと競合する。
+     ここでは一段落として扱う（見出しより控えめ・本文より少し大きい）。 */
+:root[data-theme] .about-copy{
+  font-size:clamp(1.15rem, 1.5vw, 1.6rem);
+  font-weight:700;
+  line-height:1.6;
+  margin:.2em 0 .6em;
+}
+:root[data-theme] .about-lead{
+  font-size:.92rem;
+  line-height:2;
+  color:var(--color-muted);
+  margin:0 0 1.2em;
+}
+
 /* ---- 特徴カード（★2026-08-14 社長指示「特徴、画像なしでまとめてください」） ----
    ★それまでは画像＋文章を左右交互に並べる形だったが、4枚とも「写真は準備中です」の
      プレースホルダで、実質**空の箱が4つ縦に並ぶ**状態だった。画像を外して文章だけにまとめる。
