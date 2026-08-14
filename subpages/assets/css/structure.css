@@ -1221,6 +1221,34 @@ main > section[id]{ scroll-margin-top: calc(var(--header-h) + 8px); }
 /* ★`.table-scroll`（横スクロールの器）は既に1348行付近で定義済み。
    coating.html の比較表も元から包まれていた。ここでは重複定義しない。 */
 
+/* ---- 製品写真（★2026-08-14 社長指示：コーティングの製品画像を入れる） ----
+   ★元画像は 200×230 と小さい。**引き伸ばさない**のが要点＝
+     `max-width:200px` で原寸を上限にする。大きく見せようとすると粗が出る。
+   ★文章の左に回り込ませる（float）。写真が小さいので、上下に独立した帯にすると
+     空白が目立ち、かえって貧相に見えるため。スマホでは回り込みを解除して中央に置く。 */
+.product-photo{
+  float:left;
+  margin:0 clamp(16px,2vw,26px) .8em 0;
+  max-width:200px;
+  text-align:center;
+}
+.product-photo img{ width:100%; height:auto; display:block; border-radius:8px; }
+:root[data-theme] .product-photo figcaption{
+  margin-top:.5em;
+  font-size:.7rem;
+  line-height:1.6;
+  color:var(--color-muted);
+}
+/* 回り込みを解除して、次のブロック（特徴アイコン）が写真の横に入り込まないようにする */
+.product-detail .spec-icons{ clear:both; }
+@media (max-width:768px){
+  .product-photo{
+    float:none;
+    margin:0 auto 1.2em;
+    max-width:180px;
+  }
+}
+
 /* ---- 下層ページ 共通コンポーネント（カンプ02〜07 準拠） ---- */
 .sub-label{ display:inline-block; font-weight:700; letter-spacing:.04em; }
 .en-label{ display:block; font-family:var(--font-en); letter-spacing:.12em; font-size:.72rem; font-weight:700; margin-bottom:.2em; }
