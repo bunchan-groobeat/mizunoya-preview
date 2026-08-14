@@ -1144,22 +1144,74 @@ main > section[id]{ scroll-margin-top: calc(var(--header-h) + 8px); }
   :root[data-theme] table.parts-table thead td{ color:#fff; }
   /* 縦積み時に付けていた行ごとのラベルは不要（見出し行が見えるため） */
   :root[data-theme] table.parts-table td::before{ content:none; }
-  /* ---- 4列：横スクロール ---- */
-  /* ★縦積みにしない理由＝「自社／一般的なガラス系／ポリマー系」の**どれの話か**が
-     行ごとに分からなくなり、比較表として成立しなくなるため。 */
-  :root[data-theme] table.comp-table{ min-width:620px; }
-  /* ★横スクロールは「できると気づかない」のが最大の問題。案内を1行出す。
-     ★器（.table-scroll）の外側に出すため、その親に付ける。
-       CSSだけで出すので、HTMLに文言を足していない＝本文の管理対象を増やさない。 */
-  .table-scroll{ position:relative; }
-  .table-scroll::before{
-    content:"→ 横にスクロールできます";
-    display:block;
-    font-size:.7rem;
-    font-weight:700;
-    color:var(--color-muted);
-    margin-bottom:.4em;
+  /* ---- 4列：項目ごとのブロックに組み替える（★2026-08-14 社長「表がみずらい」）----
+     ★横スクロールでは解決しなかった。実測：スマホ幅で1列あたり約155pxしか取れず、
+       見出しも中身も3〜4行に折り返して、どの列も読めない状態だった。
+       スクロールできても「読めない表を横に動かす」だけで、分かりやすくならない。
+     ★そこで**1つの比較項目＝1ブロック**にする：
+         耐久性
+           スーパーガラスコーティング  高耐久のガラス被膜で長期間持続
+           一般的なガラス系コーティング 製品により持続期間に幅があります
+           ポリマー系コーティング     ガラス系に比べ短めが一般的です
+       各セルに `data-label`（列名）を持たせ、CSSで値の前に出す。
+       これで**どの製品の話か**が行ごとに分かる＝比較表として成立する。
+     ★見出し行は不要になるので隠す（読み上げには残す）。 */
+  :root[data-theme] table.comp-table{ min-width:0; width:100%; display:block; }
+  :root[data-theme] table.comp-table thead{
+    position:absolute; width:1px; height:1px; margin:-1px;
+    overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap;
   }
+  :root[data-theme] table.comp-table tbody{ display:block; }
+  :root[data-theme] table.comp-table tr{
+    display:block;
+    border:1px solid var(--color-line);
+    border-radius:10px;
+    padding:.85em 1em;
+    margin-bottom:14px;
+    background:var(--color-surface);
+  }
+  /* 比較項目名（耐久性など）＝そのブロックの見出し */
+  :root[data-theme] table.comp-table tbody th{
+    display:block;
+    width:auto;
+    border:0;
+    background:none;
+    padding:0 0 .5em;
+    text-align:left;
+    font-weight:700;
+    font-size:1rem;
+    color:var(--color-text);
+  }
+  :root[data-theme] table.comp-table td{
+    display:block;
+    width:auto;
+    border:0;
+    border-top:1px solid var(--color-line);
+    padding:.55em 0 0;
+    margin-top:.55em;
+    text-align:left;
+    font-size:.86rem;
+    line-height:1.7;
+  }
+  /* 列名（どの製品か）を値の上に小さく出す */
+  :root[data-theme] table.comp-table td::before{
+    content:attr(data-label);
+    display:block;
+    font-size:.66rem;
+    font-weight:700;
+    letter-spacing:.06em;
+    color:var(--color-muted);
+    margin-bottom:.15em;
+  }
+  /* 自社の列は色地のままだと帯になるので、左に色の線を引いて示す */
+  :root[data-theme] table.comp-table td.col-ours{
+    background:none;
+    border-left:3px solid var(--color-accent);
+    padding-left:.7em;
+  }
+  :root[data-theme] table.comp-table td.col-ours::before{ color:var(--color-accent); }
+  /* 横スクロールしなくなったので、案内は出さない */
+  .table-scroll{ overflow-x:visible; }
 }
 /* ★`.table-scroll`（横スクロールの器）は既に1348行付近で定義済み。
    coating.html の比較表も元から包まれていた。ここでは重複定義しない。 */
