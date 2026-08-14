@@ -295,6 +295,15 @@ main > section[id]{ scroll-margin-top: calc(var(--header-h) + 8px); }
 .hero--full.hero--color .hero-bg{
   filter:contrast(1.06) saturate(1.06) brightness(.82);
 }
+
+/* ★2026-08-15 社長「トップ画像は人まで見れるようにして」の是正。
+   `object-fit:cover` は既定で**中央基準**（`object-position:center center`）に切り出す。
+   catch-maintenance は 800×560 の横長で、縦長寄りの枠に入れると上下が均等に削られ、
+   **上寄りにいる整備士の頭と顔が枠の外に出ていた**（実機で確認）。
+   → 切り出しを上へ寄せて、人物が入るようにする。
+   ★`top` ちょうどではなく 22% にしているのは、真上に寄せるとクルマのボンネットが
+     ほぼ全部落ちて「何を点検しているのか」が分からなくなるため。 */
+.hero--full .hero-bg{ object-position:center 22%; }
 /* 「全体を見せる」のぼかし下地も色を合わせる（ここだけモノクロだと額縁が浮く） */
 .hero--full.hero--color.hero--contain::before{
   filter:blur(28px) brightness(.5) saturate(1.1);
