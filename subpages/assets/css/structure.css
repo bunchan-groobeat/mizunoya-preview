@@ -961,6 +961,22 @@ main > section[id]{ scroll-margin-top: calc(var(--header-h) + 8px); }
    ★★セレクタは `.tel-box` / `.form-box` を挟んで (0,4,0) にすること。★★
      `:root[data-theme] .tel-no`（0,3,0）では tokens の `:root[data-theme="A"] .tel-no`（0,3,0）と
      同点になり、後読みの tokens が勝つ（テーマBでは font-weight:800 が残っていた）。 */
+   ★★2026-08-14 追記：CTAの作りが2種類あり、片方で電話番号が割れていた（社長のスマホ実機報告）。
+     ・構造あり（company / contact / coating）…… `.tel-cap`＋`.tel-no` を別要素に分けている＝整う
+     ・素の1行（repair / maintenance / usedcar-sales / privacy）
+       …… `お電話でのお問い合わせ 0248-43-2455` が1本の文字列で、
+          狭い幅で「0248-43-」「2455」に**番号の途中で改行**していた
+     → 4ページを構造ありの形へ統一し、`.tel-no` に nowrap を入れて番号を絶対に割らせない。 */
+.cta-actions{ display:flex; flex-wrap:wrap; gap:12px; align-items:stretch; }
+.cta-actions .tel-box,
+.cta-actions .form-box{ flex:1 1 260px; }
+@media (max-width:768px){
+  /* スマホは縦積み。横に2つ並べると1つあたりが細くなり、また番号が割れる */
+  .cta-actions{ flex-direction:column; }
+}
+/* ★電話番号は何があっても1行に保つ（今回の不具合の再発防止） */
+:root[data-theme] .tel-no{ white-space:nowrap; }
+
 :root[data-theme] .tel-box .tel-no,
 :root[data-theme] .form-box .fb-head{
   font-size:clamp(1.25rem, 2.2vw, 1.65rem);
