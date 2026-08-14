@@ -1068,52 +1068,42 @@ main > section[id]{ scroll-margin-top: calc(var(--header-h) + 8px); }
    ★★セレクタは `:root[data-theme] table.xxx` で (0,3,2)。
      `table.parts-table th`（0,1,2）では tokens の `:root[data-theme="A"] .info-table th`（0,3,0）に負ける。 */
 @media (max-width:768px){
-  /* ---- 2列：縦積み ---- */
-  /* 見出し行は画面から隠す（縦積みでは各行にラベルが付かないため、見出しだけ浮いて見える）。
-     ★読み上げソフトには残す＝表としての意味は壊さない。 */
-  :root[data-theme] table.parts-table thead{
-    position:absolute; width:1px; height:1px; margin:-1px;
-    overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap;
-  }
-  :root[data-theme] table.parts-table tr{
-    display:block;
-    border-bottom:1px solid var(--color-line);
-    padding:.75em 0;
+  /* ---- 2列：**枠線ありの表のまま**画面に収める（★2026-08-14 社長「枠線ありのわかりやすい表に」） ----
+     ★はみ出していた原因は2つ。両方を打ち消すのが要点：
+       ① tokens の `.info-table th{ white-space:nowrap }` … 部品名が折り返せず列が伸びる
+       ② tokens の `.info-table th{ width:8em }` … 基準19pxなので8em＝152pxが固定で居座る
+       この2つで表の最小幅が画面幅を超え、右端の「交換の目安」が切れていた。
+     ★`table-layout:fixed` で列幅を宣言どおりに固定する。これを入れないと
+       ブラウザが中身の長さから勝手に列幅を決め、また画面をはみ出す。
+     ★縦積みはやめたので、見出し行（部品名／交換の目安）は**見える**＝
+       各行にラベルを足す必要がなくなる。 */
+  :root[data-theme] table.parts-table{
+    width:100%;
+    table-layout:fixed;
+    border-collapse:collapse;
+    font-size:.78rem;
   }
   :root[data-theme] table.parts-table th,
   :root[data-theme] table.parts-table td{
-    display:block; width:auto; border:0; background:none; padding:0; white-space:normal;
+    display:table-cell;
+    border:1px solid var(--color-line);
+    padding:.6em .55em;
+    white-space:normal;
+    vertical-align:top;
+    line-height:1.65;
   }
-  /* 部品名は主役。前回は薄いグレーの小さな文字になっていて読めなかった */
+  /* 部品名の列。42%＝スマホでも「エアークリーナーエレメント」が2行で収まる幅 */
   :root[data-theme] table.parts-table th{
+    width:42%;
     font-weight:700;
-    font-size:1rem;
     color:var(--color-text);
-    margin-bottom:.35em;
+    background:none;
   }
-  /* ★2026-08-14 社長「わかりやすい表にしてくれ」
-     縦積みにすると見出し行が消えるため、**何の数字なのかが行だけ見ても分からない**。
-     各行に「交換の目安」のラベルを付けて自己完結させる。
-     ★両方の parts-table とも見出しが「部品名／交換の目安」で同一なことを実測して確認済み。
-       （違う見出しの表にこのクラスを付けるとラベルが嘘になるので、増やすときは要確認） */
-  :root[data-theme] table.parts-table td::before{
-    content:"交換の目安";
-    display:block;
-    font-size:.66rem;
-    font-weight:700;
-    letter-spacing:.08em;
-    color:var(--color-muted);
-    margin-bottom:.15em;
-  }
-  /* 値は薄くしない＝一番知りたい情報なので本文色で見せる */
-  :root[data-theme] table.parts-table td{
-    font-size:.92rem;
-    line-height:1.75;
-    color:var(--color-text);
-  }
-  /* 行ごとの区切りを少し強くして、どこからどこまでが1部品かを分かりやすくする */
-  :root[data-theme] table.parts-table tr{ padding:.9em 0; }
-
+  /* 見出し行は色地を維持（テーマ側の紺/黒ベタ＋白文字をそのまま使う） */
+  :root[data-theme] table.parts-table thead th,
+  :root[data-theme] table.parts-table thead td{ color:#fff; }
+  /* 縦積み時に付けていた行ごとのラベルは不要（見出し行が見えるため） */
+  :root[data-theme] table.parts-table td::before{ content:none; }
   /* ---- 4列：横スクロール ---- */
   /* ★縦積みにしない理由＝「自社／一般的なガラス系／ポリマー系」の**どれの話か**が
      行ごとに分からなくなり、比較表として成立しなくなるため。 */
