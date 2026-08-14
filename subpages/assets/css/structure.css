@@ -915,6 +915,44 @@ main > section[id]{ scroll-margin-top: calc(var(--header-h) + 8px); }
   :root[data-theme] .svc-list.cols-4 .card-text{ font-size:.76rem; line-height:1.8; }
 }
 
+/* ---- 下層ページ 上段の見出しを小さく・全ページで統一（★2026-08-14 社長指示） ----
+   ★実測したバラつき（テーマA）：
+     既定 clamp(2.1rem,6.2vw,3.6rem)／company・contact 2.3rem／repair 2.6rem／coating 3rem
+     ／maintenance・usedcar-sales・privacy は**指定が無く既定の3.6rem**まで大きくなっていた。
+     ＝ページごとに見出しの大きさが違っていた。ここで1つに揃える。
+   ★★セレクタを `.hero.sub-hero` にしている理由（重要）★★
+     tokens-A/B の `:root[data-theme="A"] .company-hero .hero-copy` は詳細度 (0,4,0)。
+     tokens は structure.css より後に読まれるため、同点の (0,4,0) では負ける。
+     `.hero.sub-hero` でクラスを1つ増やして (0,5,0) にして勝たせる。
+   ★トップ（.hero--full）は対象外＝別のルールで管理しており、ここでは触らない。 */
+:root[data-theme] .hero.sub-hero .hero-copy{
+  font-size:clamp(1.3rem, 2.2vw, 1.75rem);
+  line-height:1.45;
+}
+:root[data-theme] .hero.sub-hero .page-title{
+  font-size:clamp(1.15rem, 1.9vw, 1.5rem);
+}
+
+/* ---- 下部CTA：電話番号とお問い合わせの文字サイズを揃える（★2026-08-14 社長指示） ----
+   ★実測：電話番号 `.tel-no` は最大1.8rem、対する `.fb-head`（お問い合わせフォーム）は
+     .9rem で、並べたときに大きさが揃っていなかった。
+   ★各ボックスの「主役の1行」を同じ大きさに、「添えの1行」も同じ大きさにする：
+     電話＝`.tel-cap`（添え）＋`.tel-no`（主役）／フォーム＝`.fb-head`（主役）＋`.fb-sub`（添え）
+   ★対象ページ＝company（cta-band）／contact（urgent-band）／coating（coating-cta）。
+     いずれも同じクラスを使っているので、この1箇所で全部揃う。 */
+:root[data-theme] .tel-no,
+:root[data-theme] .fb-head{
+  font-size:clamp(1.25rem, 2.2vw, 1.65rem);
+  font-weight:700;
+  line-height:1.3;
+}
+:root[data-theme] .tel-cap,
+:root[data-theme] .fb-sub{
+  font-size:.78rem;
+  font-weight:700;
+  line-height:1.6;
+}
+
 /* ---- 会社概要の表：文字を小さくして各行を1行に収める（★2026-08-14 社長指示） ----
    ★実測した前提：このサイトは**スマホでも基準フォントが19px**（`clamp(19px,0.99vw,40px)` の
      下限が効くため）。ラベル列8em を引くと値の幅は約230pxしか残らず、
