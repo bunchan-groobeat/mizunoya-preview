@@ -1162,13 +1162,18 @@ main > section[id]{ scroll-margin-top: calc(var(--header-h) + 8px); }
     overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap;
   }
   :root[data-theme] table.comp-table tbody{ display:block; }
+  /* ★2026-08-14 是正（社長「コーティング比較の表も見づらい」）
+     ブロックの地を `--color-surface`（テーマAでは #f7f1e4＝クリーム）にしていたため、
+     セクションの地色と近く**カードの輪郭が立っていなかった**。
+     「選ばれる理由」で踏んだのと同じ形。→ 白地＋影で地から浮かせる。 */
   :root[data-theme] table.comp-table tr{
     display:block;
-    border:1px solid var(--color-line);
-    border-radius:10px;
-    padding:.85em 1em;
-    margin-bottom:14px;
-    background:var(--color-surface);
+    border:0;
+    border-radius:12px;
+    padding:1em 1.1em;
+    margin-bottom:16px;
+    background:#fff;
+    box-shadow:0 4px 16px rgba(0,0,0,.07);
   }
   /* 比較項目名（耐久性など）＝そのブロックの見出し */
   :root[data-theme] table.comp-table tbody th{
@@ -1187,21 +1192,21 @@ main > section[id]{ scroll-margin-top: calc(var(--header-h) + 8px); }
     width:auto;
     border:0;
     border-top:1px solid var(--color-line);
-    padding:.55em 0 0;
-    margin-top:.55em;
+    padding:.7em 0 0;
+    margin-top:.7em;
     text-align:left;
-    font-size:.86rem;
-    line-height:1.7;
+    font-size:.94rem;
+    line-height:1.75;
   }
-  /* 列名（どの製品か）を値の上に小さく出す */
+  /* 列名（どの製品か）を値の上に出す。★.66rem＝12.5pxでは小さすぎたので上げる（2026-08-14） */
   :root[data-theme] table.comp-table td::before{
     content:attr(data-label);
     display:block;
-    font-size:.66rem;
+    font-size:.76rem;
     font-weight:700;
-    letter-spacing:.06em;
+    letter-spacing:.04em;
     color:var(--color-muted);
-    margin-bottom:.15em;
+    margin-bottom:.25em;
   }
   /* 自社の列は色地のままだと帯になるので、左に色の線を引いて示す */
   :root[data-theme] table.comp-table td.col-ours{
@@ -1486,14 +1491,19 @@ main > section[id]{ scroll-margin-top: calc(var(--header-h) + 8px); }
   .feat-text{ font-size:.72rem; line-height:1.65; }
   .feat-item .photo-todo{ font-size:.62rem; }
   .feat-item .photo-todo span{ font-size:.54rem; }
-  .proc-list.cols-4{ grid-template-columns:repeat(4,1fr); gap:8px; }
-  .proc-list .flow-item{ padding:8px; min-width:0; }
-  .proc-list .flow-head{ gap:.4em; margin-bottom:.5em; }
-  .proc-list .flow-no{ width:1.8em; height:1.8em; font-size:.62rem; }
-  .proc-list .flow-title{ font-size:.66rem; line-height:1.35; }
-  .proc-list .flow-text{ font-size:.6rem; line-height:1.55; }
-  .proc-list .photo-todo{ font-size:.54rem; padding:.3em; }
-  .proc-list .photo-todo span{ font-size:.5rem; }
+  /* ★2026-08-14 社長「流れ小さくてみずらい」で是正。
+     それまでスマホでも4列横並びを維持していた（カンプSP準拠）が、
+     4列に収めるために文字を **.6rem＝11.4px** まで縮めており、実機で読めなかった。
+     ★工程は4つなので **2×2** にすれば1画面に収まり、文字を読める大きさに戻せる。
+     ★カンプの見た目より読めることを優先した（社長判断）。 */
+  .proc-list.cols-4{ grid-template-columns:repeat(2,1fr); gap:12px; }
+  .proc-list .flow-item{ padding:12px; min-width:0; }
+  .proc-list .flow-head{ gap:.5em; margin-bottom:.6em; }
+  .proc-list .flow-no{ width:2em; height:2em; font-size:.78rem; }
+  .proc-list .flow-title{ font-size:.88rem; line-height:1.4; }
+  .proc-list .flow-text{ font-size:.78rem; line-height:1.7; }
+  .proc-list .photo-todo{ font-size:.66rem; padding:.5em; }
+  .proc-list .photo-todo span{ font-size:.6rem; }
   .ba-wide .photo-todo{ font-size:.7rem; }
 }
 
