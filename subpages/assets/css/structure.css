@@ -924,30 +924,37 @@ main > section[id]{ scroll-margin-top: calc(var(--header-h) + 8px); }
      これなら14px程度で1行に収まり、読める大きさを保てる。
    ★★セレクタは `:root[data-theme]` から始めること。★★
      tokens-A/B の `:root[data-theme="A"] .info-table th`（0,3,0）に素のクラスでは勝てない。 */
-:root[data-theme] .info-table{ font-size:.86rem; }
+   ★★2026-08-14 是正：一度は文字を .86rem／スマホ .76rem まで縮めたが、社長から「見づらい」。
+     **真因は文字サイズではなく表の幅だった**＝会社概要の表は「沿革」と横並びの2列に
+     押し込まれ、画面の半分（PCで約530px）しか使えていなかった。
+     狭い枠に収めようとして縮める、が誤り。**枠を広げれば縮めなくても1行に収まる。**
+   → PCは表を全幅にして文字を元の大きさへ戻す。スマホは読みやすさを優先し（社長判断）、
+     長い所在地は2行に折り返してよいものとする。 */
 :root[data-theme] .info-table th,
-:root[data-theme] .info-table td{ padding:.6em .9em; line-height:1.7; }
-:root[data-theme] .info-table th{ width:7em; }
+:root[data-theme] .info-table td{ padding:.65em 1em; line-height:1.75; }
+:root[data-theme] .info-table th{ width:9em; }
+
+/* ★会社概要の表を全幅にする（沿革は下へ回す）。
+   これで所在地「〒969-0265 福島県西白河郡矢吹町中畑南93-2」が
+   文字を縮めずに1行へ収まる（PC実測：使える幅が約530px→約1300pxに増える）。 */
+:root[data-theme] .profile-grid{ grid-template-columns:1fr; }
 
 @media (max-width:768px){
-  /* 行ごとに「ラベル（小）→ 値」の縦積みにする。表の意味（見出しと値の対応）は
-     th/td の関係で保たれるので、読み上げソフトにも正しく伝わる。 */
+  /* スマホ：ラベルを値の上に重ねて、値に横幅を全部渡す。
+     ★文字は読める大きさを保つ（社長判断 2026-08-14「読みやすさ優先」）。
+       所在地だけは2行になるが、10px台前半まで縮めて1行に収めるより読める。
+     ★th/td の関係は保つので、読み上げソフトには見出しと値の対応が正しく伝わる。 */
   :root[data-theme] .info-table th,
   :root[data-theme] .info-table td{ display:block; width:auto; border:0; }
-  :root[data-theme] .info-table tr{ display:block; border-bottom:1px solid var(--color-line); padding:.55em 0; }
+  :root[data-theme] .info-table tr{ display:block; border-bottom:1px solid var(--color-line); padding:.65em 0; }
   :root[data-theme] .info-table th{
     background:none;
-    padding:0 0 .15em;
-    font-size:.68rem;
+    padding:0 0 .2em;
+    font-size:.72rem;
     color:var(--color-muted);
     font-weight:700;
   }
-  :root[data-theme] .info-table td{
-    padding:0;
-    font-size:.76rem;
-    /* ★折り返させない。上でラベルを外に出して幅を確保したので、これで1行に収まる。 */
-    white-space:nowrap;
-  }
+  :root[data-theme] .info-table td{ padding:0; font-size:.92rem; }
 }
 
 /* ---- 下層ページ 共通コンポーネント（カンプ02〜07 準拠） ---- */
