@@ -967,9 +967,20 @@ main > section[id]{ scroll-margin-top: calc(var(--header-h) + 8px); }
        …… `お電話でのお問い合わせ 0248-43-2455` が1本の文字列で、
           狭い幅で「0248-43-」「2455」に**番号の途中で改行**していた
      → 4ページを構造ありの形へ統一し、`.tel-no` に nowrap を入れて番号を絶対に割らせない。 */
-.cta-actions{ display:flex; flex-wrap:wrap; gap:12px; align-items:stretch; }
+.cta-actions{ display:flex; flex-wrap:wrap; gap:18px; align-items:stretch; }
 .cta-actions .tel-box,
 .cta-actions .form-box{ flex:1 1 260px; }
+
+/* ★2026-08-14 社長指示「下部の電話番号とお問い合わせはトップの上段みたく、少し離して角丸」。
+   トップ上段のボタン（.btn-v3）と同じ border-radius:10px に揃え、間隔を 12px → 18px へ広げる。
+   ★★セレクタに要素名 a を足して (0,3,1) にすること。★★
+     :root[data-theme] .tel-box（0,3,0）では tokens の
+     :root[data-theme="A"] .tel-box（0,3,0）と同点になり、後読みの tokens が勝つ。
+   ★角丸だけを足し、背景や枠線はテーマ側の指定に任せる（ページごとの見た目を壊さないため）。 */
+:root[data-theme] a.tel-box,
+:root[data-theme] a.form-box{ border-radius:10px; }
+/* company / coating は grid（.cta-box）で並べているので、そちらの間隔も少し広げる */
+:root[data-theme] .cta-box{ gap:18px; }
 @media (max-width:768px){
   /* スマホは縦積み。横に2つ並べると1つあたりが細くなり、また番号が割れる */
   .cta-actions{ flex-direction:column; }
