@@ -915,6 +915,41 @@ main > section[id]{ scroll-margin-top: calc(var(--header-h) + 8px); }
   :root[data-theme] .svc-list.cols-4 .card-text{ font-size:.76rem; line-height:1.8; }
 }
 
+/* ---- 会社概要の表：文字を小さくして各行を1行に収める（★2026-08-14 社長指示） ----
+   ★実測した前提：このサイトは**スマホでも基準フォントが19px**（`clamp(19px,0.99vw,40px)` の
+     下限が効くため）。ラベル列8em を引くと値の幅は約230pxしか残らず、
+     所在地「〒969-0265 福島県西白河郡矢吹町中畑南93-2」は約456px必要＝必ず折り返していた。
+     1行に収めるには10px程度まで落とす必要があり、それでは読めない。
+   ★そこでスマホは**ラベルを値の上に重ねて、値に横幅を全部渡す**。
+     これなら14px程度で1行に収まり、読める大きさを保てる。
+   ★★セレクタは `:root[data-theme]` から始めること。★★
+     tokens-A/B の `:root[data-theme="A"] .info-table th`（0,3,0）に素のクラスでは勝てない。 */
+:root[data-theme] .info-table{ font-size:.86rem; }
+:root[data-theme] .info-table th,
+:root[data-theme] .info-table td{ padding:.6em .9em; line-height:1.7; }
+:root[data-theme] .info-table th{ width:7em; }
+
+@media (max-width:768px){
+  /* 行ごとに「ラベル（小）→ 値」の縦積みにする。表の意味（見出しと値の対応）は
+     th/td の関係で保たれるので、読み上げソフトにも正しく伝わる。 */
+  :root[data-theme] .info-table th,
+  :root[data-theme] .info-table td{ display:block; width:auto; border:0; }
+  :root[data-theme] .info-table tr{ display:block; border-bottom:1px solid var(--color-line); padding:.55em 0; }
+  :root[data-theme] .info-table th{
+    background:none;
+    padding:0 0 .15em;
+    font-size:.68rem;
+    color:var(--color-muted);
+    font-weight:700;
+  }
+  :root[data-theme] .info-table td{
+    padding:0;
+    font-size:.76rem;
+    /* ★折り返させない。上でラベルを外に出して幅を確保したので、これで1行に収まる。 */
+    white-space:nowrap;
+  }
+}
+
 /* ---- 下層ページ 共通コンポーネント（カンプ02〜07 準拠） ---- */
 .sub-label{ display:inline-block; font-weight:700; letter-spacing:.04em; }
 .en-label{ display:block; font-family:var(--font-en); letter-spacing:.12em; font-size:.72rem; font-weight:700; margin-bottom:.2em; }
