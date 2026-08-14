@@ -1014,9 +1014,34 @@ main > section[id]{ scroll-margin-top: calc(var(--header-h) + 8px); }
    ★`.cta-band` で限定するのが要点。素の `.cta-box` に当てると、
      列構成が違うコーティングのCTA（`.coating-cta .cta-box{ auto 1fr }`）まで
      詳細度で上書きして壊してしまう。 */
+/* ★2026-08-15 是正（社長「会社概要の下記お問い合わせ、見づらい」）。
+   直前に列を `minmax(240px,1.2fr) 1fr 1fr` にしたところ、**見出しの列が狭くなりすぎて**
+   「お気軽にお問い合わせくだ／さい」と不自然な位置で折り返していた（実機で確認）。
+   → 見出しの列を広げる。2つの四角は等分のまま（社長指示「四角の大きさ同じ」を維持）。
+   ★`auto` ではなく固定比にするのが要点＝`auto` に戻すと中身の長さで幅が決まり、
+     四角の大きさが揃わなくなる。 */
 :root[data-theme] .cta-band .cta-box{
   gap:24px;
-  grid-template-columns:minmax(240px, 1.2fr) 1fr 1fr;
+  grid-template-columns:minmax(320px, 1.6fr) 1fr 1fr;
+}
+/* 見出しと受付時間。電話番号より小さく沈んでいたので、主役として立て直す */
+:root[data-theme] .cta-band .cta-lead h2{
+  font-size:clamp(1.15rem, 1.5vw, 1.5rem);
+  line-height:1.5;
+  margin:0 0 .4em;
+}
+:root[data-theme] .cta-band .cta-lead p{
+  font-size:.82rem;
+  line-height:1.8;
+  margin:0;
+}
+@media (max-width:1024px){
+  /* 3列が入らない幅では、見出しを上に出して四角2つを下に並べる */
+  :root[data-theme] .cta-band .cta-box{ grid-template-columns:1fr 1fr; }
+  :root[data-theme] .cta-band .cta-lead{ grid-column:1 / -1; }
+}
+@media (max-width:768px){
+  :root[data-theme] .cta-band .cta-box{ grid-template-columns:1fr; }
 }
 :root[data-theme] .cta-box{ gap:24px; }
 @media (max-width:768px){
@@ -1032,11 +1057,13 @@ main > section[id]{ scroll-margin-top: calc(var(--header-h) + 8px); }
   font-weight:700;
   line-height:1.3;
 }
+/* ★2026-08-15：.78rem＝14.8px では実機で読みづらかった（社長指摘）。
+   添えの行とはいえ「お電話でのお問い合わせ」は何のボタンかを示す文字なので上げる。 */
 :root[data-theme] .tel-box .tel-cap,
 :root[data-theme] .form-box .fb-sub{
-  font-size:.78rem;
+  font-size:.86rem;
   font-weight:700;
-  line-height:1.6;
+  line-height:1.7;
 }
 
 /* ---- 会社概要の表：文字を小さくして各行を1行に収める（★2026-08-14 社長指示） ----
