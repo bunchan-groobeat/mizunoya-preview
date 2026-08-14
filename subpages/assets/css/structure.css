@@ -1276,6 +1276,41 @@ main > section[id]{ scroll-margin-top: calc(var(--header-h) + 8px); }
 /* ★`.table-scroll`（横スクロールの器）は既に1348行付近で定義済み。
    coating.html の比較表も元から包まれていた。ここでは重複定義しない。 */
 
+/* ---- お客様の声（Googleクチコミへの導線・★2026-08-15 社長決定：案B） ----
+   ★星の数・件数・本文は**載せない**。実データを持たないため、こちらで数字を作ると
+     実在しない評価の掲載になる。導線だけを置く。
+   ★外部サービスのウィジェットを使わない＝このサイトの「外部依存を増やさない」方針を守る。
+   ★カードは白地（クリーム地のサイトで --color-surface にすると沈む。今回で5例目）。 */
+:root[data-theme] .voice-box{
+  background:#fff;
+  border-radius:14px;
+  box-shadow:0 4px 16px rgba(0,0,0,.07);
+  padding:clamp(22px,2.4vw,34px);
+  margin-top:var(--gap);
+  text-align:center;
+}
+:root[data-theme] .voice-lead{
+  font-size:.95rem;
+  line-height:2;
+  margin:0 0 1.1em;
+}
+.voice-actions{ margin:0; }
+:root[data-theme] .voice-btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:.5em;
+  border-radius:10px;
+  padding:.95em 1.6em;
+  font-weight:700;
+}
+:root[data-theme] .voice-note{
+  margin:1.1em 0 0;
+  font-size:.76rem;
+  line-height:1.8;
+  color:var(--color-muted);
+}
+
 /* ---- 差し色のハイライト（★2026-08-15 社長指示：カネゴン整骨院と同じ使い方） ----
    参考サイトの型＝「こんな**お悩み**はありませんか？」「アクセス・**診療時間**」のように、
    **見出しの中で一番伝えたい語だけ**をアクセント色にする。
