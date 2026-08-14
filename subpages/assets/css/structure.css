@@ -1087,20 +1087,49 @@ main > section[id]{ scroll-margin-top: calc(var(--header-h) + 8px); }
   /* 部品名は主役。前回は薄いグレーの小さな文字になっていて読めなかった */
   :root[data-theme] table.parts-table th{
     font-weight:700;
-    font-size:.95rem;
+    font-size:1rem;
     color:var(--color-text);
-    margin-bottom:.2em;
+    margin-bottom:.35em;
   }
-  :root[data-theme] table.parts-table td{
-    font-size:.86rem;
-    line-height:1.8;
+  /* ★2026-08-14 社長「わかりやすい表にしてくれ」
+     縦積みにすると見出し行が消えるため、**何の数字なのかが行だけ見ても分からない**。
+     各行に「交換の目安」のラベルを付けて自己完結させる。
+     ★両方の parts-table とも見出しが「部品名／交換の目安」で同一なことを実測して確認済み。
+       （違う見出しの表にこのクラスを付けるとラベルが嘘になるので、増やすときは要確認） */
+  :root[data-theme] table.parts-table td::before{
+    content:"交換の目安";
+    display:block;
+    font-size:.66rem;
+    font-weight:700;
+    letter-spacing:.08em;
     color:var(--color-muted);
+    margin-bottom:.15em;
   }
+  /* 値は薄くしない＝一番知りたい情報なので本文色で見せる */
+  :root[data-theme] table.parts-table td{
+    font-size:.92rem;
+    line-height:1.75;
+    color:var(--color-text);
+  }
+  /* 行ごとの区切りを少し強くして、どこからどこまでが1部品かを分かりやすくする */
+  :root[data-theme] table.parts-table tr{ padding:.9em 0; }
 
   /* ---- 4列：横スクロール ---- */
   /* ★縦積みにしない理由＝「自社／一般的なガラス系／ポリマー系」の**どれの話か**が
      行ごとに分からなくなり、比較表として成立しなくなるため。 */
   :root[data-theme] table.comp-table{ min-width:620px; }
+  /* ★横スクロールは「できると気づかない」のが最大の問題。案内を1行出す。
+     ★器（.table-scroll）の外側に出すため、その親に付ける。
+       CSSだけで出すので、HTMLに文言を足していない＝本文の管理対象を増やさない。 */
+  .table-scroll{ position:relative; }
+  .table-scroll::before{
+    content:"→ 横にスクロールできます";
+    display:block;
+    font-size:.7rem;
+    font-weight:700;
+    color:var(--color-muted);
+    margin-bottom:.4em;
+  }
 }
 /* ★`.table-scroll`（横スクロールの器）は既に1348行付近で定義済み。
    coating.html の比較表も元から包まれていた。ここでは重複定義しない。 */
