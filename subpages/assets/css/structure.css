@@ -1236,11 +1236,17 @@ main > section[id]{ scroll-margin-top: calc(var(--header-h) + 8px); }
   padding:clamp(18px,1.8vw,26px);
   box-shadow:0 4px 16px rgba(0,0,0,.07);
 }
+/* ★2026-08-14 社長指示「1.2.3.4の数字大きくして」。
+   ★以前は「番号を大きくすると視線を奪う」と考えて .72rem に抑えていたが、社長判断で拡大する。
+   ★`--font-en` はテーマAにしか無いので**フォールバックを付ける**。
+     `var(--font-en)` だけだとテーマBで値が空になり、指定ごと無効になる。 */
 :root[data-theme] .feat-card .feat-no{
-  display:inline-block;
-  font-size:.72rem;
+  display:block;
+  font-family:var(--font-en, Georgia, serif);
+  font-size:clamp(1.7rem, 2.2vw, 2.3rem);
+  line-height:1;
   font-weight:700;
-  letter-spacing:.1em;
+  letter-spacing:.03em;
   color:var(--color-accent);
   margin-bottom:.3em;
 }
