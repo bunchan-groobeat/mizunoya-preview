@@ -977,10 +977,39 @@ main > section[id]{ scroll-margin-top: calc(var(--header-h) + 8px); }
      :root[data-theme] .tel-box（0,3,0）では tokens の
      :root[data-theme="A"] .tel-box（0,3,0）と同点になり、後読みの tokens が勝つ。
    ★角丸だけを足し、背景や枠線はテーマ側の指定に任せる（ページごとの見た目を壊さないため）。 */
+/* ★2026-08-14 追記：社長「少し離して、四角の大きさ同じにして」。
+   ★大きさが揃っていなかった理由は2つ：
+     ① 中身の作りが違う …… 電話＝キャプション＋番号／フォーム＝見出し＋サブ。
+        余白の指定もバラバラ（tel-box は .7em 1em、form-box は .btn の余白）で高さが揃わない。
+     ② 並べ方が違う …… 会社概要は格子組みで `auto auto`＝**中身の長さで幅が決まる**。
+   → 両方に同じ余白・同じ最小高さを与え、幅も等分にする。 */
 :root[data-theme] a.tel-box,
-:root[data-theme] a.form-box{ border-radius:10px; }
-/* company / coating は grid（.cta-box）で並べているので、そちらの間隔も少し広げる */
-:root[data-theme] .cta-box{ gap:18px; }
+:root[data-theme] a.form-box{
+  border-radius:10px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  gap:.2em;
+  padding:1.1em 1.2em;
+  min-height:5.4em;
+  box-sizing:border-box;
+  text-align:center;
+}
+/* 横並び（車検整備・鈑金塗装・中古車販売・プライバシーポリシー）＝幅を等分にする。
+   `flex:1 1 260px` だと中身の量で伸び方が変わるので `1 1 0` にして完全な等分にする。 */
+.cta-actions{ gap:24px; }
+.cta-actions .tel-box,
+.cta-actions .form-box{ flex:1 1 0; }
+/* 格子組み（会社概要）＝`auto auto` を等分の `1fr 1fr` に変える。
+   ★`.cta-band` で限定するのが要点。素の `.cta-box` に当てると、
+     列構成が違うコーティングのCTA（`.coating-cta .cta-box{ auto 1fr }`）まで
+     詳細度で上書きして壊してしまう。 */
+:root[data-theme] .cta-band .cta-box{
+  gap:24px;
+  grid-template-columns:minmax(240px, 1.2fr) 1fr 1fr;
+}
+:root[data-theme] .cta-box{ gap:24px; }
 @media (max-width:768px){
   /* スマホは縦積み。横に2つ並べると1つあたりが細くなり、また番号が割れる */
   .cta-actions{ flex-direction:column; }
