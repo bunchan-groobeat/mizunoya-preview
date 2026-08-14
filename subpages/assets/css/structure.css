@@ -1053,6 +1053,14 @@ main > section[id]{ scroll-margin-top: calc(var(--header-h) + 8px); }
 
 /* 06 ヒーロー：右写真の上にKURU MAYAバッジ */
 .company-hero .hero-media{ position:relative; }
+/* ★2026-08-14 社長指示「会社概要ページの画像 事務所メインうつして」。
+   mv4 は 1500×417（比3.60:1）の横長。ここの枠は縦長寄り（およそ1.5:1）なので
+   `object-fit:cover` が**中央だけを切り出し、左端にある事務所が枠の外に出ていた**
+   （実際に写っていたのはガレージのキャリアカー）。
+   ★切り出す位置を左へ寄せて、白い事務所と「有限会社 水野谷自動車」の看板を主役にする。
+   ★`.hero-media img`（0,2,0）に対し `.company-hero .hero-media img` は (0,3,0) で勝つ。
+     ただし `img.kuru-badge`（右上のKURU MAYAバッジ）は別指定なので巻き込まない。 */
+.company-hero .hero-media img:not(.kuru-badge){ object-position:left center; }
 /* ★.hero-media img{width:100%} を打ち消す（詳細度で勝たせる）。抜けると写真の半分を覆う巨大バッジになる。 */
 .company-hero .hero-media img.kuru-badge{ position:absolute; right:14px; top:14px; height:52px; width:auto; min-height:0; max-height:none; object-fit:contain; }
 
