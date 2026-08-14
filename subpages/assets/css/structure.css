@@ -940,14 +940,17 @@ main > section[id]{ scroll-margin-top: calc(var(--header-h) + 8px); }
      電話＝`.tel-cap`（添え）＋`.tel-no`（主役）／フォーム＝`.fb-head`（主役）＋`.fb-sub`（添え）
    ★対象ページ＝company（cta-band）／contact（urgent-band）／coating（coating-cta）。
      いずれも同じクラスを使っているので、この1箇所で全部揃う。 */
-:root[data-theme] .tel-no,
-:root[data-theme] .fb-head{
+   ★★セレクタは `.tel-box` / `.form-box` を挟んで (0,4,0) にすること。★★
+     `:root[data-theme] .tel-no`（0,3,0）では tokens の `:root[data-theme="A"] .tel-no`（0,3,0）と
+     同点になり、後読みの tokens が勝つ（テーマBでは font-weight:800 が残っていた）。 */
+:root[data-theme] .tel-box .tel-no,
+:root[data-theme] .form-box .fb-head{
   font-size:clamp(1.25rem, 2.2vw, 1.65rem);
   font-weight:700;
   line-height:1.3;
 }
-:root[data-theme] .tel-cap,
-:root[data-theme] .fb-sub{
+:root[data-theme] .tel-box .tel-cap,
+:root[data-theme] .form-box .fb-sub{
   font-size:.78rem;
   font-weight:700;
   line-height:1.6;
@@ -968,9 +971,17 @@ main > section[id]{ scroll-margin-top: calc(var(--header-h) + 8px); }
      狭い枠に収めようとして縮める、が誤り。**枠を広げれば縮めなくても1行に収まる。**
    → PCは表を全幅にして文字を元の大きさへ戻す。スマホは読みやすさを優先し（社長判断）、
      長い所在地は2行に折り返してよいものとする。 */
-:root[data-theme] .info-table th,
-:root[data-theme] .info-table td{ padding:.65em 1em; line-height:1.75; }
-:root[data-theme] .info-table th{ width:9em; }
+   ★★★2026-08-14 再是正（社長「ネオクラシックの方も同じようになおして」）★★★
+     直前の指定は `:root[data-theme] .info-table th`＝詳細度 (0,3,0) で、
+     tokens-A/B の `:root[data-theme="A"] .info-table th`＝**同じ (0,3,0)** と引き分けていた。
+     同点は後から読まれた側が勝つ＝tokens が勝ち、**私の指定は効いていなかった**。
+     ・テーマA … th に `background:#e8ddc4`（ベージュ）と `border:1px` が残るため、
+                 スマホで縦積みにしてもベージュの塊と枠線が出て崩れて見えた
+     ・テーマB … 下線だけなので目立たず、直ったように見えていた
+     → セレクタを `table.info-table` + 要素名にして (0,3,2) に上げ、確実に勝たせる。 */
+:root[data-theme] table.info-table th,
+:root[data-theme] table.info-table td{ padding:.65em 1em; line-height:1.75; }
+:root[data-theme] table.info-table th{ width:9em; }
 
 /* ★会社概要の表を全幅にする（沿革は下へ回す）。
    これで所在地「〒969-0265 福島県西白河郡矢吹町中畑南93-2」が
@@ -982,17 +993,22 @@ main > section[id]{ scroll-margin-top: calc(var(--header-h) + 8px); }
      ★文字は読める大きさを保つ（社長判断 2026-08-14「読みやすさ優先」）。
        所在地だけは2行になるが、10px台前半まで縮めて1行に収めるより読める。
      ★th/td の関係は保つので、読み上げソフトには見出しと値の対応が正しく伝わる。 */
-  :root[data-theme] .info-table th,
-  :root[data-theme] .info-table td{ display:block; width:auto; border:0; }
-  :root[data-theme] .info-table tr{ display:block; border-bottom:1px solid var(--color-line); padding:.65em 0; }
-  :root[data-theme] .info-table th{
+  /* ★セレクタは `table.info-table` + 要素名で (0,3,2)。
+     `:root[data-theme] .info-table th`（0,3,0）では tokens と同点で負ける（上の再是正を参照）。 */
+  :root[data-theme] table.info-table th,
+  :root[data-theme] table.info-table td{ display:block; width:auto; border:0; }
+  :root[data-theme] table.info-table tr{ display:block; border-bottom:1px solid var(--color-line); padding:.65em 0; }
+  :root[data-theme] table.info-table th{
+    /* ★テーマAのベージュ地（#e8ddc4）を必ず消す。残ると縦積みでベージュの塊になる */
     background:none;
     padding:0 0 .2em;
     font-size:.72rem;
     color:var(--color-muted);
     font-weight:700;
+    /* ★テーマA/Bとも nowrap が付くが、ラベルは短いので影響は無い。念のため戻す */
+    white-space:normal;
   }
-  :root[data-theme] .info-table td{ padding:0; font-size:.92rem; }
+  :root[data-theme] table.info-table td{ padding:0; font-size:.92rem; }
 }
 
 /* ---- 下層ページ 共通コンポーネント（カンプ02〜07 準拠） ---- */
