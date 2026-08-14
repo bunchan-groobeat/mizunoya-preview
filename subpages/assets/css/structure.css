@@ -1257,37 +1257,6 @@ main > section[id]{ scroll-margin-top: calc(var(--header-h) + 8px); }
 /* ★`.table-scroll`（横スクロールの器）は既に1348行付近で定義済み。
    coating.html の比較表も元から包まれていた。ここでは重複定義しない。 */
 
-/* ---- セクション見出しを赤囲みで統一（★2026-08-15 社長指示） ----
-   ★それまで**ページ・セクションごとにバラバラ**だった（実測）：
-     テーマA … `main h2` は赤文字＋下線2px。しかし .about/.profile/.access/.cta-band/
-               .form-sheet/.flow/.cases/.features/.comparison/.product では
-               **紺文字・下線なし**に上書きされていた
-     テーマB … `main h2::after` の赤い短い棒。同じく多くのセクションで打ち消し
-     ＝「サービス案内」だけ赤い下線で、他は装飾なし、という不揃いな状態。
-   ★★セレクタに `#main`（ID）を入れるのが要点。★★
-     tokens の `:root[data-theme="A"] .flow h2` は (0,4,0)。
-     ID を1つ入れると (1,3,1) になり、テーマ側の個別指定をまとめて上書きできる。
-     クラスを増やして張り合うより確実で、追加のセクションが増えても効く。
-   ★色地の上にあるCTAの見出しだけは白枠にする（赤地に赤枠だと枠が消えるため）。 */
-:root[data-theme] #main .section h2{
-  display:inline-block;
-  border:2px solid var(--color-accent);
-  border-bottom:2px solid var(--color-accent);  /* 下線だけの指定を打ち消す */
-  border-radius:6px;
-  padding:.32em .95em;
-  color:var(--color-accent);
-  font-size:clamp(1.15rem, 2.4vw, 1.7rem);
-  line-height:1.5;
-}
-/* テーマBの「赤い短い棒」は囲みと二重になるので消す */
-:root[data-theme] #main .section h2::after{ content:none; }
-/* 濃い色地のCTA（鈑金塗装・コーティング等）は白枠・白文字にする */
-:root[data-theme] #main .cta h2,
-:root[data-theme] #main .coating-cta h2{
-  border-color:#fff;
-  color:#fff;
-}
-
 /* ---- 電話／メールのアイコン（★2026-08-15 社長指示） ----
    「電話でのお問い合わせに電話のアイコン、下のお問い合わせにメールのアイコン」。
    ★画像ファイルを増やさず、SVGを data URI で埋め込む（このサイトは外部依存を増やさない方針）。
