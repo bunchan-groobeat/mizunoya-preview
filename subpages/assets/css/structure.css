@@ -1012,10 +1012,22 @@ main > section[id]{ scroll-margin-top: calc(var(--header-h) + 8px); }
      ・テーマA … th に `background:#e8ddc4`（ベージュ）と `border:1px` が残るため、
                  スマホで縦積みにしてもベージュの塊と枠線が出て崩れて見えた
      ・テーマB … 下線だけなので目立たず、直ったように見えていた
-     → セレクタを `table.info-table` + 要素名にして (0,3,2) に上げ、確実に勝たせる。 */
-:root[data-theme] table.info-table th,
-:root[data-theme] table.info-table td{ padding:.65em 1em; line-height:1.75; }
-:root[data-theme] table.info-table th{ width:9em; }
+     → セレクタを `table.info-table--kv` + 要素名にして (0,3,2) に上げ、確実に勝たせる。
+
+   🔴★★2026-08-14 さらに是正（社長「ネイビーの部品交換目安らの文字がみずらい」）★★
+     ここの縦積みは**ラベル→値の表**を想定しているのに `.info-table` 全部に当てていたため、
+     **見出し行を持つデータ表まで縦積みになって崩れていた**：
+       ・maintenance の parts-table（部品名／交換の目安）×2
+       ・coating の comp-table
+     見出しの「部品名」「交換の目安」が縦に潰れ、部品名が薄いグレーの小さな文字になっていた。
+     ★教訓＝**`.info-table` は性格の違う2種類の表に使い回されていた**。
+       クラス名だけ見て一括で当てたのが誤り。当てる前に「性格が同じ表か」を確認する。
+     → 縦積みしてよい表（ラベル→値）にだけ `info-table--kv` の印を付け、この節はそれに限定する。
+       除外指定（:not(.parts-table)）にしなかったのは、**新しいデータ表が増えたときにまた
+       巻き込む**ため。印を付けた表にだけ効く形なら、表が増えても事故らない。 */
+:root[data-theme] table.info-table--kv th,
+:root[data-theme] table.info-table--kv td{ padding:.65em 1em; line-height:1.75; }
+:root[data-theme] table.info-table--kv th{ width:9em; }
 
 /* ★会社概要の表を全幅にする（沿革は下へ回す）。
    これで所在地「〒969-0265 福島県西白河郡矢吹町中畑南93-2」が
@@ -1027,12 +1039,12 @@ main > section[id]{ scroll-margin-top: calc(var(--header-h) + 8px); }
      ★文字は読める大きさを保つ（社長判断 2026-08-14「読みやすさ優先」）。
        所在地だけは2行になるが、10px台前半まで縮めて1行に収めるより読める。
      ★th/td の関係は保つので、読み上げソフトには見出しと値の対応が正しく伝わる。 */
-  /* ★セレクタは `table.info-table` + 要素名で (0,3,2)。
+  /* ★セレクタは `table.info-table--kv` + 要素名で (0,3,2)。
      `:root[data-theme] .info-table th`（0,3,0）では tokens と同点で負ける（上の再是正を参照）。 */
-  :root[data-theme] table.info-table th,
-  :root[data-theme] table.info-table td{ display:block; width:auto; border:0; }
-  :root[data-theme] table.info-table tr{ display:block; border-bottom:1px solid var(--color-line); padding:.65em 0; }
-  :root[data-theme] table.info-table th{
+  :root[data-theme] table.info-table--kv th,
+  :root[data-theme] table.info-table--kv td{ display:block; width:auto; border:0; }
+  :root[data-theme] table.info-table--kv tr{ display:block; border-bottom:1px solid var(--color-line); padding:.65em 0; }
+  :root[data-theme] table.info-table--kv th{
     /* ★テーマAのベージュ地（#e8ddc4）を必ず消す。残ると縦積みでベージュの塊になる */
     background:none;
     padding:0 0 .2em;
@@ -1042,7 +1054,7 @@ main > section[id]{ scroll-margin-top: calc(var(--header-h) + 8px); }
     /* ★テーマA/Bとも nowrap が付くが、ラベルは短いので影響は無い。念のため戻す */
     white-space:normal;
   }
-  :root[data-theme] table.info-table td{ padding:0; font-size:.92rem; }
+  :root[data-theme] table.info-table--kv td{ padding:0; font-size:.92rem; }
 }
 
 /* ---- 下層ページ 共通コンポーネント（カンプ02〜07 準拠） ---- */
