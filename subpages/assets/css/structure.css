@@ -1266,9 +1266,18 @@ main > section[id]{ scroll-margin-top: calc(var(--header-h) + 8px); }
   color:var(--color-muted);
   margin:0;
 }
+/* ★2026-08-14：4つ → 6つに増やしたので3列（3×2）に。1枚が細くなるぶん本文を少し詰める */
+@media (min-width:1025px){
+  .feat-cards.cols-3 .feat-text{ font-size:.84rem; line-height:1.85; }
+}
+@media (min-width:769px) and (max-width:1024px){
+  /* タブレットは3列だと細すぎるので2列（3行） */
+  .feat-cards.cols-3{ grid-template-columns:repeat(2,1fr); }
+}
 @media (max-width:768px){
   /* 説明文が2〜3行あるので、スマホは1列。2列にすると1行あたりが短くなり読みにくい */
-  .feat-cards.cols-2{ grid-template-columns:1fr; gap:12px; }
+  .feat-cards.cols-2,
+  .feat-cards.cols-3{ grid-template-columns:1fr; gap:12px; }
   :root[data-theme] .feat-card{ padding:16px 16px; border-radius:12px; }
   :root[data-theme] .feat-card .feat-text{ font-size:.84rem; line-height:1.85; }
 }
