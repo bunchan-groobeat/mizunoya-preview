@@ -1276,6 +1276,33 @@ main > section[id]{ scroll-margin-top: calc(var(--header-h) + 8px); }
 /* ★`.table-scroll`（横スクロールの器）は既に1348行付近で定義済み。
    coating.html の比較表も元から包まれていた。ここでは重複定義しない。 */
 
+/* ---- ヒーローをテーマ間で完全に一致させる（★2026-08-15 社長「ネオクラシックだと
+   文章の区切りやボタンの大きさがモダンと違う。モダンに合わせて」） ----
+   ★PCでは計算値が一致することを実測済み（見出し53.02px／リード21.41px／ボタン余白 19.37×32.63
+     がA/Bとも同値）。それでもスマホで差が見えるとの報告があったため、
+     **テーマ側の値を経由しない固定値**にして、どちらのテーマでも必ず同じになるようにする。
+   ★狙いは「モダン（B）に合わせる」こと。Bで見えている大きさを基準に据える。
+   ★.nobr ＝社名が「水野／谷」で分断されるのを防ぐ。実機で分断が起きていた。 */
+.nobr{ white-space:nowrap; }
+
+@media (max-width:768px){
+  /* リード文：テーマに関係なく同じ大きさ・同じ折り返しにする */
+  :root[data-theme] .hero--full .hero-lead{
+    font-size:.95rem;
+    line-height:2.0;
+    letter-spacing:.04em;
+  }
+  /* ボタン：テーマ側の .btn（Aは .8em/1.4em・Bは .9em/1.8em）を経由させず固定する */
+  :root[data-theme] .hero--full .hero-actions .btn,
+  :root[data-theme] .hero--full .hero-actions .btn-tel,
+  :root[data-theme] .hero--full .hero-actions .btn-link{
+    font-size:.95rem;
+    font-weight:700;
+    padding:1.05em 1.2em;
+    letter-spacing:.02em;
+  }
+}
+
 /* ---- 画面下部の固定メニュー（★2026-08-15 社長指示：カネゴン整骨院と同じ） ----
    ★従来は右下に「お電話はこちら」1つだけだった。電話とお問い合わせの2分割にする。
    ★スマホは全幅2分割、PCは右下にまとめる（PCで全幅の帯は本文の邪魔になるため）。
