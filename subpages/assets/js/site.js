@@ -67,7 +67,7 @@
     var box = document.createElement('div');
     box.className = 'theme-toggle';
     box.setAttribute('aria-label', 'デザイン比較（A/B）');
-    box.innerHTML = '<span class="tt-label">デザイン比較</span>' +
+    box.innerHTML = '<span class="tt-label">デザインを切り替え</span>' +
       '<a href="?theme=A" data-theme="A"' + (t === 'A' ? ' aria-current="true"' : '') + '>A ネオクラシック</a>' +
       '<a href="?theme=B" data-theme="B"' + (t === 'B' ? ' aria-current="true"' : '') + '>B モダン</a>';
     box.addEventListener('click', function (e) {

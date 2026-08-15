@@ -224,7 +224,16 @@ button{ font:inherit; cursor:pointer; }
 .theme-toggle .tt-label{ padding:0 8px; opacity:.7; }
 .theme-toggle a{ color:#fff; text-decoration:none; padding:6px 12px; border-radius:999px; white-space:nowrap; }
 .theme-toggle a[aria-current="true"]{ background:#fff; color:#111; font-weight:700; }
-@media (max-width:520px){ .theme-toggle{ font-size:11px; } .theme-toggle .tt-label{ display:none; } }
+/* ★2026-08-15 是正（社長「モダンとネオクラシック切り替えて見えるようにして」＝水野谷様に選んでもらうため）。
+   直していた点は2つ：
+     ① 画面下部の固定メニュー（.fixed-cta）と**重なっていた**。実機の画像で確認。
+     ② 520px以下でラベル「デザイン比較」を消していたため、**何のボタンか分からなかった**。
+   → 固定メニューの上へ逃がし、ラベルは残す。文言も「デザインを切り替え」に変えて用途を明示する。 */
+@media (max-width:520px){ .theme-toggle{ font-size:11px; } }
+@media (max-width:768px){
+  /* 固定メニュー（約4.2em）＋ホームバーのぶん上へ逃がす */
+  .theme-toggle{ bottom:calc(5.2em + env(safe-area-inset-bottom, 0px)); }
+}
 
 /* ---- ワンページ：アンカーのスクロール位置（sticky header分オフセット） ---- */
 main > section[id]{ scroll-margin-top: calc(var(--header-h) + 8px); }
